@@ -66,7 +66,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
             ,(if (equal? pic "")
                  ""
                  `(img (@ (style "margin-bottom:10px;padding-top:10px")
-                          (src ,(string-append "https://github.com/oflatt/portfolio/raw/master/" pic)))))
+                          (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic)))))
             ,@download-buttons
             
             (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
