@@ -11,7 +11,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 ;; all strings, title, language, year, github link, description, path to picture
 (define
-  (build-post title language year github description pic (windows-download "none") (mac-download "none"))
+  (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none"))
   (define windows-list
     (if (equal? windows-download "none")
         (list)
@@ -62,6 +62,11 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               `(div (@ (style ,(string-append post-style ";" text-margins)))
                  "Source: "
                  (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
+
+            ,(if
+              (equal? html-video "none")
+              ""
+              (html->xexp html-video))
             
             ,(if (equal? pic "")
                  ""
@@ -195,9 +200,10 @@ complexity arising from simple mathematics.")
     ,(build-post "Curve Stitching Animation" "Racket" "2017"
                  "https://github.com/oflatt/curve-stitching" curve-stitching-description "circle-curve-stitch.gif")
     ,(build-post "Space Orbs" "Racket" "2015"
-                 "https://github.com/oflatt/space-orbs" space-orbs-description "space-orbs-demo.gif"
+                 "https://github.com/oflatt/space-orbs" space-orbs-description ""
                  "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.zip"
-                 "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.dmg")
+                 "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.dmg"
+                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/mP8ud9Yztz8?rel=0&autoplay=1&amp;controls=0&amp;showinfo=0&amp;start=43' frameborder='0' allowfullscreen></iframe></div>")
     ,(build-post "Devine Idle" "Racket" "2014"
                  "https://github.com/oflatt/devine-idle" devine-idle-description "devine-idle-demo.gif"
                  "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Windows.zip"
