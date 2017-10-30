@@ -257,7 +257,7 @@ most of them going right over my head. I'm not afraid of trying to learn new and
 (close-output-port experiences-file-port)
 
 (define embed-video-html
-  "<iframe width='950' height='950' src='https://www.youtube.com/embed/ZswrScw3eLA?rel=0&autoplay=1&rel=0&rel=0&amp;controls=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>")
+  "<iframe width='950' height='950' src='https://www.youtube.com/embed/ZswrScw3eLA?rel=0&autoplay=1&mute=1&rel=0&rel=0&amp;controls=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>")
 
 
 (define tessa-file-port (open-output-file "tessa.html" #:exists 'replace))
