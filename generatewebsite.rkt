@@ -204,7 +204,7 @@ complexity arising from simple mathematics.")
                  "https://github.com/oflatt/space-orbs" space-orbs-description ""
                  "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.zip"
                  "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.dmg"
-                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/mP8ud9Yztz8?rel=0&autoplay=1&amp;controls=0&amp;showinfo=0&amp;start=43' frameborder='0' allowfullscreen></iframe></div>")
+                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/mP8ud9Yztz8?rel=0&autoplay=1&mute=1&amp;controls=0&amp;showinfo=0&amp;start=43' frameborder='0' allowfullscreen></iframe></div>")
     ,(build-post "Devine Idle" "Racket" "2014"
                  "https://github.com/oflatt/devine-idle" devine-idle-description "devine-idle-demo.gif"
                  "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Windows.zip"
