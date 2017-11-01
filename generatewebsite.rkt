@@ -117,15 +117,22 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   gtag('config', 'UA-108872403-1');
 </script>")
           (title "Oliver Flatt"))
-         (body (center
-                (h1 (@ (style "margin-bottom:0px;margin-top:20px;font-weight:normal")) "Oliver Flatt")
-                (h2 (@ (style "margin-top:10px;font-weight:normal")) "portfolio"))
-
-               ,(menu name)
-               ,body
-               ,(menu name))
-         (footer
-          (center (p "email me: oflatt@gmail.com"))))))
+          (body
+           (center
+           (div
+            (@ (style "width:950px;margin:auto 0"))
+            (img (@ (style "float:left;max-width:12%;height:auto;padding-left:280px;margin-right:-400px")
+                    (src "https://github.com/oflatt/portfolio-gifs/raw/master/plobdark.png")))
+            (div
+             (h1 (@ (style "padding-bottom:0px;margin-top:0px;padding-top:10px;font-weight:normal;"))
+                 "Oliver Flatt")
+             (h2 (@ (style "font-weight:normal")) "portfolio"))))
+           
+           ,(menu name)
+           ,body
+           ,(menu name))
+          (footer
+           (center (p "email me: oflatt@gmail.com"))))))
 
 (define index-file-port (open-output-file "index.html" #:exists 'replace))
 
