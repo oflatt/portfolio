@@ -6,8 +6,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 (define inlinetext2 "width:47.5%;display:inline-block")
 (define margin-format "margin:0 auto;width:950px")
-(define post-style "text-indent:2em;width:95%;overflow:auto;text-align:justify")
-(define download-button-style "height:60px;width:270px;font-size:15;background-color:#FDFF5C")
+(define post-style "text-indent:2px;width:95%;overflow:auto;text-align:justify")
+(define download-button-style "height:60px;width:270px;font-size:15px;background-color:#FDFF5C")
 
 ;; all strings, title, language, year, github link, description, path to picture
 (define
@@ -47,7 +47,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   `(div
     (@ (style ,(string-append margin-format ";margin-bottom:10px;background-color:#B4E4E7")))
     (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
-                 (h2 (@ (style "margin-bottom:0px;font-size:22")) ,title))
+                 (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
 
             (div
              (@ (style "color:#5A5A5A;width:95%;"))
@@ -90,7 +90,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
         (string-append page-name ".html")))
   (define button-style
     (if (equal? page-name current-page)
-        ";font-size:34;color:black;font-weight:normal"
+        ";font-size:34px;color:black;font-weight:normal"
         ";color:blue;font-weight:normal"))
   `(h2 (@ (onclick ,(string-append "window.location.href='" link "'")))
        (a (@ (style ,button-style) (href ,link)) ,page-name)))
