@@ -221,7 +221,9 @@ complexity arising from simple mathematics.")
                  "sickle-cell-anemia-demo.gif"
                  "https://drive.google.com/uc?export=download&id=0B6SmFaR0J_BpWU9TQzA4SmJ0cHM")
     ,(build-post "This Website" "Racket with html-writing library" "2017"
-                 "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science."
+                 "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
+in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
+validation."
                  "thiswebsitegrey.png")
     ,(build-post "Bubble Field" "Clickteam Fusion" "2014"
                  "" "A local multiplayer game with a surprisingly high skill cap. Trap your opponent so that they
