@@ -234,7 +234,8 @@ cannot move."
                  "" "A screensaver full of different kinds of randomly generated animations. The dragon curves
 are generated using an implementation of the L-system in processing (java wraparound)."
                  "screensaver-demo.gif"
-                 "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"))
+                 "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"
+                 "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety_mac.zip"))
   "projects")
  projects-file-port)
 
