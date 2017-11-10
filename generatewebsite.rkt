@@ -30,7 +30,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            (@ (style ,(string-append "text-align:center;" inlinetext2)))
            (button
             (@ (style ,download-button-style)
-               (onclick ,(string-append "window.location.href='" windows-download "'")))
+               (onclick ,(string-append "window.location.href='" mac-download "'")))
             "Download for Mac")))))
   (define abstract-text
     (if (equal? pic "")
