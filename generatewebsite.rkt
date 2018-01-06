@@ -22,7 +22,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (button
                (@ (style ,download-button-style)
                   (onclick ,(string-append "window.location.href='" windows-download "'")))
-               "View Work Online Here")))]
+               "Big Version Here")))]
           [else
            (list
             `(div
@@ -222,6 +222,11 @@ complexity arising from simple mathematics.")
                  "An art work made to further explore randomly generated art after making the
 screensaver program was so much fun. Converted to javascript using Processing.js."
                  "none" "predetermined.html")
+    ,(build-post "This Website" "Racket with html-writing library" "2017"
+                 "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
+in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
+validation."
+                 "thiswebsitegrey.png")
     ,(build-post "Curve Stitching Animation" "Racket" "2017"
                  "https://github.com/oflatt/curve-stitching" curve-stitching-description "circle-curve-stitch.gif")
     ,(build-post "Space Orbs" "Racket" "2015"
@@ -237,11 +242,6 @@ screensaver program was so much fun. Converted to javascript using Processing.js
                  "https://github.com/oflatt/sickle-cell-population-simulator" sickle-cell-description
                  "sickle-cell-anemia-demo.gif"
                  "https://drive.google.com/uc?export=download&id=0B6SmFaR0J_BpWU9TQzA4SmJ0cHM")
-    ,(build-post "This Website" "Racket with html-writing library" "2017"
-                 "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
-in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
-validation."
-                 "thiswebsitegrey.png")
     ,(build-post "Bubble Field" "Clickteam Fusion" "2014"
                  "" "A local multiplayer game with a surprisingly high skill cap. Trap your opponent so that they
 cannot move."
