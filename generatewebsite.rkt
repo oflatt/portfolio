@@ -13,15 +13,24 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 (define
   (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none"))
   (define windows-list
-    (if (equal? windows-download "none")
-        (list)
-        (list
-         `(div
-           (@ (style ,(string-append "text-align:center;" inlinetext2)))
-           (button
-            (@ (style ,download-button-style)
-               (onclick ,(string-append "window.location.href='" windows-download "'")))
-           "Download for Windows")))))
+    (cond [(equal? windows-download "none")
+           (list)]
+          [(equal? (substring windows-download (- (string-length windows-download) 4)) "html")
+           (list
+            `(div
+              (@ (style ,(string-append "text-align:center;" inlinetext2)))
+              (button
+               (@ (style ,download-button-style)
+                  (onclick ,(string-append "window.location.href='" windows-download "'")))
+               "View Work Online Here")))]
+          [else
+           (list
+            `(div
+              (@ (style ,(string-append "text-align:center;" inlinetext2)))
+              (button
+               (@ (style ,download-button-style)
+                  (onclick ,(string-append "window.location.href='" windows-download "'")))
+               "Download for Windows")))]))
   (define mac-list
     (if (equal? mac-download "none")
         (list)
@@ -65,10 +74,12 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
             ,(if
               (equal? html-video "none")
-              ""
+              (if (equal? windows-download "predetermined.html")
+                  `(canvas (@ (data-processing-sources "curvesSmall.pde Curve.pde Behavior.pde")))
+                  "")
               (html->xexp html-video))
             
-            ,(if (equal? pic "")
+            ,(if (or (equal? pic "") (equal? pic "none"))
                  ""
                  `(img (@ (style "margin-bottom:10px;padding-top:10px")
                           (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic)))))
@@ -105,7 +116,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (dif (@ (style ,(string-append button-style ";text-align:center")))
          ,(page-button "experiences" current-page))))
 
-(define (page body name)
+(define (page body name [extra-head-html (list)])
   `((html (head
            ,(html->xexp "<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src='https://www.googletagmanager.com/gtag/js?id=UA-108872403-1'></script>
@@ -116,6 +127,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
   gtag('config', 'UA-108872403-1');
 </script>")
+           ,extra-head-html
           (title "Oliver Flatt"))
           (body
            (center
@@ -205,6 +217,11 @@ complexity arising from simple mathematics.")
   `(div
     ,(build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
                  "https://github.com/oflatt/bearlydancing" bearly-dancing-description "bearly-dancing-demo.gif")
+    ,(build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
+                 "https://github.com/oflatt/portfolio"
+                 "An art work made to further explore randomly generated art after making the
+screensaver program was so much fun. Converted to javascript using Processing.js."
+                 "none" "predetermined.html")
     ,(build-post "Curve Stitching Animation" "Racket" "2017"
                  "https://github.com/oflatt/curve-stitching" curve-stitching-description "circle-curve-stitch.gif")
     ,(build-post "Space Orbs" "Racket" "2015"
@@ -236,7 +253,8 @@ are generated using an implementation of the L-system in processing (java wrapar
                  "screensaver-demo.gif"
                  "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"
                  "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety_mac.zip"))
-  "projects")
+  "projects"
+  `(script (@ (src "processing.js"))))
  projects-file-port)
 
 (close-output-port projects-file-port)
