@@ -1,6 +1,7 @@
 Curve curve1;
 boolean paused;
 float scalefactor;
+int rectsize;
 
 void setup()
 {
@@ -13,6 +14,7 @@ void setup()
   frameRate(60);
   paused = false;
   fill(255,255,255);
+  rectsize = 1;
 }
 
 void draw()

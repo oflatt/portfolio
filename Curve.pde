@@ -43,7 +43,7 @@ public class Curve {
     fillblue = max(currentBlue-50, 0);
     stroke(currentRed, currentGreen, currentBlue);
     fill(fillred, fillgreen, fillblue);
-    rect(xpos, ypos, drawWidth, drawWidth);
+    rect(xpos, ypos, drawWidth*rectsize, drawWidth*rectsize);
   }
 
   public float loopcolor(float c) {
