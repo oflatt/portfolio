@@ -6,7 +6,7 @@ void setup()
 {
   scalefactor = 0.2;
   background(235, 235, 235);
-  size(window.innerWidth, window.innerHeight);
+  size(window.innerWidth-50, window.innerHeight-50);
   fill(0, 0, 0);
   text("Press space to pause and c to clear", 10, 10);
   curve1 = new Curve();
