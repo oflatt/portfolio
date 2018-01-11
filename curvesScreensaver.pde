@@ -8,7 +8,6 @@ void setup()
   scalefactor = 0.2;
   background(255, 255, 255);
   size(window.innerWidth-50, window.innerHeight-50);
-  surface.setResizable(true);
   fill(0, 0, 0);
   text("Press space to pause and c to clear", 10, 10);
   curve1 = new Curve();
