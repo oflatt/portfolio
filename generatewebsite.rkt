@@ -42,7 +42,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                (onclick ,(string-append "window.location.href='" mac-download "'")))
             "Download for Mac")))))
   (define abstract-text
-    (if (equal? pic "")
+    (if (and (equal? pic "") (equal? html-video "none"))
         "Abstract:"
         ""))
   (define language-text
@@ -77,7 +77,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (if (equal? windows-download "predetermined.html")
                   `(canvas (@ (data-processing-sources "curvesSmall.pde Curve.pde Behavior.pde")))
                   "")
-              (html->xexp html-video))
+              `(div (@ (style "margin-bottom:10px;padding-top:10px"))
+                    ,(html->xexp html-video)))
             
             ,(if (or (equal? pic "") (equal? pic "none"))
                  ""
@@ -270,6 +271,11 @@ one of the student’s finished space invaders game in the camp.")
 and programming in general, I attended the past three RacketCon events. I listened to many interesting talks,
 most of them going right over my head. I'm not afraid of trying to learn new and difficult concepts.")
 
+(define sonic-pi-explanation
+  "I had the opportunity to participate in a unique live coding camp for a week held in Cambridge, England.
+I learned the basics of programming in Sonic Pi to make music, and enjoyed experimenting with randomness.
+This helped inspire me to work on randomly generated music for Bearly Dancing.")
+
 (define experiences-file-port (open-output-file "experiences.html" #:exists 'replace))
 (write-html
  (page
@@ -278,7 +284,10 @@ most of them going right over my head. I'm not afraid of trying to learn new and
                  "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
                  "space-invaders-demo.gif")
     ,(build-post "RacketCon" "Racket" "2015, 2016, and 2017"
-                "https://racket-lang.org" racket-explanation "racket.jpg"))
+                 "https://racket-lang.org" racket-explanation "racket.jpg")
+    ,(build-post "Sonic Pi Live Coding Camp" "Sonic Pi" "2015"
+                "http://sonic-pi.net/" sonic-pi-explanation "" "none" "none"
+                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/RH-80LOBvLE?rel=0&autoplay=1&loop=1&mute=1&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>"))
     "experiences")
  experiences-file-port)
 
