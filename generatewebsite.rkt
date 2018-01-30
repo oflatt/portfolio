@@ -75,7 +75,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
             ,(if
               (equal? html-video "none")
               (if (equal? windows-download "predetermined.html")
-                  `(canvas (@ (data-processing-sources "curvesSmall.pde Curve.pde Behavior.pde")))
+                  `(div (@ (style "margin-bottom:10px;padding-top:10px"))
+                        (canvas (@ (data-processing-sources "curvesSmall.pde Curve.pde Behavior.pde"))))
                   "")
               `(div (@ (style "margin-bottom:10px;padding-top:10px"))
                     ,(html->xexp html-video)))
