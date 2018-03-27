@@ -214,11 +214,16 @@ complexity arising from simple mathematics.")
   "A simulator that shows how the recessive sickle cell anemia gene gets passed down through generations.")
 
 (define projects-file-port (open-output-file "projects.html" #:exists 'replace))
+
 (write-html
  (page
   `(div
     ,(build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
                  "https://github.com/oflatt/bearlydancing" bearly-dancing-description "bearly-dancing-demo.gif")
+    ,(build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
+                 "https://github.com/oflatt/chinese-remainder-algorithm-visualized" "A visualization and lecture on Chinese Remainder Theorem using an example problem."
+                 "" "none" "none"
+                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/s0hg4ONFP6I?rel=0&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
     ,(build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
                  "https://github.com/oflatt/portfolio"
                  "An art work made to further explore randomly generated art after making the
