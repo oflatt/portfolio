@@ -14,7 +14,7 @@ function toolbuttonClicked(event){
 
 function buttonClicked(name){
     buttons = document.getElementsByClassName("mybtn");
-    for(i = 0; i < buttons.length;i+=1){
+    for(var i = 0; i < buttons.length;i+=1){
 	if((buttons[i].textContent || buttons[i].innerText) == name){
 	    buttons[i].style.border = "2px solid rgb(255,255,0)";
 	    currenttool = buttons[i].textContent || buttons[i].innerText;
@@ -96,7 +96,9 @@ function buildmenu(){
     addbutton("new force", "rgb(147, 112, 219)", false, toolbuttonClicked, "(n) Create a new force, placing it.");
     addbutton("delete force", "rgb(100, 100, 100)", false, toolbuttonClicked, "(d or DEL) Delete the nearest force.");
     addbutton("select force", "rgb(200, 200, 0)", false, toolbuttonClicked, "(r) Select the nearest force. A polygon drawn around it will then apply to it.");
+    addbutton("create gravigon", "rgb(255,255,255)", false, toolbuttonClicked, "(g) Add points to a polygon that surrounds the currently selected force. The polygon determines the strength of that force's attraction at different angles around the point. Right click to move already created points");
 
     addsection("settings");
     addbutton("clear all", "rgb(200,200,200)", false, reset, "Reset everything, just like loading again.");
 }
+

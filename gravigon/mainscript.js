@@ -4,6 +4,8 @@ keymappingtools["s"] = "split force";
 keymappingtools["m"] = "move force";
 keymappingtools["n"] = "new force";
 keymappingtools["d"] = "delete force";
+keymappingtools["r"] = "select force";
+keymappingtools["g"] = "create gravigon";
 
 function randInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -17,18 +19,20 @@ function Point(x, y, xvel, yvel){
 }
 
 //magp and attrp are each a Point
+//polygonlist is a list of points where the positions are relative to the attrp of the planet
 function Planet(magp, attrp){
     this.magp = magp;
     this.attrp = attrp;
-    this.polygonlist = null;
+    this.polygonlist = [];
 }
 
-var tools = ["asteroid", "split force", "move force", "new force", "delete force"]
+var tools = ["asteroid", "split force", "move force", "new force", "delete force", "select force", "create gravigon", "edit gravigon"]
 var midx;
 var midy;
 var point;
 var planets;
 var selectedplanetindex;
+var selectedgravigonpoint;
 var paused; // clear screen while moving asteroid
 var mousedownp; // used to keep track of mouse if a tool is being used
 var mousebuttonpressed = null;
@@ -125,6 +129,14 @@ function onMouseDown(event) {
     }else if(currenttool == "delete force"){
 	var i = nearestPlanetIndex(event, false);
 	planets.splice(i, 1);
+    } else if(currenttool == "select force"){
+	selectedplanetindex = nearestPlanetIndex(event, false);
+    } else if(currenttool == "create gravigon"){
+	if(event.button == 2){
+	    selectedgravigonpoint = nearestGravigonIndex(event);
+	}else{
+	    addpointtogravigon(planets[selectedplanetindex], event);
+	}
     }
     
     mousedownp = true;
@@ -180,6 +192,25 @@ function onMouseMove(event){
 	} else if(currenttool == "new force"){
 	    updateattr();
 	    updatemag();
+	} else if(currenttool == "create gravigon"){
+	    var newx = event.clientX-planets[selectedplanetindex].attrp.x;
+	    var newy = event.clientY-planets[selectedplanetindex].attrp.y;
+	    pl = planets[selectedplanetindex].polygonlist;
+	    if(pl.length>2){
+		var beforepointi = selectedgravigonpoint-1;
+		var afterpointi = (selectedgravigonpoint+1)%pl.length;
+		if(beforepointi <0){
+		    beforepointi = pl.length-1;
+		}
+		if(betweenmodular(getangle(pl[beforepointi].x, pl[beforepointi].y), getangle(pl[afterpointi].x, pl[afterpointi].y),
+				  getangle(newx, newy))){
+		    pl[selectedgravigonpoint].x = newx;
+		    pl[selectedgravigonpoint].y = newy;
+		}
+	    }else{
+		pl[selectedgravigonpoint].x = newx;
+		pl[selectedgravigonpoint].y = newy;
+	    }
 	}
     }
     if(menuupp){
