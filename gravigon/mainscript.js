@@ -1,3 +1,5 @@
+"use strict"
+
 var keymappingtools = {};
 keymappingtools["a"] = "asteroid";
 keymappingtools["s"] = "split force";
@@ -204,8 +206,14 @@ function onMouseMove(event){
 		}
 		if(betweenmodular(getangle(pl[beforepointi].x, pl[beforepointi].y), getangle(pl[afterpointi].x, pl[afterpointi].y),
 				  getangle(newx, newy))){
+		    var oldx = pl[selectedgravigonpoint].x;
+		    var oldy = pl[selectedgravigonpoint].y;
 		    pl[selectedgravigonpoint].x = newx;
 		    pl[selectedgravigonpoint].y = newy;
+		    if(!insidepolygon([0,0], pl)){
+			pl[selectedgravigonpoint].x = oldx;
+			pl[selectedgravigonpoint].y = oldy;
+		    }
 		}
 	    }else{
 		pl[selectedgravigonpoint].x = newx;

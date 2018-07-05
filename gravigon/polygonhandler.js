@@ -79,3 +79,23 @@ function nearestGravigonIndex(event){
     
     return lowestindex;
 }
+
+
+function insidepolygon(point, pl) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = pl.length - 1; i < pl.length; j = i++) {
+        var xi = pl[i].x, yi = pl[i].y;
+        var xj = pl[j].x, yj = pl[j].y;
+
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    
+    return inside;
+}
