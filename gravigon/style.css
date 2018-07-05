@@ -1,0 +1,92 @@
+body {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: rgb(150,150,150, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content {
+    position: relative;
+    top: 5%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay section {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+}
+
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+
+
+.mybtn {
+    border: 2px solid black;
+    border-radius: 30%;
+    padding: 14px 28px;
+    font-size: 16px;
+}
+
+.btncontainer{
+    position:relative;
+    margin:0.75%;
+    display: inline-block;
+}
+
+
+.btncontainer .tooltip {
+    visibility: hidden;
+    background-color: rgb(200,200,200);
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 2px;
+    
+    /* Position the tooltip */
+    position: fixed;
+    z-index: 5;
+    margin:inherit;
+}
+
+.btncontainer:hover .tooltip{
+    transition-delay: 0.3s;
+    visibility: visible;
+}
+
+.btncontainer:hoverout .tooltip{
+    visibility: hidden;
+}
+
+
+</style>
+</head>
+<body>
