@@ -6,7 +6,7 @@ function addpointtogravigon(planet, event){
 	planet.polygonlist = [new Point(relx, rely, 0,0)];
 	selectedgravigonpoint = 0;
     }else{
-	var aindex = angleindex(planet.polygonlist, event.clientX-planet.attrp.x, event.clientY-planet.attrp.y);
+	var aindex = angleindexfrompoint(planet.polygonlist, event.clientX-planet.attrp.x, event.clientY-planet.attrp.y);
 	planet.polygonlist.splice(aindex+1, 0, new Point(relx, rely, 0, 0));
 	selectedgravigonpoint = aindex+1;
     }
@@ -41,7 +41,7 @@ function betweenmodular(min, max, num){
 }
 
 //takes a polygon list and a x and y and returns the index of the point at the angle before the x and y
-function angleindex(pl, x, y){
+function angleindexfrompoint(pl, x, y){
     if(pl.length<=1){
 	return 0;
     }else{
@@ -62,7 +62,7 @@ function getangle(x, y){
 }
 
 
-function nearestGravigonIndex(event){
+function nearestGravigonIndex(xpos, ypos){
     var lowestmag = -1;
     var lowestindex = 0;
     planet = planets[selectedplanetindex];
@@ -70,7 +70,7 @@ function nearestGravigonIndex(event){
     for(var i = 0; i<pl.length;i+=1){
 	var mag = 0;
 	var p = pl[i];
-	mag = dist(p.x+planet.attrp.x, p.y+planet.attrp.y, event.clientX, event.clientY); 
+	mag = dist(p.x+planet.attrp.x, p.y+planet.attrp.y, xpos, ypos); 
 	if(mag<lowestmag || lowestmag == -1){
 	    lowestmag = mag;
 	    lowestindex = i;
@@ -98,4 +98,34 @@ function insidepolygon(point, pl) {
     }
     
     return inside;
+}
+
+// given an angle from the planet, find the magnitude from that planet to the gravigon surrounding it
+// If there are not three or more points, it returns a constant of one fourth the screen's height
+// x and y are screen positions, not relative positions
+function magnitudeat(planet, x, y){
+    pl = planet.polygonlist;
+    if(pl.length<=2){
+	return window.innerHeight/4;
+    }else{
+	var pointdist = dist(0,0,x-planet.attrp.x,y-planet.attrp.y);
+	var ux = (x-planet.attrp.x)/pointdist;
+	var uy = (y-planet.attrp.y)/pointdist;
+	var pointindex = angleindexfrompoint(pl, ux, uy);
+
+	var px = pl[pointindex].x;
+	var py = pl[pointindex].y;
+	var sx = pl[(pointindex+1)%pl.length].x-pl[pointindex].x;
+	var sy = pl[(pointindex+1)%pl.length].y-pl[pointindex].y;
+
+	var mag = (py*sx-px*sy)/(uy*sx-sy*ux);
+
+	//draw point on line
+	var c = document.getElementById("foreground");
+	var ctx = c.getContext("2d");
+	ctx.fillStyle = "rgb(255, 0, 0)";
+	ctx.fillRect(ux*mag+planet.attrp.x, uy*mag+planet.attrp.y, 2, 2);
+
+	return mag;
+    }
 }

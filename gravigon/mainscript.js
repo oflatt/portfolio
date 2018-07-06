@@ -41,13 +41,14 @@ var mousebuttonpressed = null;
 var currenttool = "asteroid";
 var buttonw;
 var menuupp = false;
+var globalspeed = 0.000001;
 function reset(){
     var c=document.getElementById("background");
     var ctx=c.getContext("2d");
     buttonw = window.innerHeight/20;
     midx = window.innerWidth/2;
     midy = window.innerHeight/2;
-    point = new Point(midx, midy-midy/2, midy/800, midy/800);
+    point = new Point(midx, midy-midy/2, midy/1500, midy/1500);
     paused = false;
     planets = [];
     makeplanet(midx, midy, 0, 0);
@@ -135,7 +136,7 @@ function onMouseDown(event) {
 	selectedplanetindex = nearestPlanetIndex(event, false);
     } else if(currenttool == "create gravigon"){
 	if(event.button == 2){
-	    selectedgravigonpoint = nearestGravigonIndex(event);
+	    selectedgravigonpoint = nearestGravigonIndex(event.clientX, event.clientY);
 	}else{
 	    addpointtogravigon(planets[selectedplanetindex], event);
 	}
@@ -149,8 +150,8 @@ function onMouseDown(event) {
 
 function onMouseUp(event){
     if(currenttool == "asteroid" && mousedownp){
-	point.xvel = (event.clientX - point.x)/100;
-	point.yvel = (event.clientY - point.y)/100;
+	point.xvel = (event.clientX - point.x)*globalspeed*20;
+	point.yvel = (event.clientY - point.y)*globalspeed*20;
 	paused = false;
 	clearBackground();
     }
@@ -278,7 +279,7 @@ function step(){
     
     ctx.lineWidth = 1;
     if(!paused){
-	for(var i = 0;i < 30; i++){
+	for(var i = 0;i < 1000; i++){
 	    moveasteroid();
 	}
     }
@@ -288,23 +289,38 @@ function step(){
 
 function moveasteroid(){
     for(var i = 0; i<planets.length; i += 1){
-	moveasteroidwith(planets[i].magp.x,planets[i].magp.y, planets[i].attrp.x, planets[i].attrp.y);
+	moveasteroidwith(planets[i]);
     }
 }
 
-function moveasteroidwith(magx, magy, attrx, attry){
+function moveasteroidwith(planet){
+    var magx = planet.magp.x;
+    var magy = planet.magp.y;
+    var attrx = planet.attrp.x;
+    var attry = planet.attrp.y;
+    
     var c=document.getElementById("background");
     var ctx=c.getContext("2d");
     var oldx = point.x;
     var oldy = point.y;
     
     var mag = dist(point.x, point.y, magx, magy);
-    var jerk = 0;
-    var gravity = midy/4000;
-    if(jerk == 1){
-	gravity = (midy)/(Math.pow(mag, 2));
+    var gravigonfactor = Math.pow(magnitudeat(planet, point.x, point.y), 1);
+    
+    //var gravity = .5/gravigonfactor;
+    var exponentofdistance = 1.5;
+    
+    if(mag>exponentofdistance){
+	var gravity = globalspeed*Math.pow((window.innerHeight/4), exponentofdistance)/Math.pow(mag, exponentofdistance);
+    }else{
+	var gravity = 0;
     }
-    gravity = gravity / 20;
+    
+    gravity = gravity* ((window.innerHeight/4)/gravigonfactor);
+    if(jerk == 1){
+	gravity = gravigonfactor/(Math.pow(mag, 2));
+    }
+    
     point.xvel += -(point.x-attrx)*gravity/mag;
     point.yvel += -(point.y-attry)*gravity/mag;
     
@@ -313,8 +329,8 @@ function moveasteroidwith(magx, magy, attrx, attry){
     
 
     ctx.strokeStyle=getrgb([255-(Math.abs(point.x-midx)*255/(midx)),
-			    255-(Math.abs(point.y-midy)*255/(midy)),
-			    mag*255/(midy)]);
+			    mag*255/(midy),
+			    255-(Math.abs(point.y-midy)*255/(midy))]);
     ctx.beginPath();
     ctx.moveTo(oldx, oldy);
     ctx.lineTo(point.x,point.y);
