@@ -28,6 +28,15 @@ function Planet(magp, attrp){
     this.polygonlist = [];
 }
 
+
+var asteroidtoolsensativity = 500;
+var iterationperframe = 50;
+var exponentofdistance = 2;
+var globalspeed = 0.0000002 * Math.pow(0.5, exponentofdistance);
+var planetradius = 0;
+planetradius = Math.max(0, (exponentofdistance-1)*6);
+
+
 var tools = ["asteroid", "split force", "move force", "new force", "delete force", "select force", "create gravigon", "edit gravigon"]
 var midx;
 var midy;
@@ -41,7 +50,6 @@ var mousebuttonpressed = null;
 var currenttool = "asteroid";
 var buttonw;
 var menuupp = false;
-var globalspeed = 0.000001;
 function reset(){
     var c=document.getElementById("background");
     var ctx=c.getContext("2d");
@@ -68,6 +76,8 @@ function resizeBackground(){
     var c2 = document.getElementById("foreground");
     c2.width = window.innerWidth;
     c2.height = window.innerHeight;
+    var c3 = document.getElementById("equation div");
+    c3.style.width = window.innerWidth;
     reset();
 }
 
@@ -132,6 +142,7 @@ function onMouseDown(event) {
     }else if(currenttool == "delete force"){
 	var i = nearestPlanetIndex(event, false);
 	planets.splice(i, 1);
+	selectedplanetindex = planets.length-1;
     } else if(currenttool == "select force"){
 	selectedplanetindex = nearestPlanetIndex(event, false);
     } else if(currenttool == "create gravigon"){
@@ -150,8 +161,8 @@ function onMouseDown(event) {
 
 function onMouseUp(event){
     if(currenttool == "asteroid" && mousedownp){
-	point.xvel = (event.clientX - point.x)*globalspeed*20;
-	point.yvel = (event.clientY - point.y)*globalspeed*20;
+	point.xvel = (event.clientX - point.x)*globalspeed*asteroidtoolsensativity;
+	point.yvel = (event.clientY - point.y)*globalspeed*asteroidtoolsensativity;
 	paused = false;
 	clearBackground();
     }
@@ -279,7 +290,7 @@ function step(){
     
     ctx.lineWidth = 1;
     if(!paused){
-	for(var i = 0;i < 1000; i++){
+	for(var i = 0;i < iterationperframe; i++){
 	    moveasteroid();
 	}
     }
@@ -294,46 +305,47 @@ function moveasteroid(){
 }
 
 function moveasteroidwith(planet){
-    var magx = planet.magp.x;
-    var magy = planet.magp.y;
-    var attrx = planet.attrp.x;
-    var attry = planet.attrp.y;
-    
+    var olddrawx = point.x;
+    var olddrawy = point.y;
+
+    for(var i = 0;i<iterationperframe*5;i++){
+	var magx = planet.magp.x;
+	var magy = planet.magp.y;
+	var attrx = planet.attrp.x;
+	var attry = planet.attrp.y;
+	
+	var oldx = point.x;
+	var oldy = point.y;
+	
+	var mag = dist(point.x, point.y, magx, magy);
+	var gravigonfactor = Math.pow(magnitudeat(planet, point.x, point.y), 1);
+	
+	//var gravity = .5/gravigonfactor;
+
+	
+	if(mag<planetradius){
+	    mag = planetradius;;
+	}
+	var gravity = globalspeed*Math.pow((window.innerHeight/4), exponentofdistance)/Math.pow(mag, exponentofdistance);
+	
+	gravity = gravity* ((window.innerHeight/4)/gravigonfactor);
+
+	point.xvel += -(point.x-attrx)*gravity/mag;
+	point.yvel += -(point.y-attry)*gravity/mag;
+	
+	point.x += point.xvel;
+	point.y += point.yvel;
+
+    }
+
     var c=document.getElementById("background");
     var ctx=c.getContext("2d");
-    var oldx = point.x;
-    var oldy = point.y;
-    
-    var mag = dist(point.x, point.y, magx, magy);
-    var gravigonfactor = Math.pow(magnitudeat(planet, point.x, point.y), 1);
-    
-    //var gravity = .5/gravigonfactor;
-    var exponentofdistance = 1.5;
-    
-    if(mag>exponentofdistance){
-	var gravity = globalspeed*Math.pow((window.innerHeight/4), exponentofdistance)/Math.pow(mag, exponentofdistance);
-    }else{
-	var gravity = 0;
-    }
-    
-    gravity = gravity* ((window.innerHeight/4)/gravigonfactor);
-    if(jerk == 1){
-	gravity = gravigonfactor/(Math.pow(mag, 2));
-    }
-    
-    point.xvel += -(point.x-attrx)*gravity/mag;
-    point.yvel += -(point.y-attry)*gravity/mag;
-    
-    point.x += point.xvel;
-    point.y += point.yvel;
-    
-
     ctx.strokeStyle=getrgb([255-(Math.abs(point.x-midx)*255/(midx)),
 			    mag*255/(midy),
 			    255-(Math.abs(point.y-midy)*255/(midy))]);
     ctx.beginPath();
-    ctx.moveTo(oldx, oldy);
-    ctx.lineTo(point.x,point.y);
+    ctx.moveTo(Math.floor(olddrawx), Math.floor(olddrawy));
+    ctx.lineTo(Math.floor(point.x),Math.floor(point.y));
     ctx.stroke();
 }
 

@@ -49,7 +49,13 @@
      (span
       (@ (style "position:absolute; left:1%; top:0.5%; font-size:30px;color:rgb(150,150,150);cursor:pointer;z-index:2")
          (onclick "openNav()"))
-      "\u2630"))))
+      "\u2630")
+     (div
+      (@ (style "position:absolute;z-index:4")
+         (id "equation div"))
+      (span
+       (@ (style "margin-left:50%;color:white;transform:translate(-50%,0%)"))
+       "equation hereasdfasdfasdf")))))
  index-file-port)
 
 (close-output-port index-file-port)
