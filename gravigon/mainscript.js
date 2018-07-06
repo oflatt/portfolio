@@ -29,12 +29,12 @@ function Planet(magp, attrp){
 }
 
 
-var asteroidtoolsensativity = 500;
-var iterationperframe = 50;
-var exponentofdistance = 2;
-var globalspeed = 0.0000002 * Math.pow(0.5, exponentofdistance);
-var planetradius = 0;
-planetradius = Math.max(0, (exponentofdistance-1)*6);
+var asteroidtoolsensativity = 100;
+var iterationperframe = 20;
+var exponentofdistance = 0;
+var globalspeed = 0.000001 * Math.pow(0.2, exponentofdistance) ;
+var planetradius = 25;
+//planetradius = Math.max(0, (exponentofdistance-1)*6);
 
 
 var tools = ["asteroid", "split force", "move force", "new force", "delete force", "select force", "create gravigon", "edit gravigon"]
@@ -56,7 +56,7 @@ function reset(){
     buttonw = window.innerHeight/20;
     midx = window.innerWidth/2;
     midy = window.innerHeight/2;
-    point = new Point(midx, midy-midy/2, midy/1500, midy/1500);
+    point = new Point(midx, midy-midy/2, 0.01, 0);
     paused = false;
     planets = [];
     makeplanet(midx, midy, 0, 0);
@@ -76,8 +76,6 @@ function resizeBackground(){
     var c2 = document.getElementById("foreground");
     c2.width = window.innerWidth;
     c2.height = window.innerHeight;
-    var c3 = document.getElementById("equation div");
-    c3.style.width = window.innerWidth;
     reset();
 }
 
@@ -308,7 +306,7 @@ function moveasteroidwith(planet){
     var olddrawx = point.x;
     var olddrawy = point.y;
 
-    for(var i = 0;i<iterationperframe*5;i++){
+    for(var i = 0;i<iterationperframe*10;i++){
 	var magx = planet.magp.x;
 	var magy = planet.magp.y;
 	var attrx = planet.attrp.x;
@@ -327,14 +325,21 @@ function moveasteroidwith(planet){
 	    mag = planetradius;;
 	}
 	var gravity = globalspeed*Math.pow((window.innerHeight/4), exponentofdistance)/Math.pow(mag, exponentofdistance);
+
+	var adaptivedifferentiation = 1;
+	var adaptivethreshhold = 0.01;
+
+	if(dist(0,0,point.xvel,point.yvel) > adaptivethreshhold && exponentofdistance>1.5){
+	    adaptivedifferentiation += Math.pow((dist(0,0,point.xvel,point.yvel)-adaptivethreshhold)*400, 2);
+	}
 	
 	gravity = gravity* ((window.innerHeight/4)/gravigonfactor);
 
-	point.xvel += -(point.x-attrx)*gravity/mag;
-	point.yvel += -(point.y-attry)*gravity/mag;
+	point.xvel += (-(point.x-attrx)*gravity/mag)/adaptivedifferentiation;
+	point.yvel += (-(point.y-attry)*gravity/mag)/adaptivedifferentiation;
 	
-	point.x += point.xvel;
-	point.y += point.yvel;
+	point.x += point.xvel/adaptivedifferentiation;
+	point.y += point.yvel/adaptivedifferentiation;
 
     }
 
