@@ -6,7 +6,19 @@
 (write-html
  `((html
     (head
+     ,(html->xexp "<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src='https://www.googletagmanager.com/gtag/js?id=UA-108872403-1'></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-108872403-1');
+</script>")
      (title "gravigon")
+
+     (script (@ (src "https://unpkg.com/react@16/umd/react.development.js")))
+     (script (@ (src "https://unpkg.com/react-dom@16/umd/react-dom.development.js")))
+     
      (script (@ (src "gravigon/mainscript.js")))
      (script (@ (src "gravigon/menu.js")))
      (script (@ (src "gravigon/polygonhandler.js")))
@@ -29,7 +41,9 @@
       (div
        (@
         (class "overlay-content")
-        (id "overlay-content"))))
+        (id "overlay-content"))
+       (div
+        (@ (id "object_property_container")))))
      (canvas
       (@ (id "background")
          (color "black")
@@ -55,7 +69,10 @@
          (id "equation div"))
       (span
        (@ (style "margin-left:50%;color:white;transform:translate(-50%,0%)"))
-       "")))))
+       ""))
+
+     (script (@ (src "gravigon/objectproperty.js")))
+     )))
  index-file-port)
 
 (close-output-port index-file-port)
