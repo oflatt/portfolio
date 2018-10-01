@@ -5,7 +5,7 @@
 qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw erq wer")
 
 (define inlinetext2 "width:47.5%;display:inline-block")
-(define margin-format "margin:0 auto;width:950px")
+(define margin-format "margin:0 auto")
 (define post-style "text-indent:2px;width:95%;overflow:auto;text-align:justify")
 (define download-button-style "height:60px;width:270px;font-size:15px;background-color:#FDFF5C")
 
@@ -50,6 +50,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
             (@ (style ,download-button-style)
                (onclick ,(string-append "window.location.href='" mac-download "'")))
             "Download for Mac")))))
+  
   (define abstract-text
     (if (and (equal? pic "") (equal? html-video "none"))
         "Abstract:"
@@ -60,10 +61,13 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
         (string-append "Language: " language)))
   (define download-buttons
     (append windows-list mac-list))
+  
   (define text-margins
     "margin-top: 0px;margin-bottom:0px;padding-top:10px")
+
   `(div
-    (@ (style ,(string-append margin-format ";margin-bottom:10px;background-color:#B4E4E7")))
+    (@ (style ,(string-append margin-format ";margin-bottom:10px;background-color:#B4E4E7"))
+       (class "post"))
     (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
                  (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
 
@@ -81,6 +85,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                  "Source: "
                  (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
 
+            ;; insert the picture
             ,(if
               (equal? html-video "none")
               (if (equal? windows-download "predetermined.html")
@@ -94,8 +99,10 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                  ""
                  `(img (@ (style "margin-bottom:10px;padding-top:10px")
                           (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic)))))
+
             ,@download-buttons
-            
+
+            ;; put in the abstract and/or description
             (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
                  ,abstract-text)
             (div (@ (style ,(string-append post-style ";line-height:20px")))
@@ -103,7 +110,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
             (dev (@ (style "color:#B4E4E7"))
                  "_"))))
 
-(define button-style "width:33.33334%;display:inline-block;text-decoration:underline;background-color:#6CC97F")
+(define button-style "width:25%;display:inline-block;text-decoration:underline;background-color:#6CC97F;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%")
 
 (define (page-button page-name current-page)
   (define link
@@ -139,6 +146,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   gtag('config', 'UA-108872403-1');
 </script>")
            ,extra-head-html
+           (link (@ (rel "stylesheet") (type "text/css") (href "poststyle.css")))
           (title "Oliver Flatt"))
           (body
            (center

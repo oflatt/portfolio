@@ -1,0 +1,14 @@
+.post{
+    width:90%
+}
+
+
+/* for scaling to small screens */
+@media screen and (max-width : 1156px)
+{
+    .post{
+	width:100%;
+	max-width:950px;
+		  
+    }
+}
