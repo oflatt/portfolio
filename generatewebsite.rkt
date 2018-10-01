@@ -236,9 +236,8 @@ complexity arising from simple mathematics.")
                  "" "none" "none"
                  "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/s0hg4ONFP6I?rel=0&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
     ,(build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
-                 "https://github.com/oflatt/portfolio"
-                 "An art work made to further explore randomly generated art after making the
-screensaver program was so much fun. Converted to javascript using Processing.js."
+                 "https://github.com/oflatt/predetermined"
+                 "An art work that explores using hitboxes to determine the movemet of a turtle. Converted to javascript using Processing.js."
                  "none" "predetermined.html")
     ,(build-post "This Website" "Racket with html-writing library, JavaScript" "2017-present"
                  "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
