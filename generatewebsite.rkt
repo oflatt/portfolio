@@ -59,6 +59,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (if (equal? language "")
         ""
         (string-append "Language: " language)))
+  
   (define download-buttons
     (append windows-list mac-list))
   
@@ -66,13 +67,13 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     "margin-top: 0px;margin-bottom:0px;padding-top:10px")
 
   `(div
-    (@ (style ,(string-append margin-format ";margin-bottom:10px;background-color:#B4E4E7"))
+    (@ (style ,(string-append margin-format ";margin-bottom:10px;padding-bottom:10px;background-color:#B4E4E7"))
        (class "post"))
     (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
                  (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
 
             (div
-             (@ (style "color:#5A5A5A;width:95%;"))
+             (@ (style "color:#5A5A5A;width:95%"))
              (div (@ (style "float:left"))
                   (h3 (@ (style ,text-margins)) ,year))
              (div (@ (style "float:right"))
@@ -80,33 +81,36 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
             
             ,(if
               (equal? github "")
-              ""
+              `(div (@ (style ,(string-append post-style ";" text-margins)))
+                 "")
               `(div (@ (style ,(string-append post-style ";" text-margins)))
                  "Source: "
                  (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
 
             ;; insert the picture
-            ,(if
-              (equal? html-video "none")
-              (if (equal? windows-download "predetermined.html")
-                  `(div (@ (style "margin-bottom:10px;padding-top:10px"))
-                        (canvas (@ (data-processing-sources "curvesSmall.pde Curve.pde Behavior.pde"))))
-                  "")
-              `(div (@ (style "margin-bottom:10px;padding-top:10px"))
-                    ,(html->xexp html-video)))
-            
-            ,(if (or (equal? pic "") (equal? pic "none"))
-                 ""
-                 `(img (@ (style "margin-bottom:10px;padding-top:10px")
-                          (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic)))))
-
-            ,@download-buttons
+            (div (@ (style "margin-bottom:10px;padding-top:10px"))
+                 ,(if
+                   (equal? html-video "none")
+                   (if (equal? windows-download "predetermined.html")
+                       "" ;; TODO- add picture for predetermined
+                       "")
+                   `(div (@ (class "mediaiframe"))
+                         ,(html->xexp html-video)))
+                 
+                 ,(if (or (equal? pic "") (equal? pic "none"))
+                      ""
+                      `(img (@ (class "media")
+                               (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
 
             ;; put in the abstract and/or description
             (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
                  ,abstract-text)
             (div (@ (style ,(string-append post-style ";line-height:20px")))
                  ,description)
+
+            ;; put in the buttons
+            ,@download-buttons
+
             (dev (@ (style "color:#B4E4E7"))
                  "_"))))
 
@@ -248,7 +252,7 @@ complexity arising from simple mathematics.")
                  "https://github.com/oflatt/predetermined"
                  "An art work that explores using hitboxes to determine the movemet of a turtle. Converted to javascript using Processing.js."
                  "none" "predetermined.html")
-    ,(build-post "This Website" "Racket with html-writing library, JavaScript" "2017-present"
+    ,(build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
                  "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
 in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
 validation."
@@ -269,8 +273,7 @@ validation."
                  "sickle-cell-anemia-demo.gif"
                  "https://drive.google.com/uc?export=download&id=0B6SmFaR0J_BpWU9TQzA4SmJ0cHM")
     ,(build-post "Bubble Field" "Clickteam Fusion" "2014"
-                 "" "A local multiplayer game with a surprisingly high skill cap. Trap your opponent so that they
-cannot move."
+                 "" "A local multiplayer game inspired by snake. Trap your opponent so that they cannot move. Use resources tactically."
                  "bubble-field-demo.gif"
                  "https://github.com/oflatt/files-for-download/raw/master/bubble_field.exe")
     ,(build-post "Screensaver- Randomly Generated Dragon Curve and Other Animations" "Processing" "2016"
@@ -312,7 +315,7 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
                  "https://racket-lang.org" racket-explanation "racket.jpg")
     ,(build-post "Sonic Pi Live Coding Camp" "Sonic Pi" "2015"
                 "http://sonic-pi.net/" sonic-pi-explanation "" "none" "none"
-                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/RH-80LOBvLE?rel=0&autoplay=1&loop=1&mute=1&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>"))
+                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe src='https://www.youtube.com/embed/RH-80LOBvLE?rel=0&autoplay=1&loop=1&mute=1&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>"))
     "experiences")
  experiences-file-port)
 

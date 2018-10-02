@@ -12,3 +12,20 @@
 		  
     }
 }
+
+.media{
+    display:inline;
+    max-width:100%;
+    height:auto;
+}
+
+.mediaiframe{
+    width: 950px;
+    max-width:100%;
+    height:75%;
+}
+
+.mediaiframe iframe {
+    width: 100%; height: 100%;
+}
+
