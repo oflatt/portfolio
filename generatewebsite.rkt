@@ -110,29 +110,29 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
             (dev (@ (style "color:#B4E4E7"))
                  "_"))))
 
-(define button-style "width:25%;display:inline-block;text-decoration:underline;background-color:#6CC97F;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%")
+(define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%")
 
 (define (page-button page-name current-page)
   (define link
     (if (equal? page-name "papers")
         "index.html"
         (string-append page-name ".html")))
-  (define button-style
+  (define special-button-style
     (if (equal? page-name current-page)
-        ";font-size:34px;color:black;font-weight:normal"
-        ";color:blue;font-weight:normal"))
-  `(h2 (@ (onclick ,(string-append "window.location.href='" link "'")))
-       (a (@ (style ,button-style) (href ,link)) ,page-name)))
+        (string-append button-style ";background-color:#DBC222")
+        (string-append button-style ";background-color:#6CC97F")))
+  `(button (@ (style ,(string-append special-button-style ";text-align:center"))
+              (onclick ,(string-append "window.location.href='" link "'"))
+              (onmouseenter "buttonhover(this)")
+              (onmouseleave "buttonoff(this)"))
+        (h2 (@ (style "font-weight:normal")) ,page-name)))
 
 (define (menu current-page)
   `(div
     (@ (style ,(string-append margin-format ";margin-bottom:20px;text-align:center")))
-    (div (@ (style ,(string-append button-style ";text-align:center")))
-         ,(page-button "papers" current-page))
-    (dif (@ (style ,(string-append button-style ";text-align:center")))
-         ,(page-button "projects" current-page))
-    (dif (@ (style ,(string-append button-style ";text-align:center")))
-         ,(page-button "experiences" current-page))))
+    ,(page-button "papers" current-page)
+    ,(page-button "projects" current-page)
+    ,(page-button "experiences" current-page)))
 
 (define (page body name [extra-head-html (list)])
   `((html (head
@@ -147,6 +147,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 </script>")
            ,extra-head-html
            (link (@ (rel "stylesheet") (type "text/css") (href "poststyle.css")))
+           (script (@ (src "mainscript.js")))
           (title "Oliver Flatt"))
           (body
            (center
