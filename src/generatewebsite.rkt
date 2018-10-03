@@ -5,7 +5,7 @@
 qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw erq wer")
 
 (define inlinetext2 "width:47.5%;display:inline-block")
-(define margin-format "margin:0 auto")
+(define margin-format "")
 (define post-style "text-indent:2px;width:95%;overflow:auto;text-align:justify")
 (define download-button-style "height:60px;width:270px;font-size:15px;background-color:#FDFF5C")
 
@@ -66,53 +66,63 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   (define text-margins
     "margin-top: 0px;margin-bottom:0px;padding-top:10px")
 
+  
   `(div
-    (@ (style ,(string-append margin-format ";margin-bottom:10px;padding-bottom:10px;background-color:#B4E4E7"))
-       (class "post"))
-    (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
-                 (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
+    (h1 (@ (style ,(string-append "width:8%;font-size:14px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
+           (onmouseenter "texthover(this)")
+           (onmouseout "textoff(this)")
+           (class "navtext"))
+        ,(let ([l (string-split title)])
+           (if (= (length l) 1)
+               (first l)
+               (string-append (first l) " " (second l)))))
+    (div
+     (@ (style ,(string-append margin-format "margin-bottom:10px;padding-bottom:10px;background-color:#B4E4E7;margin-left:2%;margin-right:0;display:inline-block"))
+        (class "post"))
+     (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
+                  (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
 
-            (div
-             (@ (style "color:#5A5A5A;width:95%"))
-             (div (@ (style "float:left"))
-                  (h3 (@ (style ,text-margins)) ,year))
-             (div (@ (style "float:right"))
-                  (h3 (@ (style ,text-margins)) ,language-text)))
-            
-            ,(if
-              (equal? github "")
-              `(div (@ (style ,(string-append post-style ";" text-margins)))
-                 "")
-              `(div (@ (style ,(string-append post-style ";" text-margins)))
-                 "Source: "
-                 (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
+             (div
+              (@ (style "color:#5A5A5A;width:95%"))
+              (div (@ (style "float:left"))
+                   (h3 (@ (style ,text-margins)) ,year))
+              (div (@ (style "float:right"))
+                   (h3 (@ (style ,text-margins)) ,language-text)))
+             
+             ,(if
+               (equal? github "")
+               `(div (@ (style ,(string-append post-style ";" text-margins)))
+                     "")
+               `(div (@ (style ,(string-append post-style ";" text-margins)))
+                     "Source: "
+                     (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
 
-            ;; insert the picture
-            (div (@ (style "margin-bottom:10px;padding-top:10px"))
-                 ,(if
-                   (equal? html-video "none")
-                   (if (equal? windows-download "predetermined.html")
-                       "" ;; TODO- add picture for predetermined
-                       "")
-                   `(div (@ (class "mediaiframe"))
-                         ,(html->xexp html-video)))
-                 
-                 ,(if (or (equal? pic "") (equal? pic "none"))
-                      ""
-                      `(img (@ (class "media")
-                               (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
+             ;; insert the picture
+             (div (@ (style "margin-bottom:10px;padding-top:10px"))
+                  ,(if
+                    (equal? html-video "none")
+                    (if (equal? windows-download "predetermined.html")
+                        "" ;; TODO- add picture for predetermined
+                        "")
+                    `(div (@ (class "mediaiframe"))
+                          ,(html->xexp html-video)))
+                  
+                  ,(if (or (equal? pic "") (equal? pic "none"))
+                       ""
+                       `(img (@ (class "media")
+                                (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
 
-            ;; put in the abstract and/or description
-            (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
-                 ,abstract-text)
-            (div (@ (style ,(string-append post-style ";line-height:20px")))
-                 ,description)
+             ;; put in the abstract and/or description
+             (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
+                  ,abstract-text)
+             (div (@ (style ,(string-append post-style ";line-height:20px")))
+                  ,description)
 
-            ;; put in the buttons
-            ,@download-buttons
+             ;; put in the buttons
+             ,@download-buttons
 
-            (dev (@ (style "color:#B4E4E7"))
-                 "_"))))
+             (dev (@ (style "color:#B4E4E7"))
+                  "_")))))
 
 (define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%")
 
@@ -150,8 +160,9 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   gtag('config', 'UA-108872403-1');
 </script>")
            ,extra-head-html
-           (link (@ (rel "stylesheet") (type "text/css") (href "poststyle.css")))
            (script (@ (src "mainscript.js")))
+           (link (@ (rel "stylesheet") (type "text/css") (href "poststyle.css")))
+           
           (title "Oliver Flatt"))
           (body
            (center
@@ -166,11 +177,10 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            
            ,(menu name)
            ,body
-           ,(menu name))
-          (footer
-           (center (p "email me: oflatt@gmail.com"))))))
+           (div (@ (style "width:100%"))
+                (center (p "email me: oflatt@gmail.com")))))))
 
-(define index-file-port (open-output-file "index.html" #:exists 'replace))
+(define index-file-port (open-output-file "../dist/index.html" #:exists 'replace))
 
 (define sound-abstract
   "The aim of this paper is to demonstrate how to use mathematical models to generate sound waves using computers,
@@ -234,7 +244,7 @@ complexity arising from simple mathematics.")
 (define sickle-cell-description
   "A simulator that shows how the recessive sickle cell anemia gene gets passed down through generations.")
 
-(define projects-file-port (open-output-file "projects.html" #:exists 'replace))
+(define projects-file-port (open-output-file "../dist/projects.html" #:exists 'replace))
 
 (write-html
  (page
@@ -243,7 +253,7 @@ complexity arising from simple mathematics.")
                  "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
                  "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
     ,(build-post "Gravigon" "Javascript, HTML" "2018"
-                 "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "none" "none")
+                 "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "none" "none") ;; TODO add gravigon page link
     ,(build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
                  "https://github.com/oflatt/chinese-remainder-algorithm-visualized" "A visualization and lecture on Chinese Remainder Theorem using an example problem."
                  "" "none" "none"
@@ -304,7 +314,7 @@ Strange Loop conferences.")
 I learned the basics of programming in Sonic Pi to make music, and enjoyed experimenting with randomness.
 This helped inspire me to work on randomly generated music for Bearly Dancing.")
 
-(define experiences-file-port (open-output-file "experiences.html" #:exists 'replace))
+(define experiences-file-port (open-output-file "../dist/experiences.html" #:exists 'replace))
 (write-html
  (page
   `(div
@@ -325,7 +335,7 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
   "<iframe width='950' height='950' src='https://www.youtube.com/embed/ZswrScw3eLA?rel=0&autoplay=1&mute=1&rel=0&rel=0&amp;controls=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>")
 
 
-(define tessa-file-port (open-output-file "tessa.html" #:exists 'replace))
+(define tessa-file-port (open-output-file "../dist/tessa.html" #:exists 'replace))
 
 (write-html
  `((html
