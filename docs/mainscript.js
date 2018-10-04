@@ -36,34 +36,90 @@ function textoff(button) {
     button.style.color = mapoldcolors[button.id];
 }
 function myonscroll() {
-    alert("ran");
     var texts = document.getElementsByClassName("navtext");
     var n = texts.length;
     for (var i = 0; i < n; i++) {
         var e = texts[i];
         var closeness = Math.abs((parseInt(e.style.top) / window.innerHeight) - (document.body.scrollTop / document.body.offsetHeight));
-        var size = (closeness * n) + 14;
+        var size = (10 / (closeness * n + 1)) + 10 - 1;
         e.style.fontSize = size.toString() + "px";
+    }
+    // add a new element if the scrollbar is far enough
+    if (document.body.scrollTop > document.body.offsetHeight - window.innerHeight - 5) {
+        loadnew();
+    }
+}
+var loadposition = 0;
+function loadnew() {
+    var nextpost = document.createElement("div");
+    var elem = document.querySelector('.container');
+    var filenames = elem.getAttribute("data-postlist").split(",");
+    if (loadposition < filenames.length) {
+        nextpost.setAttribute("w3IncludeHtml", "./posts/" + filenames[loadposition] + ".html");
+        elem.appendChild(nextpost);
+        includeHTML();
+        loadposition = loadposition + 1;
     }
 }
 function setup() {
+    document.body.onscroll = myonscroll;
+    loadnew();
+    loadnew();
+    loadnew();
     setnavtextpositions();
-    document.body.addEventListener("scroll", myonscroll);
-    var elem = document.querySelector('.container');
-    //@ts-ignore
-    var infScroll = new InfiniteScroll(elem, {
-        // options
-        path: './camp.html',
-        history: false,
-    });
 }
 function setnavtextpositions() {
+    var posts = document.getElementsByClassName("post");
     var texts = document.getElementsByClassName("navtext");
     var n = texts.length;
+    var elem = document.querySelector('.container');
+    var filenames = elem.getAttribute("data-postlist").split(",");
+    var numofposts = filenames.length;
     for (var i = 0; i < n; i++) {
+        var posttop = posts[i].offsetTop;
         var e = texts[i];
-        e.style.top = ((window.innerHeight / (n + 1)) * (i + 1)).toString() + "px";
+        e.style.top = (posttop * window.innerHeight / document.body.scrollHeight).toString();
         e.style.visibility = "visible";
+    }
+    var loadmore = document.getElementById("load more");
+    loadmore.style.visibility = "visible";
+    // hide load more button when done loading
+    if (loadposition >= numofposts) {
+        loadmore.style.visibility = "hidden";
+    }
+    myonscroll();
+    setTimeout(setnavtextpositions, 100);
+}
+function includeHTML() {
+    var i, file, xhttp;
+    var elmnt;
+    /*loop through a collection of all HTML elements:*/
+    var z = document.getElementsByTagName("*");
+    for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        /*search for elements with a certain atrribute:*/
+        file = elmnt.getAttribute("w3IncludeHtml");
+        if (file) {
+            /*make an HTTP request using the attribute value as the file name:*/
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        elmnt.innerHTML = this.responseText;
+                    }
+                    if (this.status == 404) {
+                        elmnt.innerHTML = "Page not found.";
+                    }
+                    /*remove the attribute, and call this function once more:*/
+                    elmnt.removeAttribute("w3IncludeHtml");
+                    includeHTML();
+                }
+            };
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /*exit the function:*/
+            return;
+        }
     }
 }
 window.onload = setup;

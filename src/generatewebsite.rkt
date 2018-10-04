@@ -72,12 +72,12 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   (define text-margins
     "margin-top: 0px;margin-bottom:0px;padding-top:10px")
 
-  (define file-port (open-output-file (string-append "../docs/" (short-name title) ".html") #:exists 'replace))
+  (define file-port (open-output-file (string-append "../docs/posts/" (short-name title) ".html") #:exists 'replace))
   
   (begin
     (write-html
      `(div
-       (h1 (@ (style ,(string-append "width:8%;font-size:14px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
+       (h1 (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
               (onmouseenter "texthover(this)")
               (onmouseout "textoff(this)")
               (class "navtext"))
@@ -131,7 +131,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                      "_"))))
      file-port)
     (close-output-port file-port)
-    ""))
+    (short-name title)))
 
 (define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%")
 
@@ -157,7 +157,15 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     ,(page-button "projects" current-page)
     ,(page-button "experiences" current-page)))
 
-(define (page body name [extra-head-html (list)])
+
+(define (page filenamelist name [extra-head-html (list)])
+  (define filenamestring
+    (substring
+     (foldl (lambda (s result)
+              (string-append result "," s))
+            ""
+            filenamelist)
+     1))
   `((html (head
            ,(html->xexp "<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src='https://www.googletagmanager.com/gtag/js?id=UA-108872403-1'></script>
@@ -169,7 +177,6 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   gtag('config', 'UA-108872403-1');
 </script>")
            ,extra-head-html
-           (script (@ (src "https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js")))
            (script (@ (src "mainscript.js")))
            (link (@ (rel "stylesheet") (type "text/css") (href "poststyle.css")))
            
@@ -177,7 +184,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
           (body
            (center
            (div
-            (@ (style "width:950px;margin:auto 0"))
+            (@ (style "margin:auto 0"))
           ;;  (img (@ (style "float:left;max-width:12%;height:auto;padding-left:280px;margin-right:-400px")
           ;;          (src "https://github.com/oflatt/portfolio-gifs/raw/master/plobdark.png")))
             (div
@@ -186,9 +193,18 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
              (h2 (@ (style "font-weight:normal;font-size:large")) "The future of art is the dynamic, interactive medium."))))
            
            ,(menu name)
-           ,body
+           ;;now put in the div that will hold all the posts
+           ;; the container holds a list of the file names for the posts
+           (div
+            (@ (class "container") (data-postlist ,filenamestring)))
            (div (@ (style "width:100%"))
-                (center (p "email me: oflatt@gmail.com")))))))
+                (center (p "email me: oflatt@gmail.com"))))
+           ;; load more navtext
+           (h1 (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);position:fixed;bottom:20px;right:0;cursor:default;visibility:hidden"))
+                  (onmouseenter "texthover(this)")
+                  (onmouseout "textoff(this)")
+                  (id "load more"))
+               "Load More"))))
 
 (define index-file-port (open-output-file "../docs/index.html" #:exists 'replace))
 
@@ -218,11 +234,11 @@ in Python.")
 
 (write-html
  (page
-  `(div
-    ,(build-post "How Implementations of the Persistent Data Type HAMT with Varying Node Sizes Compare
+  (list
+    (build-post "How Implementations of the Persistent Data Type HAMT with Varying Node Sizes Compare
 in Performance When Implemented in Python"
                  "" "2017" "hamt python.pdf" hamt-abstract "")
-    ,(build-post "Mathematically Generating Sound Waves for Music" "" "2016"
+    (build-post "Mathematically Generating Sound Waves for Music" "" "2016"
                  "generating-sound.pdf" sound-abstract ""))
   "papers")
  index-file-port)
@@ -258,45 +274,45 @@ complexity arising from simple mathematics.")
 
 (write-html
  (page
-  `(div
-    ,(build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
+  (list
+    (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
                  "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
                  "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
-    ,(build-post "Gravigon" "Javascript, HTML" "2018"
+    (build-post "Gravigon" "Javascript, HTML" "2018"
                  "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "none" "none") ;; TODO add gravigon page link
-    ,(build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
+    (build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
                  "https://github.com/oflatt/chinese-remainder-algorithm-visualized" "A visualization and lecture on Chinese Remainder Theorem using an example problem."
                  "" "none" "none"
                  "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/s0hg4ONFP6I?rel=0&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
-    ,(build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
+    (build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
                  "https://github.com/oflatt/predetermined"
                  "An art work that explores using hitboxes to determine the movemet of a turtle. Converted to javascript using Processing.js."
                  "none" "predetermined.html")
-    ,(build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
+    (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
                  "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
 in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
 validation."
                  "thiswebsitegrey.png")
-    ,(build-post "Curve Stitching Animation" "Racket" "2017"
+    (build-post "Curve Stitching Animation" "Racket" "2017"
                  "https://github.com/oflatt/curve-stitching" curve-stitching-description "circle-curve-stitch.gif")
-    ,(build-post "Space Orbs" "Racket" "2015"
+    (build-post "Space Orbs" "Racket" "2015"
                  "https://github.com/oflatt/space-orbs" space-orbs-description ""
                  "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.zip"
                  "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.dmg"
                  "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/mP8ud9Yztz8?rel=0&autoplay=1&mute=1&amp;controls=0&amp;showinfo=0&amp;start=43' frameborder='0' allowfullscreen></iframe></div>")
-    ,(build-post "Devine Idle" "Racket" "2014"
+    (build-post "Devine Idle" "Racket" "2014"
                  "https://github.com/oflatt/devine-idle" devine-idle-description "devine-idle-demo.gif"
                  "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Windows.zip"
                  "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Mac.dmg")
-    ,(build-post "Sickle Cell Anemia Population Simulator" "Racket" "2014"
+    (build-post "Sickle Cell Anemia Population Simulator" "Racket" "2014"
                  "https://github.com/oflatt/sickle-cell-population-simulator" sickle-cell-description
                  "sickle-cell-anemia-demo.gif"
                  "https://drive.google.com/uc?export=download&id=0B6SmFaR0J_BpWU9TQzA4SmJ0cHM")
-    ,(build-post "Bubble Field" "Clickteam Fusion" "2014"
+    (build-post "Bubble Field" "Clickteam Fusion" "2014"
                  "" "A local multiplayer game inspired by snake. Trap your opponent so that they cannot move. Use resources tactically."
                  "bubble-field-demo.gif"
                  "https://github.com/oflatt/files-for-download/raw/master/bubble_field.exe")
-    ,(build-post "Screensaver- Randomly Generated Dragon Curve and Other Animations" "Processing" "2016"
+    (build-post "Screensaver- Randomly Generated Dragon Curve and Other Animations" "Processing" "2016"
                  "" "A screensaver full of different kinds of randomly generated animations. The dragon curves
 are generated using an implementation of the L-system in processing (java wraparound)."
                  "screensaver-demo.gif"
@@ -327,14 +343,13 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
 (define experiences-file-port (open-output-file "../docs/experiences.html" #:exists 'replace))
 (write-html
  (page
-  `(div
-    (@ (class "container"))
-    ,(build-post "GREAT Camp Volunteer Work" "Python" "2016-2017"
+  (list
+    (build-post "GREAT Camp Volunteer Work" "Python" "2016-2017"
                  "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
                  "space-invaders-demo.gif")
-    ,(build-post "RacketCon" "Racket" "2015-present, annually"
+    (build-post "RacketCon" "Racket" "2015-present, annually"
                  "https://racket-lang.org" racket-explanation "racket.jpg")
-    ,(build-post "Sonic Pi Live Coding Camp" "Sonic Pi" "2015"
+    (build-post "Sonic Pi Live Coding Camp" "Sonic Pi" "2015"
                 "http://sonic-pi.net/" sonic-pi-explanation "" "none" "none"
                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe src='https://www.youtube.com/embed/RH-80LOBvLE?rel=0&autoplay=1&loop=1&mute=1&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>"))
     "experiences")
