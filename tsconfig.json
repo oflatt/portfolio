@@ -4,7 +4,7 @@
 	"alwaysStrict":true,
 	"module":"commonjs",
 	"lib":["es2018", "dom"],
-	"outDir": "./dist/",
+	"outDir": "./docs/",
 	"noImplicitAny": true,
 	"module": "es6",
 	"target": "es5",

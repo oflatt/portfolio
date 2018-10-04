@@ -180,7 +180,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            (div (@ (style "width:100%"))
                 (center (p "email me: oflatt@gmail.com")))))))
 
-(define index-file-port (open-output-file "../dist/index.html" #:exists 'replace))
+(define index-file-port (open-output-file "../docs/index.html" #:exists 'replace))
 
 (define sound-abstract
   "The aim of this paper is to demonstrate how to use mathematical models to generate sound waves using computers,
@@ -244,7 +244,7 @@ complexity arising from simple mathematics.")
 (define sickle-cell-description
   "A simulator that shows how the recessive sickle cell anemia gene gets passed down through generations.")
 
-(define projects-file-port (open-output-file "../dist/projects.html" #:exists 'replace))
+(define projects-file-port (open-output-file "../docs/projects.html" #:exists 'replace))
 
 (write-html
  (page
@@ -314,7 +314,7 @@ Strange Loop conferences.")
 I learned the basics of programming in Sonic Pi to make music, and enjoyed experimenting with randomness.
 This helped inspire me to work on randomly generated music for Bearly Dancing.")
 
-(define experiences-file-port (open-output-file "../dist/experiences.html" #:exists 'replace))
+(define experiences-file-port (open-output-file "../docs/experiences.html" #:exists 'replace))
 (write-html
  (page
   `(div
@@ -335,7 +335,7 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
   "<iframe width='950' height='950' src='https://www.youtube.com/embed/ZswrScw3eLA?rel=0&autoplay=1&mute=1&rel=0&rel=0&amp;controls=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>")
 
 
-(define tessa-file-port (open-output-file "../dist/tessa.html" #:exists 'replace))
+(define tessa-file-port (open-output-file "../docs/tessa.html" #:exists 'replace))
 
 (write-html
  `((html
