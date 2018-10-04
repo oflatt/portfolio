@@ -9,6 +9,12 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 (define post-style "text-indent:2px;width:95%;overflow:auto;text-align:justify")
 (define download-button-style "height:60px;width:270px;font-size:15px;background-color:#FDFF5C")
 
+(define (short-name title)
+  (let ([l (string-split title)])
+           (if (= (length l) 1)
+               (first l)
+               (string-append (first l) " " (second l)))))
+
 ;; all strings, title, language, year, github link, description, path to picture
 (define
   (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none"))
@@ -66,63 +72,66 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   (define text-margins
     "margin-top: 0px;margin-bottom:0px;padding-top:10px")
 
+  (define file-port (open-output-file (string-append "../docs/" (short-name title) ".html") #:exists 'replace))
   
-  `(div
-    (h1 (@ (style ,(string-append "width:8%;font-size:14px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
-           (onmouseenter "texthover(this)")
-           (onmouseout "textoff(this)")
-           (class "navtext"))
-        ,(let ([l (string-split title)])
-           (if (= (length l) 1)
-               (first l)
-               (string-append (first l) " " (second l)))))
-    (div
-     (@ (style ,(string-append margin-format "margin-bottom:10px;padding-bottom:10px;background-color:#B4E4E7;margin-left:2%;margin-right:0;display:inline-block"))
-        (class "post"))
-     (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
-                  (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
+  (begin
+    (write-html
+     `(div
+       (h1 (@ (style ,(string-append "width:8%;font-size:14px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
+              (onmouseenter "texthover(this)")
+              (onmouseout "textoff(this)")
+              (class "navtext"))
+           ,(short-name title))
+       (div
+        (@ (style ,(string-append margin-format "margin-bottom:10px;padding-bottom:10px;background-color:#B4E4E7;margin-left:2%;margin-right:0;display:inline-block"))
+           (class "post"))
+        (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
+                     (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
 
-             (div
-              (@ (style "color:#5A5A5A;width:95%"))
-              (div (@ (style "float:left"))
-                   (h3 (@ (style ,text-margins)) ,year))
-              (div (@ (style "float:right"))
-                   (h3 (@ (style ,text-margins)) ,language-text)))
-             
-             ,(if
-               (equal? github "")
-               `(div (@ (style ,(string-append post-style ";" text-margins)))
-                     "")
-               `(div (@ (style ,(string-append post-style ";" text-margins)))
-                     "Source: "
-                     (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
-
-             ;; insert the picture
-             (div (@ (style "margin-bottom:10px;padding-top:10px"))
-                  ,(if
-                    (equal? html-video "none")
-                    (if (equal? windows-download "predetermined.html")
-                        "" ;; TODO- add picture for predetermined
+                (div
+                 (@ (style "color:#5A5A5A;width:95%"))
+                 (div (@ (style "float:left"))
+                      (h3 (@ (style ,text-margins)) ,year))
+                 (div (@ (style "float:right"))
+                      (h3 (@ (style ,text-margins)) ,language-text)))
+                
+                ,(if
+                  (equal? github "")
+                  `(div (@ (style ,(string-append post-style ";" text-margins)))
                         "")
-                    `(div (@ (class "mediaiframe"))
-                          ,(html->xexp html-video)))
-                  
-                  ,(if (or (equal? pic "") (equal? pic "none"))
-                       ""
-                       `(img (@ (class "media")
-                                (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
+                  `(div (@ (style ,(string-append post-style ";" text-margins)))
+                        "Source: "
+                        (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
 
-             ;; put in the abstract and/or description
-             (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
-                  ,abstract-text)
-             (div (@ (style ,(string-append post-style ";line-height:20px")))
-                  ,description)
+                ;; insert the picture
+                (div (@ (style "margin-bottom:10px;padding-top:10px"))
+                     ,(if
+                       (equal? html-video "none")
+                       (if (equal? windows-download "predetermined.html")
+                           "" ;; TODO- add picture for predetermined
+                           "")
+                       `(div (@ (class "mediaiframe"))
+                             ,(html->xexp html-video)))
+                     
+                     ,(if (or (equal? pic "") (equal? pic "none"))
+                          ""
+                          `(img (@ (class "media")
+                                   (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
 
-             ;; put in the buttons
-             ,@download-buttons
+                ;; put in the abstract and/or description
+                (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
+                     ,abstract-text)
+                (div (@ (style ,(string-append post-style ";line-height:20px")))
+                     ,description)
 
-             (dev (@ (style "color:#B4E4E7"))
-                  "_")))))
+                ;; put in the buttons
+                ,@download-buttons
+
+                (dev (@ (style "color:#B4E4E7"))
+                     "_"))))
+     file-port)
+    (close-output-port file-port)
+    ""))
 
 (define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%")
 
@@ -160,6 +169,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   gtag('config', 'UA-108872403-1');
 </script>")
            ,extra-head-html
+           (script (@ (src "https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js")))
            (script (@ (src "mainscript.js")))
            (link (@ (rel "stylesheet") (type "text/css") (href "poststyle.css")))
            
@@ -318,6 +328,7 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
 (write-html
  (page
   `(div
+    (@ (class "container"))
     ,(build-post "GREAT Camp Volunteer Work" "Python" "2016-2017"
                  "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
                  "space-invaders-demo.gif")

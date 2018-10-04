@@ -49,6 +49,13 @@ function myonscroll() {
 function setup() {
     setnavtextpositions();
     document.body.addEventListener("scroll", myonscroll);
+    var elem = document.querySelector('.container');
+    //@ts-ignore
+    var infScroll = new InfiniteScroll(elem, {
+        // options
+        path: './camp.html',
+        history: false,
+    });
 }
 function setnavtextpositions() {
     var texts = document.getElementsByClassName("navtext");
