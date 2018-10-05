@@ -28,7 +28,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (button
                (@ (style ,download-button-style)
                   (onclick ,(string-append "window.location.href='" windows-download "'")))
-               "Big Version Here")))]
+               "Go To Site")))]
           [(equal? windows-download "http://bearlydancing.com")
            (list
             `(div
@@ -281,7 +281,7 @@ complexity arising from simple mathematics.")
                  "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
                  "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
     (build-post "Gravigon" "Javascript, HTML" "2018"
-                 "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "none" "none") ;; TODO add gravigon page link
+                 "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "gravigon.html" "none") ;; TODO add gravigon page link
     (build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
                  "https://github.com/oflatt/chinese-remainder-algorithm-visualized" "A visualization and lecture on Chinese Remainder Theorem using an example problem."
                  "" "none" "none"

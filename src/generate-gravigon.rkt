@@ -1,7 +1,7 @@
 #lang racket
 (require html-writing html-parsing)
 
-(define index-file-port (open-output-file "gravigon.html" #:exists 'replace))
+(define index-file-port (open-output-file "../docs/gravigon.html" #:exists 'replace))
 
 (write-html
  `((html
@@ -15,16 +15,13 @@
   gtag('config', 'UA-108872403-1');
 </script>")
      (title "gravigon")
-
-     (script (@ (src "https://unpkg.com/react@16/umd/react.development.js")))
-     (script (@ (src "https://unpkg.com/react-dom@16/umd/react-dom.development.js")))
      
-     (script (@ (src "gravigon/mainscript.js")))
-     (script (@ (src "gravigon/menu.js")))
-     (script (@ (src "gravigon/polygonhandler.js")))
+     (script (@ (src "../gravigon/mainscript.js")))
+     (script (@ (src "../gravigon/menu.js")))
+     (script (@ (src "../gravigon/polygonhandler.js")))
      (link (@ (rel "stylesheet")
               (type "text/css")
-              (href "gravigon/style.css"))))
+              (href "../gravigon/style.css"))))
     (body
      (@
       (style "padding:0;margin:0")
@@ -36,8 +33,9 @@
       (a
        (@ (href "javascript:void(0)")
           (class "closebtn")
+          (style "text-decoration:none")
           (onclick "closeNav()"))
-       "\u00D7")
+       "x")
       (div
        (@
         (class "overlay-content")
@@ -63,7 +61,7 @@
      (span
       (@ (style "position:absolute; left:1%; top:0.5%; font-size:30px;color:rgb(150,150,150);cursor:pointer;z-index:2")
          (onclick "openNav()"))
-      "\u2630")
+      "menu")
      (div
       (@ (style "position:absolute;z-index:4")
          (id "equation div"))
