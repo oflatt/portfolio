@@ -7,7 +7,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 (define inlinetext2 "width:47.5%;display:inline-block")
 (define margin-format "")
 (define post-style "text-indent:2px;width:95%;overflow:auto;text-align:justify")
-(define download-button-style "height:60px;width:270px;font-size:15px;background-color:#FDFF5C")
+(define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%;outline:none;border:none")
+(define download-button-style (string-append button-style ";height:60px;width:270px;font-size:15px;background-color:#DBC222"))
 
 (define (short-name title)
   (let ([l (string-split title)])
@@ -27,6 +28,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (@ (style ,(string-append "text-align:center;" inlinetext2)))
               (button
                (@ (style ,download-button-style)
+                  (onmouseenter "buttonhover(this)")
+                  (onmouseleave "buttonoff(this)")
                   (onclick ,(string-append "window.location.href='" windows-download "'")))
                "Go To Site")))]
           [(equal? windows-download "http://bearlydancing.com")
@@ -36,6 +39,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                         (target "_blank"))
               (button
                (@ (style ,download-button-style)
+                  (onmouseenter "buttonhover(this)")
+                  (onmouseleave "buttonoff(this)")
                   (onclick ,(string-append "window.location.href='" windows-download "'")))
                "bearly dancing website")))]
           [else
@@ -44,6 +49,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (@ (style ,(string-append "text-align:center;" inlinetext2)))
               (button
                (@ (style ,download-button-style)
+                  (onmouseenter "buttonhover(this)")
+                  (onmouseleave "buttonoff(this)")
                   (onclick ,(string-append "window.location.href='" windows-download "'")))
                "Download for Windows")))]))
   (define mac-list
@@ -54,6 +61,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            (@ (style ,(string-append "text-align:center;" inlinetext2)))
            (button
             (@ (style ,download-button-style)
+               (onmouseenter "buttonhover(this)")
+               (onmouseleave "buttonoff(this)")
                (onclick ,(string-append "window.location.href='" mac-download "'")))
             "Download for Mac")))))
   
@@ -134,7 +143,6 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (close-output-port file-port)
     (short-name title)))
 
-(define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%")
 
 (define (page-button page-name current-page)
   (define link
@@ -183,6 +191,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            
           (title "Oliver Flatt"))
           (body
+           (@ (style "background-color:rgb(245,245,245)"))
            (center
            (div
             (@ (style "margin:auto 0"))
