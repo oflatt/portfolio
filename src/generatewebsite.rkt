@@ -80,6 +80,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
        (h1 (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
               (onmouseenter "texthover(this)")
               (onmouseout "textoff(this)")
+              (onclick "scrollToPos(this)")
               (class "navtext"))
            ,(short-name title))
        (div
@@ -203,6 +204,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            (h1 (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);position:fixed;bottom:20px;right:0;cursor:default;visibility:hidden"))
                   (onmouseenter "texthover(this)")
                   (onmouseout "textoff(this)")
+                  (onclick "loadnew()")
                   (id "load more"))
                "Load More"))))
 
