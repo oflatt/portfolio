@@ -193,29 +193,33 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
           (body
            (@ (style "background-color:rgb(245,245,245)"))
            (center
-           (div
-            (@ (style "margin:auto 0"))
-          ;;  (img (@ (style "float:left;max-width:12%;height:auto;padding-left:280px;margin-right:-400px")
-          ;;          (src "https://github.com/oflatt/portfolio-gifs/raw/master/plobdark.png")))
             (div
-             (h1 (@ (style "padding-bottom:0px;margin-top:0px;padding-top:10px;font-weight:normal;"))
-                 "Oliver Flatt")
-             (h2 (@ (style "font-weight:normal;font-size:large")) "The future of art is the dynamic, interactive medium."))))
+             (@ (style "margin:auto 0"))
+             ;;  (img (@ (style "float:left;max-width:12%;height:auto;padding-left:280px;margin-right:-400px")
+             ;;          (src "https://github.com/oflatt/portfolio-gifs/raw/master/plobdark.png")))
+             (div
+              (h1 (@ (style "padding-bottom:0px;margin-top:0px;padding-top:10px;font-weight:normal;"))
+                  "Oliver Flatt")
+              (h2 (@ (style "font-weight:normal;font-size:large"))
+                  (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
+                     "oflatt@gmail.com")
+                  " | "
+                  (a (@ (href "https://www.linkedin.com/in/oflatt") (target "_blank") (style "text-decoration:none"))
+                     "www.linkedin.com/in/oflatt")))))
            
            ,(menu name)
            ;;now put in the div that will hold all the posts
            ;; the container holds a list of the file names for the posts
            (div
             (@ (class "container") (data-postlist ,filenamestring)))
-           (div (@ (style "width:100%"))
-                (center (p "email me: oflatt@gmail.com"))))
+
            ;; load more navtext
            (h1 (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);position:fixed;bottom:20px;right:0;cursor:default;visibility:hidden"))
                   (onmouseenter "texthover(this)")
                   (onmouseout "textoff(this)")
                   (onclick "loadnew()")
                   (id "load more"))
-               "Load More"))))
+               "Load More")))))
 
 (define index-file-port (open-output-file "../docs/index.html" #:exists 'replace))
 
@@ -336,10 +340,11 @@ are generated using an implementation of the L-system in processing (java wrapar
 (close-output-port projects-file-port)
 
 (define great-camps-description
-  "I volunteered to help teach at the at the University of Utah GREAT summer camps for two years in a row.
-The first summer I taught middle schoolers taking that processing camp for six weeks, and took the Arduino camp
-myself. The second summer I taught in the Python game development camp for three weeks. The animation above is of
-one of the student’s finished space invaders game in the camp.")
+  "I taught middle and high school kids programming in the
+University of Utah GREAT camps for three years.
+The first two years I volunteered, and the third I received a position as an
+instructor. The animation above is of one of the student’s finished space invaders
+game in the camp. It has been a fun and challenging summer job.")
 
 (define racket-explanation
   "Many of my projects are in Racket, a powerful functional programming language. Because of my interest in Racket
@@ -355,7 +360,7 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
 (write-html
  (page
   (list
-    (build-post "GREAT Camp Volunteer Work" "Python" "2016-2017"
+    (build-post "GREAT Camps" "Python, Processing" "2016-2018"
                  "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
                  "space-invaders-demo.gif")
     (build-post "RacketCon" "Racket" "2015-present, annually"
