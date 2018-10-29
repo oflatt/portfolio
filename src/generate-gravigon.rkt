@@ -16,12 +16,12 @@
 </script>")
      (title "gravigon")
      
-     (script (@ (src "../gravigon/mainscript.js")))
-     (script (@ (src "../gravigon/menu.js")))
-     (script (@ (src "../gravigon/polygonhandler.js")))
+     (script (@ (src "gravigon/mainscript.js")))
+     (script (@ (src "gravigon/menu.js")))
+     (script (@ (src "gravigon/polygonhandler.js")))
      (link (@ (rel "stylesheet")
               (type "text/css")
-              (href "../gravigon/style.css"))))
+              (href "gravigon/style.css"))))
     (body
      (@
       (style "padding:0;margin:0")
@@ -68,8 +68,6 @@
       (span
        (@ (style "margin-left:50%;color:white;transform:translate(-50%,0%)"))
        ""))
-
-     (script (@ (src "gravigon/objectproperty.js")))
      )))
  index-file-port)
 
