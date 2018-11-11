@@ -301,7 +301,7 @@ complexity arising from simple mathematics.")
                  "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/s0hg4ONFP6I?rel=0&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
     (build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
                  "https://github.com/oflatt/predetermined"
-                 "An art work that explores using hitboxes to determine the movemet of a turtle. Converted to javascript using Processing.js."
+                 "An art work that explores using hitboxes to determine the movement of a trailing particle. Converted to javascript using Processing.js."
                  "leafspredetermined.gif" "predetermined.html")
     (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
                  "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
@@ -333,8 +333,7 @@ are generated using an implementation of the L-system in processing (java wrapar
                  "screensaver-demo.gif"
                  "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"
                  "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety_mac.zip"))
-  "projects"
-  `(script (@ (src "processing.js"))))
+  "projects")
  projects-file-port)
 
 (close-output-port projects-file-port)
