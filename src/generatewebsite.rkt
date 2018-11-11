@@ -302,7 +302,7 @@ complexity arising from simple mathematics.")
     (build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
                  "https://github.com/oflatt/predetermined"
                  "An art work that explores using hitboxes to determine the movemet of a turtle. Converted to javascript using Processing.js."
-                 "none" "predetermined.html")
+                 "leafspredetermined.gif" "predetermined.html")
     (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
                  "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
 in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
