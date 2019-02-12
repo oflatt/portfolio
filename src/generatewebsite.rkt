@@ -201,6 +201,9 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (h1 (@ (style "padding-bottom:0px;margin-top:0px;padding-top:10px;font-weight:normal;"))
                   "Oliver Flatt")
               (h2 (@ (style "font-weight:normal;font-size:large"))
+                  (a (@ (href "https://docs.google.com/document/d/1mzRHusc_JBpZ9BuOWucFlQOBIHS4Xf3-7YGz2IdGZiE/export?format=pdf") (style "text-decoration:none"))
+                     "resume")
+                  " | "
                   (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
                      "oflatt@gmail.com")
                   " | "
