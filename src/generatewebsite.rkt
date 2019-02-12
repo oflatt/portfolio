@@ -118,7 +118,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                      ,(if
                        (equal? html-video "none")
                        (if (equal? windows-download "predetermined.html")
-                           "" ;; TODO- add picture for predetermined
+                           ""
                            "")
                        `(div (@ (class "mediaiframe"))
                              ,(html->xexp html-video)))
@@ -293,49 +293,54 @@ complexity arising from simple mathematics.")
 (write-html
  (page
   (list
-    (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
-                 "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
-                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
-    (build-post "Gravigon" "Javascript, HTML" "2018"
-                 "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "gravigon.html" "none") ;; TODO add gravigon page link
-    (build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
-                 "https://github.com/oflatt/chinese-remainder-algorithm-visualized" "A visualization and lecture on Chinese Remainder Theorem using an example problem."
-                 "" "none" "none"
-                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/s0hg4ONFP6I?rel=0&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
-    (build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
-                 "https://github.com/oflatt/predetermined"
-                 "An art work that explores using hitboxes to determine the movement of a trailing particle. Converted to javascript using Processing.js."
-                 "leafspredetermined.gif" "predetermined.html")
-    (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
-                 "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
+   (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
+               "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
+   (build-post "esonify" "elisp" "2019"
+               "https://github.com/oflatt/esonify"
+               "An emacs package that sonifies your code. Skilled users will begin to be able to recognize some code based solely upon the music it generates. Hear sine waves at different frequencies for lowercase letters, square waves for upper case letters, and triangle waves for keybindings."
+               "" "none" "none"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='560' height='315'  src='https://www.youtube.com/embed/fwBh6FKxzcQ' frameborder='0' allowfullscreen></iframe></div>")
+   (build-post "Gravigon" "Javascript, HTML" "2018"
+               "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "gravigon.html" "none")
+   (build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
+               "https://github.com/oflatt/chinese-remainder-algorithm-visualized" "A visualization and lecture on Chinese Remainder Theorem using an example problem."
+               "" "none" "none"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/s0hg4ONFP6I?rel=0&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
+   (build-post "Predetermined- Randomly Generated Art" "Processing.js" "2017"
+               "https://github.com/oflatt/predetermined"
+               "An art work that explores using hitboxes to determine the movement of a trailing particle. Converted to javascript using Processing.js."
+               "leafspredetermined.gif" "predetermined.html")
+   (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
+               "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
 in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
 validation."
-                 "thiswebsitegrey.png")
-    (build-post "Curve Stitching Animation" "Racket" "2017"
-                 "https://github.com/oflatt/curve-stitching" curve-stitching-description "circle-curve-stitch.gif")
-    (build-post "Space Orbs" "Racket" "2015"
-                 "https://github.com/oflatt/space-orbs" space-orbs-description ""
-                 "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.zip"
-                 "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.dmg"
-                 "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/mP8ud9Yztz8?rel=0&autoplay=1&mute=1&amp;controls=0&amp;showinfo=0&amp;start=43' frameborder='0' allowfullscreen></iframe></div>")
-    (build-post "Devine Idle" "Racket" "2014"
-                 "https://github.com/oflatt/devine-idle" devine-idle-description "devine-idle-demo.gif"
-                 "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Windows.zip"
-                 "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Mac.dmg")
-    (build-post "Sickle Cell Anemia Population Simulator" "Racket" "2014"
-                 "https://github.com/oflatt/sickle-cell-population-simulator" sickle-cell-description
-                 "sickle-cell-anemia-demo.gif"
-                 "https://drive.google.com/uc?export=download&id=0B6SmFaR0J_BpWU9TQzA4SmJ0cHM")
-    (build-post "Bubble Field" "Clickteam Fusion" "2014"
-                 "" "A local multiplayer game inspired by snake. Trap your opponent so that they cannot move. Use resources tactically."
-                 "bubble-field-demo.gif"
-                 "https://github.com/oflatt/files-for-download/raw/master/bubble_field.exe")
-    (build-post "Screensaver- Randomly Generated Dragon Curve and Other Animations" "Processing" "2016"
-                 "" "A screensaver full of different kinds of randomly generated animations. The dragon curves
+               "thiswebsitegrey.png")
+   (build-post "Curve Stitching Animation" "Racket" "2017"
+               "https://github.com/oflatt/curve-stitching" curve-stitching-description "circle-curve-stitch.gif")
+   (build-post "Space Orbs" "Racket" "2015"
+               "https://github.com/oflatt/space-orbs" space-orbs-description ""
+               "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.zip"
+               "https://github.com/oflatt/files-for-download/raw/master/space-orbs-client.dmg"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/mP8ud9Yztz8?rel=0&autoplay=1&mute=1&amp;controls=0&amp;showinfo=0&amp;start=43' frameborder='0' allowfullscreen></iframe></div>")
+   (build-post "Devine Idle" "Racket" "2014"
+               "https://github.com/oflatt/devine-idle" devine-idle-description "devine-idle-demo.gif"
+               "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Windows.zip"
+               "http://www.cs.utah.edu/~mflatt/oflatt/Devine-Idle-Mac.dmg")
+   (build-post "Sickle Cell Anemia Population Simulator" "Racket" "2014"
+               "https://github.com/oflatt/sickle-cell-population-simulator" sickle-cell-description
+               "sickle-cell-anemia-demo.gif"
+               "https://drive.google.com/uc?export=download&id=0B6SmFaR0J_BpWU9TQzA4SmJ0cHM")
+   (build-post "Bubble Field" "Clickteam Fusion" "2014"
+               "" "A local multiplayer game inspired by snake. Trap your opponent so that they cannot move. Use resources tactically."
+               "bubble-field-demo.gif"
+               "https://github.com/oflatt/files-for-download/raw/master/bubble_field.exe")
+   (build-post "Screensaver- Randomly Generated Dragon Curve and Other Animations" "Processing" "2016"
+               "" "A screensaver full of different kinds of randomly generated animations. The dragon curves
 are generated using an implementation of the L-system in processing (java wraparound)."
-                 "screensaver-demo.gif"
-                 "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"
-                 "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety_mac.zip"))
+               "screensaver-demo.gif"
+               "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"
+               "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety_mac.zip"))
   "projects")
  projects-file-port)
 
@@ -343,10 +348,8 @@ are generated using an implementation of the L-system in processing (java wrapar
 
 (define great-camps-description
   "I taught middle and high school kids programming in the
-University of Utah GREAT camps for three years.
-The first two years I volunteered, and the third I received a position as an
-instructor. The animation above is of one of the student’s finished space invaders
-game in the camp. It has been a fun and challenging summer job.")
+University of Utah GREAT camps for three years. The animation above is of one of the student’s finished space invaders
+game in the camp. It was a fun and challenging summer job.")
 
 (define racket-explanation
   "Many of my projects are in Racket, a powerful functional programming language. Because of my interest in Racket
@@ -362,15 +365,18 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
 (write-html
  (page
   (list
-    (build-post "GREAT Camps" "Python, Processing" "2016-2018"
-                 "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
-                 "space-invaders-demo.gif")
-    (build-post "RacketCon" "Racket" "2015-present, annually"
-                 "https://racket-lang.org" racket-explanation "racket.jpg")
-    (build-post "Sonic Pi Live Coding Camp" "Sonic Pi" "2015"
-                "http://sonic-pi.net/" sonic-pi-explanation "" "none" "none"
-                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe src='https://www.youtube.com/embed/RH-80LOBvLE?rel=0&autoplay=1&loop=1&mute=1&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>"))
-    "experiences")
+   (build-post "Meyers Research Group" "Python, Javascript" "2019-present"
+               "http://www.async.ece.utah.edu/"
+               "In Professor Meyers' lab, I have been helping to develop testing infrastructure for the synthetic biology design repository, SynBioHub. The test suite is integerated into travis, so that it can catch bugs when pull requests are created." "synbiohubgrey.png")
+   (build-post "GREAT Camps" "Python, Processing" "2016-2018"
+               "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
+               "space-invaders-demo.gif")
+   (build-post "RacketCon" "Racket" "2015-present, annually"
+               "https://racket-lang.org" racket-explanation "racket.jpg")
+   (build-post "Sonic Pi Live Coding Camp" "Sonic Pi" "2015"
+               "http://sonic-pi.net/" sonic-pi-explanation "" "none" "none"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe src='https://www.youtube.com/embed/RH-80LOBvLE?rel=0&autoplay=1&loop=1&mute=1&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>"))
+  "experiences")
  experiences-file-port)
 
 (close-output-port experiences-file-port)
