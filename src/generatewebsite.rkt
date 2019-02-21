@@ -365,9 +365,9 @@ This helped inspire me to work on randomly generated music for Bearly Dancing.")
 (write-html
  (page
   (list
-   (build-post "Meyers Research Group" "Python, Javascript" "2019-present"
+   (build-post "Myers Research Group" "Python, Javascript" "2019-present"
                "http://www.async.ece.utah.edu/"
-               "In Professor Meyers' lab, I have been helping to develop testing infrastructure for the synthetic biology design repository, SynBioHub. The test suite is integerated into travis, so that it can catch bugs when pull requests are created." "synbiohubgrey.png")
+               "In Professor Myers' lab, I have been helping to develop testing infrastructure for the synthetic biology design repository, SynBioHub. The test suite is integerated into travis, so that it can catch bugs when pull requests are created." "synbiohubgrey.png")
    (build-post "GREAT Camps" "Python, Processing" "2016-2018"
                "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
                "space-invaders-demo.gif")
