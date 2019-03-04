@@ -38,14 +38,25 @@ function textoff(button) {
 function myonscroll() {
     var texts = document.getElementsByClassName("navtext");
     var n = texts.length;
+    var setbigp = false;
     for (var i = 0; i < n; i++) {
         var e = texts[i];
-        var closeness = Math.abs((parseInt(e.style.top) / window.innerHeight) - (document.body.scrollTop / document.body.offsetHeight));
-        var size = (10 / (closeness * n + 1)) + 10 - 1;
-        e.style.fontSize = size.toString() + "px";
+        if (setbigp) {
+            e.style.fontSize = "10px";
+        }
+        else {
+            var closeness = Math.abs((parseInt(e.style.top) / window.innerHeight) - (document.body.scrollTop / document.body.offsetHeight));
+            if (closeness < 0.6 / n) {
+                e.style.fontSize = "20px";
+                setbigp = true;
+            }
+            else {
+                e.style.fontSize = "10px";
+            }
+        }
     }
     // add a new element if the scrollbar is far enough
-    if (document.body.scrollTop > document.body.offsetHeight - window.innerHeight - 5) {
+    if (document.body.scrollTop > document.body.offsetHeight - window.innerHeight - window.innerHeight / 4.0) {
         loadnew();
     }
 }

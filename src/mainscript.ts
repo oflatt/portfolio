@@ -45,15 +45,26 @@ function textoff(button:HTMLElement){
 function myonscroll(){
     let texts:HTMLCollectionOf<Element> = document.getElementsByClassName("navtext");
     const n:number = texts.length;
+
+    let setbigp = false;
     for(let i=0;i<n;i++){
 	let e:HTMLElement =  <HTMLElement>texts[i];
-	let closeness:number= Math.abs((parseInt(e.style.top)/window.innerHeight)-(document.body.scrollTop/document.body.offsetHeight))
-	let size:number = (10/(closeness*n+1))+10-1;
-	e.style.fontSize = size.toString() + "px";
+	if(setbigp){
+	    e.style.fontSize = "10px";
+	}else{
+	    let closeness:number = Math.abs((parseInt(e.style.top)/window.innerHeight)-(document.body.scrollTop/document.body.offsetHeight))
+
+	    if(closeness < 0.6/n){
+		e.style.fontSize = "20px";
+		setbigp = true;
+	    }else{
+		e.style.fontSize = "10px";
+	    }
+	}
     }
 
     // add a new element if the scrollbar is far enough
-    if(document.body.scrollTop > document.body.offsetHeight-window.innerHeight-5){
+    if(document.body.scrollTop > document.body.offsetHeight-window.innerHeight-window.innerHeight/4.0){
 	loadnew();
     }
 }
