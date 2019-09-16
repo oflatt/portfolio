@@ -44,6 +44,7 @@ function textoff(button:HTMLElement){
 
 function myonscroll(){
     let texts:HTMLCollectionOf<Element> = document.getElementsByClassName("navtext");
+    let posts:HTMLCollectionOf<Element> = document.getElementsByClassName("post");
     const n:number = texts.length;
 
     let setbigp = false;
@@ -52,9 +53,9 @@ function myonscroll(){
 	if(setbigp){
 	    e.style.fontSize = "10px";
 	}else{
-	    let closeness:number = Math.abs((parseInt(e.style.top)/window.innerHeight)-(document.body.scrollTop/document.body.offsetHeight))
+	    const postmid: number = (posts[i].getBoundingClientRect().top + posts[i].getBoundingClientRect().bottom) / 2;
 
-	    if(closeness < 0.6/n){
+	    if(postmid >= 0){
 		e.style.fontSize = "20px";
 		setbigp = true;
 	    }else{
@@ -95,7 +96,6 @@ function setup(){
 }
 
 function setnavtextpositions(){
-    let posts:HTMLCollectionOf<Element> = document.getElementsByClassName("post");
     
     let texts:HTMLCollectionOf<Element> = document.getElementsByClassName("navtext");
     const n:number = texts.length;
@@ -104,11 +104,11 @@ function setnavtextpositions(){
     var elem = document.querySelector('.container');
     var filenames:string[] = elem.getAttribute("data-postlist").split(",");
     const numofposts = filenames.length;
-    
+    const spacing = window.innerHeight / (n + 2);
     for(let i=0;i<n;i++){
-	let posttop:number = (<HTMLElement>posts[i]).offsetTop
 	let e:HTMLElement =  <HTMLElement>texts[i];
-	e.style.top = (posttop*window.innerHeight/document.body.scrollHeight).toString();
+        let halfheight:number = e.clientHeight / 2;
+	e.style.top = (-halfheight + spacing*i + window.innerHeight/15).toString();
 	e.style.visibility = "visible";
     }
     

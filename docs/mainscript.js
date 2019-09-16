@@ -37,6 +37,7 @@ function textoff(button) {
 }
 function myonscroll() {
     var texts = document.getElementsByClassName("navtext");
+    var posts = document.getElementsByClassName("post");
     var n = texts.length;
     var setbigp = false;
     for (var i = 0; i < n; i++) {
@@ -45,8 +46,8 @@ function myonscroll() {
             e.style.fontSize = "10px";
         }
         else {
-            var closeness = Math.abs((parseInt(e.style.top) / window.innerHeight) - (document.body.scrollTop / document.body.offsetHeight));
-            if (closeness < 0.6 / n) {
+            var postmid = (posts[i].getBoundingClientRect().top + posts[i].getBoundingClientRect().bottom) / 2;
+            if (postmid >= 0) {
                 e.style.fontSize = "20px";
                 setbigp = true;
             }
@@ -80,16 +81,16 @@ function setup() {
     setnavtextpositions();
 }
 function setnavtextpositions() {
-    var posts = document.getElementsByClassName("post");
     var texts = document.getElementsByClassName("navtext");
     var n = texts.length;
     var elem = document.querySelector('.container');
     var filenames = elem.getAttribute("data-postlist").split(",");
     var numofposts = filenames.length;
+    var spacing = window.innerHeight / (n + 2);
     for (var i = 0; i < n; i++) {
-        var posttop = posts[i].offsetTop;
         var e = texts[i];
-        e.style.top = (posttop * window.innerHeight / document.body.scrollHeight).toString();
+        var halfheight = e.clientHeight / 2;
+        e.style.top = (-halfheight + spacing * i + window.innerHeight / 15).toString();
         e.style.visibility = "visible";
     }
     var loadmore = document.getElementById("load more");

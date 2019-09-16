@@ -146,7 +146,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 (define (page-button page-name current-page)
   (define link
-    (if (equal? page-name "papers")
+    (if (equal? page-name "projects")
         "index.html"
         (string-append page-name ".html")))
   (define special-button-style
@@ -161,10 +161,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 (define (menu current-page)
   `(div
-    (@ (style ,(string-append margin-format ";margin-bottom:20px;text-align:center")))
-    ,(page-button "papers" current-page)
-    ,(page-button "projects" current-page)
-    ,(page-button "experiences" current-page)))
+    (@ (style ,(string-append margin-format ";margin-bottom:20px;text-align:center")))))
 
 
 (define (page filenamelist name [extra-head-html (list)])
@@ -201,7 +198,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (h1 (@ (style "padding-bottom:0px;margin-top:0px;padding-top:10px;font-weight:normal;"))
                   "Oliver Flatt")
               (h2 (@ (style "font-weight:normal;font-size:large"))
-                  (a (@ (href "https://docs.google.com/document/d/1mzRHusc_JBpZ9BuOWucFlQOBIHS4Xf3-7YGz2IdGZiE/export?format=pdf") (style "text-decoration:none"))
+                  (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
                      "resume")
                   " | "
                   (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
@@ -250,6 +247,7 @@ with a node size of 32 perform best on insert and search tests and memory use de
 I conclude that HAMT implementations that have bitmap compression with a node size of 32 are optimal when written
 in Python.")
 
+#;
 (write-html
  (page
   (list
@@ -260,8 +258,6 @@ in Performance When Implemented in Python"
                  "generating-sound.pdf" sound-abstract ""))
   "papers")
  index-file-port)
-
-(close-output-port index-file-port)
 
 (define space-orbs-description
   "An online multiplayer first person shooter that is unique because the perspective of the player is not relative
@@ -288,7 +284,13 @@ complexity arising from simple mathematics.")
 (define sickle-cell-description
   "A simulator that shows how the recessive sickle cell anemia gene gets passed down through generations.")
 
-(define projects-file-port (open-output-file "../docs/projects.html" #:exists 'replace))
+(define great-camps-description
+  "I taught middle and high school kids programming in the
+University of Utah GREAT camps for three years. The animation above is of one of the student’s finished space invaders
+game in the camp. It was a fun and challenging summer job.")
+
+
+(define projects-file-port index-file-port)
 
 (write-html
  (page
@@ -296,11 +298,14 @@ complexity arising from simple mathematics.")
    (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
                "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
-   (build-post "esonify" "elisp" "2019"
+   (build-post "Esonify" "elisp" "2019"
                "https://github.com/oflatt/esonify"
                "An emacs package that sonifies your code. Skilled users will begin to be able to recognize some code based solely upon the music it generates. Hear sine waves at different frequencies for lowercase letters, square waves for upper case letters, and triangle waves for keybindings."
                "" "none" "none"
                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='560' height='315'  src='https://www.youtube.com/embed/fwBh6FKxzcQ' frameborder='0' allowfullscreen></iframe></div>")
+   (build-post "GREAT Camps" "Python, Processing" "2016-2018"
+               "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
+               "space-invaders-demo.gif")
    (build-post "Gravigon" "Javascript, HTML" "2018"
                "https://github.com/oflatt/portfolio/tree/master/gravigon" "Play with gravity and visualize floating point error with newton's method." "gravigon.gif" "gravigon.html" "none")
    (build-post "Chinese Remainder Algorithm Visualized" "Java" "2018"
@@ -346,40 +351,7 @@ are generated using an implementation of the L-system in processing (java wrapar
 
 (close-output-port projects-file-port)
 
-(define great-camps-description
-  "I taught middle and high school kids programming in the
-University of Utah GREAT camps for three years. The animation above is of one of the student’s finished space invaders
-game in the camp. It was a fun and challenging summer job.")
 
-(define racket-explanation
-  "Many of my projects are in Racket, a powerful functional programming language. Because of my interest in Racket
-and programming in general, I attend RacketCon events. I have also been to two
-Strange Loop conferences.")
-
-(define sonic-pi-explanation
-  "I had the opportunity to participate in a unique live coding camp for a week held in Cambridge, England.
-I learned the basics of programming in Sonic Pi to make music, and enjoyed experimenting with randomness.
-This helped inspire me to work on randomly generated music for Bearly Dancing.")
-
-(define experiences-file-port (open-output-file "../docs/experiences.html" #:exists 'replace))
-(write-html
- (page
-  (list
-   (build-post "Myers Research Group" "Python, Javascript" "2019-present"
-               "http://www.async.ece.utah.edu/"
-               "In Professor Myers' lab, I have been helping to develop testing infrastructure for the synthetic biology design repository, SynBioHub. The test suite is integerated into travis, so that it can catch bugs when pull requests are created." "synbiohubgrey.png")
-   (build-post "GREAT Camps" "Python, Processing" "2016-2018"
-               "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
-               "space-invaders-demo.gif")
-   (build-post "RacketCon" "Racket" "2015-present, annually"
-               "https://racket-lang.org" racket-explanation "racket.jpg")
-   (build-post "Sonic Pi Live Coding Camp" "Sonic Pi" "2015"
-               "http://sonic-pi.net/" sonic-pi-explanation "" "none" "none"
-               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe src='https://www.youtube.com/embed/RH-80LOBvLE?rel=0&autoplay=1&loop=1&mute=1&amp;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>"))
-  "experiences")
- experiences-file-port)
-
-(close-output-port experiences-file-port)
 
 (define embed-video-html
   "<iframe width='950' height='950' src='https://www.youtube.com/embed/ZswrScw3eLA?rel=0&autoplay=1&mute=1&rel=0&rel=0&amp;controls=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>")
