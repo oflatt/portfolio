@@ -93,7 +93,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (class "navtext"))
            ,(short-name title))
        (div
-        (@ (style ,(string-append margin-format "margin-bottom:10px;padding-bottom:10px;background-color:#B4E4E7;margin-left:2%;margin-right:0;display:inline-block"))
+        (@ (style ,(string-append margin-format "margin-bottom:10px;padding-bottom:10px;background-color:rgb(202, 235, 237);margin-left:2%;margin-right:0;display:inline-block"))
            (class "post"))
         (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
                      (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
@@ -298,6 +298,11 @@ game in the camp. It was a fun and challenging summer job.")
    (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
                "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
+   (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
+               "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
+in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
+validation."
+               "thiswebsitegrey.png")
    (build-post "Esonify" "elisp" "2019"
                "https://github.com/oflatt/esonify"
                "An emacs package that sonifies your code. Skilled users will begin to be able to recognize some code based solely upon the music it generates. Hear sine waves at different frequencies for lowercase letters, square waves for upper case letters, and triangle waves for keybindings."
@@ -316,11 +321,6 @@ game in the camp. It was a fun and challenging summer job.")
                "https://github.com/oflatt/predetermined"
                "An art work that explores using hitboxes to determine the movement of a trailing particle. Converted to javascript using Processing.js."
                "leafspredetermined.gif" "predetermined.html")
-   (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
-               "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
-in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
-validation."
-               "thiswebsitegrey.png")
    (build-post "Curve Stitching Animation" "Racket" "2017"
                "https://github.com/oflatt/curve-stitching" curve-stitching-description "circle-curve-stitch.gif")
    (build-post "Space Orbs" "Racket" "2015"
