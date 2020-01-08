@@ -173,7 +173,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   `(center
     (div
      (@ (style
-         ,(string-append "margin-top: " post-spacing "px; margin-bottom: 0px; margin-left: auto; margin-right: auto")))
+         ,(string-append "margin-top: " post-spacing "px; margin-bottom: 0px; margin-left: auto; margin-right: auto; color: rgb(0, 0, 50)")))
      (div
       (h1 (@ (style ,(string-append "padding-bottom:0px;margin-top:0px;font-weight:normal;font-size:" section-title-size)))
           ,name)))))
@@ -181,11 +181,18 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 (define (about-post)
   `(div
     (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:8%")))
-    (div (@ (style ,(string-append "text-indent:10px;"
-                                   post-style 
-                                   ";line-height:20px; font-size:"
+    (div (@ (style ,(string-append post-style 
+                                   ";margin: 0 auto; padding-top: 20px; padding-bottom: 20px; font-size:"
                                    post-title-size)))
-         "I'm currently an undergraduate...")))
+         "I'm interested in programming languages and graphics. Currently, I'm an undergraduate at the University of Utah doing research on reducing floating point error in programs. Check out "
+         (a (@ (href "http://herbie.uwplse.org/") (style "text-decoration:none"))
+            "Herbie")
+         " if you want to learn more. I'm also looking for internships and research opportunities, so check out my "
+         (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
+                   "resume")
+         " if you are recruiting."
+         (br)
+         "I also like to work on a bunch of personal projects, some of which are listed below.")))
     
     
 
