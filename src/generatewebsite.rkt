@@ -6,7 +6,12 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 (define inlinetext2 "width:47.5%;display:inline-block")
 (define margin-format "")
-(define post-style "text-indent:2px;width:95%;overflow:auto;text-align:justify")
+(define section-title-size "32px")
+
+(define post-style "text-indent:2px;width:95%;text-align:justify")
+(define post-spacing "30")
+(define post-title-size "24px")
+
 (define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%;outline:none;border:none")
 (define download-button-style (string-append button-style ";height:60px;width:270px;font-size:15px;background-color:#DBC222"))
 
@@ -93,10 +98,10 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
               (class "navtext"))
            ,(short-name title))
        (div
-        (@ (style ,(string-append margin-format "margin-bottom:10px;padding-bottom:10px;background-color:rgb(202, 235, 237);margin-left:2%;margin-right:0;display:inline-block"))
+        (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:0;display:inline-block"))
            (class "post"))
         (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
-                     (h2 (@ (style "margin-bottom:0px;font-size:22px")) ,title))
+                     (h2 (@ (style ,(string-append "margin-bottom:0px;font-size:" post-title-size))) ,title))
 
                 (div
                  (@ (style "color:#5A5A5A;width:95%"))
@@ -107,9 +112,9 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                 
                 ,(if
                   (equal? github "")
-                  `(div (@ (style ,(string-append post-style ";" text-margins)))
+                  `(div (@ (style ,(string-append post-style ";" text-margins "; overflow:auto")))
                         "")
-                  `(div (@ (style ,(string-append post-style ";" text-margins)))
+                  `(div (@ (style ,(string-append post-style ";" text-margins "; overflow: auto")))
                         "Source: "
                         (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
 
@@ -164,6 +169,26 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (@ (style ,(string-append margin-format ";margin-bottom:20px;text-align:center")))))
 
 
+(define (section-title name)
+  `(center
+    (div
+     (@ (style
+         ,(string-append "margin-top: " post-spacing "px; margin-bottom: 0px; margin-left: auto; margin-right: auto")))
+     (div
+      (h1 (@ (style ,(string-append "padding-bottom:0px;margin-top:0px;font-weight:normal;font-size:" section-title-size)))
+          ,name)))))
+
+(define (about-post)
+  `(div
+    (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:8%")))
+    (div (@ (style ,(string-append "text-indent:10px;"
+                                   post-style 
+                                   ";line-height:20px; font-size:"
+                                   post-title-size)))
+         "I'm currently an undergraduate...")))
+    
+    
+
 (define (page filenamelist name [extra-head-html (list)])
   (define filenamestring
     (substring
@@ -184,30 +209,38 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 </script>")
            ,extra-head-html
            (script (@ (src "mainscript.js")))
+           (link (@ (href "https://fonts.googleapis.com/css?family=Nunito+Sans")
+                    (rel "stylesheet")))
            (link (@ (rel "stylesheet") (type "text/css") (href "poststyle.css")))
+           (link (@ (rel "stylesheet") (type "text/css") (href "docstyle.css")))
            
           (title "Oliver Flatt"))
           (body
            (@ (style "background-color:rgb(245,245,245)"))
-           (center
-            (div
-             (@ (style "margin:auto 0"))
-             ;;  (img (@ (style "float:left;max-width:12%;height:auto;padding-left:280px;margin-right:-400px")
-             ;;          (src "https://github.com/oflatt/portfolio-gifs/raw/master/plobdark.png")))
-             (div
-              (h1 (@ (style "padding-bottom:0px;margin-top:0px;padding-top:10px;font-weight:normal;"))
-                  "Oliver Flatt")
-              (h2 (@ (style "font-weight:normal;font-size:large"))
-                  (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
-                     "resume")
-                  " | "
-                  (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
-                     "oflatt@gmail.com")
-                  " | "
-                  (a (@ (href "https://www.linkedin.com/in/oflatt") (target "_blank") (style "text-decoration:none"))
-                     "www.linkedin.com/in/oflatt")))))
+           (div
+            (@ (style "text-align: center; margin-top: 10px"))
+            (img (@ (style "max-width:12%;height:auto;padding-right:30px;display: inline-block;")
+                    (src "./careerolivercropped.jpg")))
+            (h1 (@ (style "padding-bottom:0px;margin:0px 0px;font-weight:normal;font-size:64px;display: inline-block;"))
+                "Oliver Flatt")
+            (h2 (@ (style "font-weight:normal;font-size:18px"))
+                (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
+                   "resume")
+                " | "
+                (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
+                   "oflatt@gmail.com")
+                " | "
+                (a (@ (href "https://www.linkedin.com/in/oflatt") (target "_blank") (style "text-decoration:none"))
+                   "www.linkedin.com/in/oflatt")))
            
            ,(menu name)
+
+           
+           ,(section-title "About")
+           (div (@ (style "display:block"))
+                ,(about-post))
+           ,(section-title "Projects")
+           
            ;;now put in the div that will hold all the posts
            ;; the container holds a list of the file names for the posts
            (div
