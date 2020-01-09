@@ -226,19 +226,20 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            (@ (style "background-color:rgb(245,245,245)"))
            (div
             (@ (style "text-align: center; margin-top: 10px"))
-            (img (@ (style "max-width:12%;height:auto;padding-right:30px;display: inline-block;")
+            
+            (img (@ (style "max-width:15%;height:auto;padding-right:30px;display: inline-block;")
                     (src "./careerolivercropped.jpg")))
-            (h1 (@ (style "padding-bottom:0px;margin:0px 0px;font-weight:normal;font-size:64px;display: inline-block;"))
-                "Oliver Flatt")
-            (h2 (@ (style "font-weight:normal;font-size:18px"))
-                (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
-                   "resume")
-                " | "
-                (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
-                   "oflatt@gmail.com")
-                " | "
-                (a (@ (href "https://www.linkedin.com/in/oflatt") (target "_blank") (style "text-decoration:none"))
-                   "www.linkedin.com/in/oflatt")))
+            (div (@ (style "padding-bottom:0px;margin:auto 0px;font-weight:normal;font-size:64px;display: inline-block; vertical-align: top;"))
+                 "Oliver Flatt"
+                 (h2 (@ (style "font-weight:normal;font-size:18px"))
+                     (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
+                        "resume")
+                     " | "
+                     (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
+                        "oflatt@gmail.com")
+                     " | "
+                     (a (@ (href "https://www.linkedin.com/in/oflatt") (target "_blank") (style "text-decoration:none"))
+                        "www.linkedin.com/in/oflatt"))))
            
            ,(menu name)
 
