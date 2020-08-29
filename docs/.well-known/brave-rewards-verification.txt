@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: oflatt.com
+Token: 7f53278a4ebd5f1f17350dde0558a35a51f3ffef1e0b14c475f48807d05e6da5
