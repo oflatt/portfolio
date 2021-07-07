@@ -15,6 +15,10 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 (define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%;outline:none;border:none")
 (define download-button-style (string-append button-style ";height:60px;width:270px;font-size:15px;background-color:#DBC222"))
 
+(define (write-html-to html file-name)
+  (define file-port (open-output-file (string-append "../docs/" file-name) #:exists 'replace))
+  (write-html html file-port))
+
 (define (short-name title)
   (let ([l (string-split title)])
            (if (= (length l) 1)
@@ -23,7 +27,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 ;; all strings, title, language, year, github link, description, path to picture
 (define
-  (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none"))
+  (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none") #:authors [authors ""])
   (define windows-list
     (cond [(equal? windows-download "none")
            (list)]
@@ -103,6 +107,13 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
         (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
                      (h2 (@ (style ,(string-append "margin-bottom:0px;font-size:" post-title-size))) ,title))
 
+                ,(if (not (equal? authors ""))
+                     `(div
+                      (@ (style "width:95%"))
+                      (div (@ (style "float:left"))
+                      (h3 (@ (style ,text-margins)) ,authors)))
+                     "")
+         
                 (div
                  (@ (style "color:#5A5A5A;width:95%"))
                  (div (@ (style "float:left"))
@@ -184,19 +195,21 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (div (@ (style ,(string-append post-style 
                                    ";margin: 0 auto; padding-top: 20px; padding-bottom: 20px; font-size:"
                                    post-title-size)))
-         "I'm interested in programming languages and graphics. Currently, I'm an undergraduate at the University of Utah doing research on reducing floating point error in programs. Check out "
+         "I'm interested in programming languages and synthesis. Currently, I'm an undergraduate at the University of Utah doing research on reducing floating point error in programs. Check out "
          (a (@ (href "http://herbie.uwplse.org/") (style "text-decoration:none"))
             "Herbie")
-         " if you want to learn more. I'm also looking for internships and research opportunities, so check out my "
+         " if you want to learn more. I'm also applying for graduate school this year, so check out my "
          (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
                    "resume")
          " if you are recruiting."
          (br)
-         "I also like to work on a bunch of personal projects, some of which are listed below.")))
+         "I also like to work on a bunch of personal projects, you can see them "
+         (a (@ (href "/projects.html") (style "text-decoration:none"))
+                   "here."))))
     
     
 
-(define (page filenamelist name [extra-head-html (list)])
+(define (page filenamelist name projects-title [extra-head-html (list)])
   (define filenamestring
     (substring
      (foldl (lambda (s result)
@@ -247,7 +260,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            ,(section-title "About")
            (div (@ (style "display:block"))
                 ,(about-post))
-           ,(section-title "Projects")
+           ,(section-title projects-title)
            
            ;;now put in the div that will hold all the posts
            ;; the container holds a list of the file names for the posts
@@ -261,8 +274,6 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                   (onclick "loadnew()")
                   (id "load more"))
                "Load More")))))
-
-(define index-file-port (open-output-file "../docs/index.html" #:exists 'replace))
 
 (define sound-abstract
   "The aim of this paper is to demonstrate how to use mathematical models to generate sound waves using computers,
@@ -331,9 +342,7 @@ University of Utah GREAT camps for three years. The animation above is of one of
 game in the camp. It was a fun and challenging summer job.")
 
 
-(define projects-file-port index-file-port)
-
-(write-html
+(write-html-to
  (page
   (list
    (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
@@ -387,10 +396,23 @@ are generated using an implementation of the L-system in processing (java wrapar
                "screensaver-demo.gif"
                "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"
                "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety_mac.zip"))
-  "projects")
- projects-file-port)
+  "projects"
+  "Projects")
+ "projects.html")
 
-(close-output-port projects-file-port)
+(define egg-abstract "An e-graph efficiently represents a congruence relation over many expressions. Although they were originally developed in the late 1970s for use in automated theorem provers, a more recent technique known as equality saturation repurposes e-graphs to implement state-of-the-art, rewrite-driven compiler optimizations and program synthesizers. However, e-graphs remain unspecialized for this newer use case. Equality saturation workloads exhibit distinct characteristics and often require ad-hoc e-graph extensions to incorporate transformations beyond purely syntactic rewrites.
+This work contributes two techniques that make e-graphs fast and extensible, specializing them to equality saturation. A new amortized invariant restoration technique called rebuilding takes advantage of equality saturation's distinct workload, providing asymptotic speedups over current techniques in practice. A general mechanism called e-class analyses integrates domain-specific analyses into the e-graph, reducing the need for ad hoc manipulation.
+We implemented these techniques in a new open-source library called egg. Our case studies on three previously published applications of equality saturation highlight how egg's performance and flexibility enable state-of-the-art results across diverse domains.")
+
+(write-html-to
+ (page (list
+        (build-post "egg: Fast and extensible equality saturation" "" "POPL 2021 Distinguished Paper"
+               "https://dl.acm.org/doi/10.1145/3434304" egg-abstract ""
+               #:authors "Max Willsey, Chandrakana Nandi, Yisu Remy Wang, Oliver Flatt, Zachary Tatlock, and Pavel Panchekha"))
+       "publications"
+       "Publications")
+ "index.html")
+
 
 
 
@@ -408,5 +430,5 @@ are generated using an implementation of the L-system in processing (java wrapar
       ,(html->xexp embed-video-html)))))
  tessa-file-port)
 
-(close-output-port tessa-file-port)
+
  
