@@ -19,7 +19,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   (define file-port (open-output-file (string-append "../docs/" file-name) #:exists 'replace))
   (write-html html file-port))
 
-(define (short-name title)
+(define (short-name title-normal)
+  (define title (string-replace title-normal ":" ""))
   (let ([l (string-split title)])
            (if (= (length l) 1)
                (first l)
