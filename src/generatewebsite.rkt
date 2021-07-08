@@ -111,7 +111,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                 ,(if (not (equal? authors ""))
                      `(div
                       (@ (style "width:95%"))
-                      (div (@ (style "float:left"))
+                      (div (@ (style "text-align:left"))
                       (h3 (@ (style ,text-margins)) ,authors)))
                      "")
          
