@@ -19,6 +19,10 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   (define file-port (open-output-file (string-append "../docs/" file-name) #:exists 'replace))
   (write-html html file-port))
 
+(define (tag-name title-normal)
+  (define short (short-name title-normal))
+  (string-replace short " " "_"))
+
 (define (short-name title-normal)
   (define title (string-replace title-normal ":" ""))
   (let ([l (string-split title)])
@@ -96,16 +100,17 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
   (begin
     (write-html
      `(div
-       (h1 (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
+       (a (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);display:inline-block;position:fixed;top:0px;right:0;cursor:default;visibility:hidden"))
               (onmouseenter "texthover(this)")
               (onmouseout "textoff(this)")
-              (onclick "scrollToPos(this)")
+              (href ,(string-append "#" (tag-name title)))
               (class "navtext"))
            ,(short-name title))
        (div
         (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:0;display:inline-block"))
            (class "post"))
-        (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;"))
+        (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;")
+                        (id ,(tag-name title)))
                      (h2 (@ (style ,(string-append "margin-bottom:0px;font-size:" post-title-size))) ,title))
 
                 ,(if (not (equal? authors ""))
@@ -190,7 +195,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
       (h1 (@ (style ,(string-append "padding-bottom:0px;margin-top:0px;font-weight:normal;font-size:" section-title-size)))
           ,name)))))
 
-(define (about-post)
+(define (about-post page-name)
   `(div
     (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:8%")))
     (div (@ (style ,(string-append post-style 
@@ -204,9 +209,15 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                    "resume")
          " if you are recruiting."
          (br)
-         "I also like to work on a bunch of personal projects, you can see them "
-         (a (@ (href "/projects.html") (style "text-decoration:none"))
-                   "here."))))
+         ,(if (equal? page-name "publications")
+             "I also like to work on a bunch of personal projects, you can see them "
+             "Go back to publications ")
+         ,(if (equal? page-name "publications")
+              `(a (@ (href ,(string-append "/projects.html")) (style "text-decoration:none"))
+                    "here.")
+              `(a (@ (href ,(string-append "/index.html")) (style "text-decoration:none"))
+                    "here."))
+        )))
     
     
 
@@ -260,7 +271,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            
            ,(section-title "About")
            (div (@ (style "display:block"))
-                ,(about-post))
+                ,(about-post name))
            ,(section-title projects-title)
            
            ;;now put in the div that will hold all the posts

@@ -152,8 +152,4 @@ function includeHTML() {
     }
 }
 
-function scrollToPos(menuitem: HTMLElement){
-    window.scrollTo({top:parseInt(menuitem.style.top)*document.body.offsetHeight/window.innerHeight, behavior:"smooth"});
-}
-
 window.onload = setup;
