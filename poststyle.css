@@ -1,0 +1,48 @@
+.post{
+    width:90%
+}
+
+.media{
+    display:inline;
+    max-width:75%;
+}
+
+.mediaiframe{
+    position: relative;
+    padding-bottom: 42.1875%; /*0.75 * 56.25% from the aspect ratio 16:9;*/
+    height: 0;
+    overflow: hidden;
+}
+
+.mediaiframe iframe, .mediaiframe embed {
+    position: absolute;
+    top:0;
+    left: 12.5%; /* for centering, do 25%/2 */
+    width: 75%;
+    height: 100%;
+}
+
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track { 
+    border-radius: 10px;
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px     rgba(0,0,0,0.5); 
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

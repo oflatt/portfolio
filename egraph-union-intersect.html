@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/><meta name="viewport" content="width=device-width, initial-scale=0.8"/><title> EGraph Union, Intersection, and Difference </title><link rel="stylesheet" type="text/css" href="scribble.css" title="default"/><link rel="stylesheet" type="text/css" href="docstyle.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-style.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-racket.css" title="default"/><script type="text/javascript" src="scribble-common.js"></script><script type="text/javascript">
+(function() {
+  document.write('<link rel="stylesheet" href="katex/katex.min.css" />');
+})();(function() {document.write('<scr' + 'ipt type="text/javascript" src="katex/katex.min.js"></scr' + 'ipt>');})();(function(f) {
+  // A "simple" onLoad function
+  if (window.document.readyState == "complete") {
+    f();
+  } else if (window.document.addEventListener) {
+    window.document.addEventListener("DOMContentLoaded", f, false);
+  } else if (window.attachEvent) {
+    window.attachEvent("onreadystatechange", function() {
+      if (window.document.readyState == "complete") {
+        f();
+      }
+    });
+  } else {
+    var oldLoad = window.onload;
+    if (typeof(oldLoad) == "function") {
+      window.onload = function() {
+        try {
+          oldLoad();
+        } finally {
+          f();
+        }
+      };
+    } else {
+      window.onload = f;
+    }
+  }
+})(function() {
+  // This is an ugly way to change the doctype, in case the scribble document
+  // did not use (with-html5).
+  if (!(document.doctype && document.doctype.publicId == '')) {
+    if (console && console.log) {
+      console.log("Re-wrote the document to use the HTML5 doctype.\n"
+                  + "  Consider using the following declaration:\n"
+                  + "      @title[#:style (with-html5 manual-doc-style)]{…}");
+    }
+    var wholeDoc = '<!doctype HTML>\n' + document.documentElement.outerHTML;
+    document.open();
+    document.clear();
+    document.write(wholeDoc);
+  }
+  var inlineElements = document.getElementsByClassName("texMathInline");
+  for (var i = 0; i < inlineElements.length; i++) {
+    var e = inlineElements[i];
+    katex.render(e.textContent, e, { displayMode:false, throwOnError:false });
+  }
+  var displayElements = document.getElementsByClassName("texMathDisplay");
+  for (var i = 0; i < displayElements.length; i++) {
+    var e = displayElements[i];
+    katex.render(e.textContent, e, { displayMode:true, throwOnError:false });
+  }
+});
+</script><script type="text/javascript" src="manual-racket.js"></script><!--[if IE 6]><style type="text/css">.SIEHidden { overflow: hidden; }</style><![endif]--><link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito+Sa
+          ns"></head><body id="scribble-racket-lang-org"><div class="tocset"><div class="tocview"><div class="tocviewlist tocviewlisttopspace"><div class="tocviewtitle"><table cellspacing="0" cellpadding="0"><tr><td style="width: 1em;"><a href="javascript:void(0);" title="Expand/Collapse" class="tocviewtoggle" onclick="TocviewToggle(this,&quot;tocview_0&quot;);">&#9658;</a></td><td></td><td><a href="" class="tocviewselflink" data-pltdoc="x"> EGraph Union, Intersection, and Difference </a></td></tr></table></div><div class="tocviewsublistonly" style="display: none;" id="tocview_0"><table cellspacing="0" cellpadding="0"><tr><td align="right">1&nbsp;</td><td><a href="#%28part.__.E.Graphs_%29" class="tocviewlink" data-pltdoc="x"> EGraphs </a></td></tr><tr><td align="right">2&nbsp;</td><td><a href="#%28part.__.E.Graphs_and_.Proofs_%29" class="tocviewlink" data-pltdoc="x"> EGraphs and Proofs </a></td></tr><tr><td align="right">3&nbsp;</td><td><a href="#%28part.__.E.Graph_.Union_%29" class="tocviewlink" data-pltdoc="x"> EGraph Union </a></td></tr></table></div></div></div><div class="tocsub"><table class="tocsublist" cellspacing="0"><tr><td><span class="tocsublinknumber"></span><a href="#%28part.__.E.Graph_.Union__.Intersection__and_.Difference_%29" class="tocsubseclink" data-pltdoc="x"> EGraph Union, Intersection, and Difference </a></td></tr><tr><td><span class="tocsublinknumber">1<tt>&nbsp;</tt></span><a href="#%28part.__.E.Graphs_%29" class="tocsubseclink" data-pltdoc="x"> EGraphs </a></td></tr><tr><td><span class="tocsublinknumber">2<tt>&nbsp;</tt></span><a href="#%28part.__.E.Graphs_and_.Proofs_%29" class="tocsubseclink" data-pltdoc="x"> EGraphs and Proofs </a></td></tr><tr><td><span class="tocsublinknumber">3<tt>&nbsp;</tt></span><a href="#%28part.__.E.Graph_.Union_%29" class="tocsubseclink" data-pltdoc="x"> EGraph Union </a></td></tr></table></div></div><div class="maincolumn"><div class="main"><div class="versionbox"><span class="versionNoNav">8.5</span></div><h2><a name="(part.__.E.Graph_.Union__.Intersection__and_.Difference_)"></a> EGraph Union, Intersection, and Difference </h2><h3>1<tt>&nbsp;</tt><a name="(part.__.E.Graphs_)"></a> EGraphs </h3><p>E-Graphs are a data structure for representing a equalities between terms
+efficiently. This post assumes you know what an egraph is, <a href="https://www.philipzucker.com/egraph-1/">here&rsquo;s a great post about them</a>.</p><h3>2<tt>&nbsp;</tt><a name="(part.__.E.Graphs_and_.Proofs_)"></a> EGraphs and Proofs </h3><p>E-Graph implementations (including egg) typically provide a way to generate
+a proof certificate for why two terms are equal.
+Example: why is <span class="texMathInline">a + b</span> equal to <span class="texMathInline">b + a</span>?
+Example answer: we had a rule about commutativity of addition that says <span class="texMathInline">x + y = y + x</span> and we used it to infer the specific terms <span class="texMathInline">a + b</span> and <span class="texMathInline">b + a</span> are equal.
+You can think of this proof certificate as a set of equalities <span class="texMathInline">E = \{ T_1 = T_2, T_3 = T_4, ... \}</span>
+where each <span class="texMathInline">T</span> is a term.</p><p>Another nice property is that the egraph computes the congruence closure over the terms.
+A congruence closure procedure goes from a set of terms <span class="texMathInline">E</span> to an egraph.
+If you insert a set of equalities <span class="texMathInline">E</span> into the egraph, then it will say two terms <span class="texMathInline">T_i</span> and <span class="texMathInline">T_j</span> are equal iff there is a valid proof between them (potentially using congruence).
+We can also go the other way: given an egraph, we can extract back out the set of
+equalities that generate the egraph.
+There are multiple choices for this set of equalities, but the simplest choice is simply
+the terms that were inserted into the egraph either directly or by axiom instantiations.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.E.Graph_.Union_)"></a> EGraph Union </h3><p>Let&rsquo;s write the union of two egraph <span class="texMathInline">E_1 \cup E_2 = E_3</span>.
+Intuitively, <span class="texMathInline">E_3</span> should represent terms that are equal in either <span class="texMathInline">E_1</span> or <span class="texMathInline">E_2</span>.
+More formally, let&rsquo;s write <span class="texMathInline">=_{E}</span> for equality in an egraph <span class="texMathInline">E</span> (after inserting the terms and maintaining congruence closure).
+We want that, for any two terms <span class="texMathInline">T_1</span> and <span class="texMathInline">T_2</span>, <span class="texMathInline">T_1 =_{E_3} T2</span> iff <span class="texMathInline">T1 =_{E1} T2</span> or <span class="texMathInline">T1 =_{E2} T2</span>.</p><p>Egraph union is super easy- for every equality <span class="texMathInline">T_i = T_j</span></p></div></div><div id="contextindicator">&nbsp;</div></body></html>

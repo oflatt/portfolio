@@ -1,0 +1,10 @@
+-speed bar
+-spawn planet
+-spawn point (better colors)
+-randomness
+ * all random
+ * controlled random
+-clear/pause
+-hotkeys
+-polygon tool
+-distance and gravity- realistic or constant
