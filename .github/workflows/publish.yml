@@ -17,11 +17,11 @@ jobs:
           distribution: 'full'
           variant: 'CS'
           version: '8.5'
-      - run: raco pkg install --auto html-writing html-parsing
+      - name: Install
+        run: make install
 
-      - name: Install and Build 🔧 
+      - name: Build
         run: |
-          npm install
           make build
 
       - name: Deploy 🚀

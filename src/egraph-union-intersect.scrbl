@@ -2,14 +2,17 @@
 @require[scribble-math/dollar]
 @(require scribble/core
           scribble/html-properties
+          racket/runtime-path
           (only-in xml cdata))
 
 @(define head-google (head-extra (cdata #f #f "<link rel=\"stylesheet\"
           href=\"https://fonts.googleapis.com/css?family=Nunito+Sa
           ns\">")))
 
+@(define-runtime-path css-path "documents/docstyle.css")
+@(define css-object (css-addition css-path))
 
-@title[#:style (style #f (list head-google))]{ EGraph Union, Intersection, and Difference }
+@title[#:style (style #f (list css-object head-google))]{ EGraph Union, Intersection, and Difference }
 
 @section{ EGraphs }
 
