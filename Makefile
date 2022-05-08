@@ -1,5 +1,6 @@
 
 build:
+	mkdir docs || true
 	rm -rf docs/*
 	cp -r src/documents/* docs
 	mkdir docs/posts

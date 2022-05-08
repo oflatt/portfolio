@@ -8,7 +8,6 @@
           href=\"https://fonts.googleapis.com/css?family=Nunito+Sa
           ns\">")))
 
-@(define css-addition 
 
 @title[#:style (style #f (list head-google))]{ EGraph Union, Intersection, and Difference }
 
