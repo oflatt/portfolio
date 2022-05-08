@@ -168,7 +168,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 (define (page-button page-name current-page)
   (define link
-    (if (equal? page-name "projects")
+    (if (equal? page-name "publications")
         "index.html"
         (string-append page-name ".html")))
   (define special-button-style
@@ -209,26 +209,19 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                    "resume")
          " if you are recruiting."
          (br)
-         ,(if (equal? page-name "publications")
-             "I also like to work on a bunch of personal projects, you can see them "
-             "Go back to publications ")
-         ,(if (equal? page-name "publications")
-              `(a (@ (href ,(string-append "/projects.html")) (style "text-decoration:none"))
-                    "here.")
-              `(a (@ (href ,(string-append "/index.html")) (style "text-decoration:none"))
-                    "here."))
         )))
     
     
 
-(define (page filenamelist name projects-title [extra-head-html (list)])
+(define (page filenamelist name projects-title body-html [extra-head-html (list)])
   (define filenamestring
-    (substring
-     (foldl (lambda (s result)
-              (string-append result "," s))
-            ""
-            filenamelist)
-     1))
+    (if (empty? filenamelist) ""
+        (substring
+          (foldl (lambda (s result)
+                   (string-append result "," s))
+                 ""
+                 filenamelist)
+          1)))
   `((html (head
            ,(html->xexp "<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src='https://www.googletagmanager.com/gtag/js?id=UA-108872403-1'></script>
@@ -268,16 +261,24 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            
            ,(menu name)
 
+           (div (@ (style "width:95%"))
+                ,(page-button "publications" name)
+                ,(page-button "projects" name)
+                ,(page-button "blog" name))
            
-           ,(section-title "About")
-           (div (@ (style "display:block"))
+           (div (@ (style "display:block; margin-top: 10px"))
                 ,(about-post name))
            ,(section-title projects-title)
            
            ;;now put in the div that will hold all the posts
            ;; the container holds a list of the file names for the posts
-           (div
-            (@ (class "container") (data-postlist ,filenamestring)))
+           ,(if (empty? filenamelist)
+                empty
+                `(div
+                      (@ (class "container") (data-postlist ,filenamestring))))
+
+           ;; body html
+           ,body-html
 
            ;; load more navtext
            (h1 (@ (style ,(string-append "width:8%;font-size:10px;color:rgb(100,100,100);position:fixed;bottom:20px;right:0;cursor:default;visibility:hidden"))
@@ -311,18 +312,6 @@ with a node size of 32 perform best on insert and search tests and memory use de
 I conclude that HAMT implementations that have bitmap compression with a node size of 32 are optimal when written
 in Python.")
 
-#;
-(write-html
- (page
-  (list
-    (build-post "How Implementations of the Persistent Data Type HAMT with Varying Node Sizes Compare
-in Performance When Implemented in Python"
-                 "" "2017" "hamt python.pdf" hamt-abstract "")
-    (build-post "Mathematically Generating Sound Waves for Music" "" "2016"
-                 "generating-sound.pdf" sound-abstract ""))
-  "papers")
- index-file-port)
-
 (define space-orbs-description
   "An online multiplayer first person shooter that is unique because the perspective of the player is not relative
 to any one axis. Rotation of the player's perspective is based only on the current orientation of the player so
@@ -354,12 +343,14 @@ University of Utah GREAT camps for three years. The animation above is of one of
 game in the camp. It was a fun and challenging summer job.")
 
 
+;; autoplay link https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp
+
 (write-html-to
  (page
   (list
    (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
                "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
-               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp' frameborder='0' allowfullscreen></iframe></div>")
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE' frameborder='0' allowfullscreen></iframe></div>")
    (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
                "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
 in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
@@ -409,7 +400,8 @@ are generated using an implementation of the L-system in processing (java wrapar
                "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety.zip"
                "https://github.com/oflatt/files-for-download/raw/master/screensaver_variety_mac.zip"))
   "projects"
-  "Projects")
+  "Projects"
+  empty)
  "projects.html")
 
 (define egg-abstract "An e-graph efficiently represents a congruence relation over many expressions. Although they were originally developed in the late 1970s for use in automated theorem provers, a more recent technique known as equality saturation repurposes e-graphs to implement state-of-the-art, rewrite-driven compiler optimizations and program synthesizers. However, e-graphs remain unspecialized for this newer use case. Equality saturation workloads exhibit distinct characteristics and often require ad-hoc e-graph extensions to incorporate transformations beyond purely syntactic rewrites.
@@ -441,10 +433,27 @@ or in sequence.")
                "https://dl.acm.org/doi/10.1145/3434304" egg-abstract ""
                #:authors "Max Willsey, Chandrakana Nandi, Yisu Remy Wang, Oliver Flatt, Zachary Tatlock, and Pavel Panchekha"))
        "publications"
-       "Publications")
+       "Publications"
+       empty)
  "index.html")
 
+(define (blog-post md-file)
+  "")
 
+
+(define (make-blog)
+  (define blog-posts
+    `(("E-Graph Union and Intersection" ,(blog-post "egraph-union-intersection.md"))))
+  
+  `(div (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:0;")))
+        ,@(for/list ([post blog-posts])
+                    `(h2 (@ (style ,(string-append "margin-top: 10px; margin-left:10px;margin-bottom:0px;font-size:" post-title-size)))
+                      ,(first post)))))
+
+(write-html-to
+ (page empty "blog" "Blog"
+       (make-blog))
+ "blog.html")
 
 
 (define embed-video-html
