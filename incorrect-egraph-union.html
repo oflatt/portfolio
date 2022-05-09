@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/><meta name="viewport" content="width=device-width, initial-scale=0.8"/><title> E-Graph Union and Intersection </title><link rel="stylesheet" type="text/css" href="scribble.css" title="default"/><link rel="stylesheet" type="text/css" href="docstyle.css" title="default"/><link rel="stylesheet" type="text/css" href="racket.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-style.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-racket.css" title="default"/><script type="text/javascript" src="scribble-common.js"></script><script type="text/javascript">
+(function() {
+  document.write('<link rel="stylesheet" href="katex/katex.min.css" />');
+})();(function() {document.write('<scr' + 'ipt type="text/javascript" src="katex/katex.min.js"></scr' + 'ipt>');})();(function(f) {
+  // A "simple" onLoad function
+  if (window.document.readyState == "complete") {
+    f();
+  } else if (window.document.addEventListener) {
+    window.document.addEventListener("DOMContentLoaded", f, false);
+  } else if (window.attachEvent) {
+    window.attachEvent("onreadystatechange", function() {
+      if (window.document.readyState == "complete") {
+        f();
+      }
+    });
+  } else {
+    var oldLoad = window.onload;
+    if (typeof(oldLoad) == "function") {
+      window.onload = function() {
+        try {
+          oldLoad();
+        } finally {
+          f();
+        }
+      };
+    } else {
+      window.onload = f;
+    }
+  }
+})(function() {
+  // This is an ugly way to change the doctype, in case the scribble document
+  // did not use (with-html5).
+  if (!(document.doctype && document.doctype.publicId == '')) {
+    if (console && console.log) {
+      console.log("Re-wrote the document to use the HTML5 doctype.\n"
+                  + "  Consider using the following declaration:\n"
+                  + "      @title[#:style (with-html5 manual-doc-style)]{…}");
+    }
+    var wholeDoc = '<!doctype HTML>\n' + document.documentElement.outerHTML;
+    document.open();
+    document.clear();
+    document.write(wholeDoc);
+  }
+  var inlineElements = document.getElementsByClassName("texMathInline");
+  for (var i = 0; i < inlineElements.length; i++) {
+    var e = inlineElements[i];
+    katex.render(e.textContent, e, { displayMode:false, throwOnError:false });
+  }
+  var displayElements = document.getElementsByClassName("texMathDisplay");
+  for (var i = 0; i < displayElements.length; i++) {
+    var e = displayElements[i];
+    katex.render(e.textContent, e, { displayMode:true, throwOnError:false });
+  }
+});
+</script><script type="text/javascript" src="manual-racket.js"></script><!--[if IE 6]><style type="text/css">.SIEHidden { overflow: hidden; }</style><![endif]--><link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito+Sa
+          ns"></head><body id="scribble-racket-lang-org"><div class="tocset"><div class="tocview"><div class="tocviewlist tocviewlisttopspace"><div class="tocviewtitle"><table cellspacing="0" cellpadding="0"><tr><td style="width: 1em;"><a href="javascript:void(0);" title="Expand/Collapse" class="tocviewtoggle" onclick="TocviewToggle(this,&quot;tocview_0&quot;);">&#9658;</a></td><td></td><td><a href="" class="tocviewselflink" data-pltdoc="x"> E-<wbr></wbr>Graph Union and Intersection </a></td></tr></table></div><div class="tocviewsublistonly" style="display: none;" id="tocview_0"><table cellspacing="0" cellpadding="0"><tr><td align="right">1&nbsp;</td><td><a href="#%28part.__.E-.Graphs_%29" class="tocviewlink" data-pltdoc="x"> E-<wbr></wbr>Graphs </a></td></tr><tr><td align="right">2&nbsp;</td><td><a href="#%28part.__.E-.Graphs_and_.Proofs_%29" class="tocviewlink" data-pltdoc="x"> E-<wbr></wbr>Graphs and Proofs </a></td></tr><tr><td align="right">3&nbsp;</td><td><a href="#%28part.__.E-.Graph_.Union_%29" class="tocviewlink" data-pltdoc="x"> E-<wbr></wbr>Graph Union </a></td></tr><tr><td align="right">4&nbsp;</td><td><a href="#%28part.__.E-.Graph_.Intersection_%29" class="tocviewlink" data-pltdoc="x"> E-<wbr></wbr>Graph Intersection </a></td></tr><tr><td align="right">5&nbsp;</td><td><a href="#%28part.__.Runtime_.Analysis_%29" class="tocviewlink" data-pltdoc="x"> Runtime Analysis </a></td></tr></table></div></div></div><div class="tocsub"><table class="tocsublist" cellspacing="0"><tr><td><span class="tocsublinknumber"></span><a href="#%28part.__.E-.Graph_.Union_and_.Intersection_%29" class="tocsubseclink" data-pltdoc="x"> E-<wbr></wbr>Graph Union and Intersection </a></td></tr><tr><td><span class="tocsublinknumber">1<tt>&nbsp;</tt></span><a href="#%28part.__.E-.Graphs_%29" class="tocsubseclink" data-pltdoc="x"> E-<wbr></wbr>Graphs </a></td></tr><tr><td><span class="tocsublinknumber">2<tt>&nbsp;</tt></span><a href="#%28part.__.E-.Graphs_and_.Proofs_%29" class="tocsubseclink" data-pltdoc="x"> E-<wbr></wbr>Graphs and Proofs </a></td></tr><tr><td><span class="tocsublinknumber">3<tt>&nbsp;</tt></span><a href="#%28part.__.E-.Graph_.Union_%29" class="tocsubseclink" data-pltdoc="x"> E-<wbr></wbr>Graph Union </a></td></tr><tr><td><span class="tocsublinknumber">4<tt>&nbsp;</tt></span><a href="#%28part.__.E-.Graph_.Intersection_%29" class="tocsubseclink" data-pltdoc="x"> E-<wbr></wbr>Graph Intersection </a></td></tr><tr><td><span class="tocsublinknumber">4.1<tt>&nbsp;</tt></span><a href="#%28part.__.Sidenote__.Existing_.E-.Graph_.Intersection_.Paper_%29" class="tocsubseclink" data-pltdoc="x"> Sidenote:<span class="mywbr"> &nbsp;</span> Existing E-<wbr></wbr>Graph Intersection Paper </a></td></tr><tr><td><span class="tocsublinknumber">5<tt>&nbsp;</tt></span><a href="#%28part.__.Runtime_.Analysis_%29" class="tocsubseclink" data-pltdoc="x"> Runtime Analysis </a></td></tr></table></div></div><div class="maincolumn"><div class="main"><div class="versionbox"><span class="versionNoNav">8.5</span></div><h2><a name="(part.__.E-.Graph_.Union_and_.Intersection_)"></a> E-Graph Union and Intersection </h2><h3>1<tt>&nbsp;</tt><a name="(part.__.E-.Graphs_)"></a> E-Graphs </h3><p>E-Graphs are a data structure for representing equalities between terms
+efficiently. This post assumes you know what an e-graph is, so <a href="https://www.philipzucker.com/egraph-1/">here&rsquo;s a great post about them</a>.</p><h3>2<tt>&nbsp;</tt><a name="(part.__.E-.Graphs_and_.Proofs_)"></a> E-Graphs and Proofs </h3><p>E-Graph implementations (including <a href="https://egraphs-good.github.io/">egg</a>) typically provide a way to generate
+a proof certificate for why two terms are equal.
+For example, the e-graph may know <span class="texMathInline">a + b</span> is equal to <span class="texMathInline">b + a</span> using an identity
+ <span class="texMathInline">x + y = y + x</span>.
+The proof would say it used the identity to infer the specific terms <span class="texMathInline">a + b</span> and <span class="texMathInline">b + a</span> are equal.
+Each particular use of the rule results in an equality like <span class="texMathInline">a + b = b + a</span>.
+You can think of a proof certificate as a set of equalities on specific terms <span class="texMathInline">E = \{ T_1 = T_2, T_3 = T_4, ... \}</span>.</p><p>E-Graphs compute the congruence closure over terms:</p><p><span style="font-weight: bold">Thm1:</span> If you insert a set of equalities <span class="texMathInline">E</span> into the e-graph, then it will say two terms <span class="texMathInline">T_i</span> and <span class="texMathInline">T_j</span> are equal iff there is a valid proof between them (potentially using congruence).</p><p>We can also do the reverse: given an e-graph, we can extract back out the set of
+equalities that generate the e-graph.
+There are multiple choices for this set of equalities, but the simplest choice is
+the terms originally inserted into the e-graph either directly
+or by axiom instantiations.
+This is the key idea behind this post: e-graphs are just a way to prove things
+are equal based on a set of equalities.
+Using this observation, we can predict what an e-graph can prove.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.E-.Graph_.Union_)"></a> E-Graph Union </h3><p>Let&rsquo;s write the union of two e-graph <span class="texMathInline">E_1 \cup E_2 = E_3</span>.
+Intuitively, <span class="texMathInline">E_3</span> should represent terms who are equal due to a combination of facts from <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.
+More formally, any two terms <span class="texMathInline">T_1</span> and <span class="texMathInline">T_2</span> should be equal in <span class="texMathInline">E_3</span> iff there is a valid proof
+that they are equal involving only facts from <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.</p><p>There&rsquo;s a simple algorithm to union e-graphs, and it relies on the set of equations that originally generated the e-graph <span class="texMathInline">\{ T_1 = T_2, T_3 = T_4, ... \}</span>.
+First, make a new e-graph <span class="texMathInline">E_3</span>.
+Now assert every equality <span class="texMathInline">T_i = T_j</span> from <span class="texMathInline">E_1</span> in <span class="texMathInline">E_3</span>.
+Similarly, assert every equality <span class="texMathInline">T_k = T_m</span> from <span class="texMathInline">E_2</span> in <span class="texMathInline">E_3</span>.
+Do this by adding the two terms to <span class="texMathInline">E_3</span> and unioning them in the e-graph.</p><p>Here&rsquo;s some rust code that does it for egg (though it&rsquo;s not merged into main yet):</p><p><script type="application/javascript" src="https://gist.github.com/oflatt/71c7b50f53de57c58dec092cd2007a22.js"></script><noscript>Gist could not be found!</noscript></p><p>By our <span style="font-weight: bold">Thm1</span>, this new e-graph will tell you when two terms are equal because of a combination of facts
+from each e-graph.</p><h3>4<tt>&nbsp;</tt><a name="(part.__.E-.Graph_.Intersection_)"></a> E-Graph Intersection </h3><p>E-Graph intersection is only slightly more complex than the union.
+We would like the intersection of two e-graphs to capture equalities between
+terms that are true in both e-graphs.</p><p>To guarantee this property, we check which equalities are true in both <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.
+For every equality <span class="texMathInline">T_i = T_j</span> in <span class="texMathInline">E_1</span>,
+insert <span class="texMathInline">T_i</span> and <span class="texMathInline">T_j</span> into <span class="texMathInline">E_2</span> and check if they are equal.
+If they are, assert the equality in <span class="texMathInline">E_3</span>.</p><p>Here&rsquo;s some code that performs the intersection:</p><p><script type="application/javascript" src="https://gist.github.com/oflatt/465cb551b036be653dbc4a7ef2df8d28.js"></script><noscript>Gist could not be found!</noscript></p><p>Note that in the code above, we need to maintain congruence closure in the second e-graph
+by calling the <span class="RktSym">rebuild</span><span class="RktMeta"></span> function.
+It&rsquo;s crucial so that we can query it for which equalities
+are true.</p><p>The resulting e-graph captures the intersection perfectly.
+Any two terms <span class="texMathInline">T_1</span> and <span class="texMathInline">T_2</span> that are equal in the intersection has a proof in <span class="texMathInline">E_1</span>.
+This proof contains only facts which are also true in <span class="texMathInline">E_2</span>.
+We added these facts to <span class="texMathInline">E_3</span>,
+so they must also have a proof in <span class="texMathInline">E_3</span>.</p><h4>4.1<tt>&nbsp;</tt><a name="(part.__.Sidenote__.Existing_.E-.Graph_.Intersection_.Paper_)"></a> Sidenote: Existing E-Graph Intersection Paper </h4><p>E-Graph intersection is described in <a href="https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26">this paper</a>,
+but the paper offloads some of the problem. Instead of guaranteeing anything about the resulting e-graph,
+it only guarantees that the resulting e-graph will give the correct result
+ for some set of "important" terms <span class="texMathInline">I</span> that you specify in advance.
+The paper notes that the resulting e-graph <span class="texMathInline">E_3</span> cannot represent <span style="font-weight: bold">all</span> interesting terms
+since that could be infinite.
+The insight of this blog post is that choosing the right <span class="texMathInline">I</span> above (by filtering to facts that
+are true in both e-graphs) results in an e-graph that gives the correct answer for any terms
+inserted in the <span style="font-weight: bold">future</span>.</p><h3>5<tt>&nbsp;</tt><a name="(part.__.Runtime_.Analysis_)"></a> Runtime Analysis </h3><p>If we assume that all the equalities in <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span> are bounded in size by some constant,
+then the overall runtime of union and intersection is <span class="texMathInline">O(n \log{n})</span>, the run time of maintaining
+congruence closure for <span class="texMathInline">n</span> equalities (see <a href="https://dl.acm.org/doi/10.1016/j.ic.2006.08.009">this paper</a>).
+We can, however, get a faster implementation by carefully tracking the new identities of sub-terms
+in our target e-graph. This saves us the additional cost of copying the same sub-terms over to the new
+e-graph each time.</p></div></div><div id="contextindicator">&nbsp;</div></body></html>
