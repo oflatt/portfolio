@@ -171,11 +171,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (short-name title)))
 
 
-(define (page-button page-name current-page)
-  (define link
-    (if (equal? page-name "publications")
-        "index.html"
-        (string-append page-name ".html")))
+(define (page-button page-name current-page link)
   (define special-button-style
     (if (equal? page-name current-page)
         (string-append button-style ";background-color:#DBC222")
@@ -206,12 +202,14 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (div (@ (style ,(string-append post-style 
                                    ";margin: 0 auto; padding-top: 20px; padding-bottom: 20px; font-size:"
                                    post-title-size)))
-         "I'm interested in programming languages and synthesis. Currently, I'm an undergraduate at the University of Utah doing research on reducing floating point error in programs. Check out "
+         "I'm interested in programming languages, especially verification and formal methods. Currently, I'm a graduate student at the University of Washington. I work on the "
          ,(make-link "http://herbie.uwplse.org/" "Herbie")
-         " if you want to learn more. I'm also applying for graduate school this year, so check out my "
+         " tool, which reduces floating-point error in programs. I also work on the e-graph library "
+         ,(make-link "https://egraphs-good.github.io/" "Egg")
+         ". Are you recruiting for research internships? Check out my "
          (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
                    "resume")
-         " if you are recruiting."
+         "."
          (br)
         )))
     
@@ -261,14 +259,19 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                         "oflatt@gmail.com")
                      " | "
                      (a (@ (href "https://www.linkedin.com/in/oflatt") (target "_blank") (style "text-decoration:none"))
-                        "www.linkedin.com/in/oflatt"))))
+                        "linkedin")
+                     " | "
+                     (a (@ (href "https://www.youtube.com/channel/UCcmOhnWCA1ACNsPKWcOum0w") (target "_blank") (style "text-decoration:none"))
+                        "youtube")
+                      
+                      )))
            
            ,(menu name)
 
            (div (@ (style "width:95%"))
-                ,(page-button "publications" name)
-                ,(page-button "projects" name)
-                ,(page-button "blog" name))
+                ,(page-button "publications" name "index.html")
+                ,(page-button "projects" name "projects.html")
+                ,(page-button "blog" name "blog.html"))
            
            (div (@ (style "display:block; margin-top: 10px"))
                 ,(about-post name))
