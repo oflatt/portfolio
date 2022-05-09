@@ -91,15 +91,15 @@ This proof contains only facts which are also true in <span class="texMathInline
 We added these facts to <span class="texMathInline">E_3</span>,
 so they must also have a proof in <span class="texMathInline">E_3</span>.</p><h4>4.1<tt>&nbsp;</tt><a name="(part.__.Sidenote__.Existing_.E-.Graph_.Intersection_.Paper_)"></a> Sidenote: Existing E-Graph Intersection Paper </h4><p>E-Graph intersection is described in <a href="https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26">this paper</a>,
 but the paper offloads some of the problem. Instead of guaranteeing anything about the resulting e-graph,
-it only guarantees that the resulting e-graph will give thge correct result
+it only guarantees that the resulting e-graph will give the correct result
  for some set of "important" terms <span class="texMathInline">I</span> that you specify in advance.
 The paper notes that the resulting e-graph <span class="texMathInline">E_3</span> cannot represent <span style="font-weight: bold">all</span> interesting terms
 since that could be infinite.
 The insight of this blog post is that choosing the right <span class="texMathInline">I</span> above (by filtering to facts that
 are true in both e-graphs) results in an e-graph that gives the correct answer for any terms
-inserted in the <span style="font-weight: bold">future</span>.</p><h3>5<tt>&nbsp;</tt><a name="(part.__.Runtime_.Analysis_)"></a> Runtime Analysis </h3><p>If we assume that all the equalitys in <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span> are bounded in size by some constant,
+inserted in the <span style="font-weight: bold">future</span>.</p><h3>5<tt>&nbsp;</tt><a name="(part.__.Runtime_.Analysis_)"></a> Runtime Analysis </h3><p>If we assume that all the equalities in <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span> are bounded in size by some constant,
 then the overall runtime of union and intersection is <span class="texMathInline">O(n \log{n})</span>, the run time of maintaining
-congruence closure for <span class="texMathInline">n</span> equalitys (see <a href="https://dl.acm.org/doi/10.1016/j.ic.2006.08.009">this paper</a>).
+congruence closure for <span class="texMathInline">n</span> equalities (see <a href="https://dl.acm.org/doi/10.1016/j.ic.2006.08.009">this paper</a>).
 We can, however, get a faster implementation by carefully tracking the new identities of sub-terms
 in our target e-graph. This saves us the additional cost of copying the same sub-terms over to the new
 e-graph each time.</p></div></div><div id="contextindicator">&nbsp;</div></body></html>
