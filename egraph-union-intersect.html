@@ -61,30 +61,30 @@ a proof certificate for why two terms are equal.
 For example, the e-graph may know <span class="texMathInline">a + b</span> is equal to <span class="texMathInline">b + a</span> using an identity
  <span class="texMathInline">x + y = y + x</span>.
 The proof would say it used the identity to infer the specific terms <span class="texMathInline">a + b</span> and <span class="texMathInline">b + a</span> are equal.
-Each of particular use of the rule results in an equality like <span class="texMathInline">a + b = b + a</span>.
+Each particular use of the rule results in an equality like <span class="texMathInline">a + b = b + a</span>.
 You can think of a proof certificate as a set of equalities on specific terms <span class="texMathInline">E = \{ T_1 = T_2, T_3 = T_4, ... \}</span>.</p><p>E-Graphs compute the congruence closure over terms:</p><p><span style="font-weight: bold">Thm1:</span> If you insert a set of equalities <span class="texMathInline">E</span> into the e-graph, then it will say two terms <span class="texMathInline">T_i</span> and <span class="texMathInline">T_j</span> are equal iff there is a valid proof between them (potentially using congruence).</p><p>We can also do the reverse: given an e-graph, we can extract back out the set of
 equalities that generate the e-graph.
 There are multiple choices for this set of equalities, but the simplest choice is
 the terms originally inserted into the e-graph either directly
 or by axiom instantiations.
-This is the key idea behind this post: egraphs are just a way to prove things
+This is the key idea behind this post: e-graphs are just a way to prove things
 are equal based on a set of equalities.
-Using this observation, we can predict what an egraph can prove.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.E-.Graph_.Union_)"></a> E-Graph Union </h3><p>Let&rsquo;s write the union of two e-graph <span class="texMathInline">E_1 \cup E_2 = E_3</span>.
+Using this observation, we can predict what an e-graph can prove.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.E-.Graph_.Union_)"></a> E-Graph Union </h3><p>Let&rsquo;s write the union of two e-graph <span class="texMathInline">E_1 \cup E_2 = E_3</span>.
 Intuitively, <span class="texMathInline">E_3</span> should represent terms who are equal due to a combination of facts from <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.
 More formally, any two terms <span class="texMathInline">T_1</span> and <span class="texMathInline">T_2</span> should be equal in <span class="texMathInline">E_3</span> iff there is a valid proof
-that they are equal involving only facts from <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.</p><p>There&rsquo;s a simple algorithm to union egraphs, and it relies on the set of equations that originally generated the egraph <span class="texMathInline">\{ T_1 = T_2, T_3 = T_4, ... \}</span>.
+that they are equal involving only facts from <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.</p><p>There&rsquo;s a simple algorithm to union e-graphs, and it relies on the set of equations that originally generated the e-graph <span class="texMathInline">\{ T_1 = T_2, T_3 = T_4, ... \}</span>.
 First, make a new e-graph <span class="texMathInline">E_3</span>.
 Now assert every equality <span class="texMathInline">T_i = T_j</span> from <span class="texMathInline">E_1</span> in <span class="texMathInline">E_3</span>.
 Similarly, assert every equality <span class="texMathInline">T_k = T_m</span> from <span class="texMathInline">E_2</span> in <span class="texMathInline">E_3</span>.
 Do this by adding the two terms to <span class="texMathInline">E_3</span> and unioning them in the e-graph.</p><p>Here&rsquo;s some rust code that does it for egg (though it&rsquo;s not merged into main yet):</p><p><script type="application/javascript" src="https://gist.github.com/oflatt/71c7b50f53de57c58dec092cd2007a22.js"></script><noscript>Gist could not be found!</noscript></p><p>By our <span style="font-weight: bold">Thm1</span>, this new e-graph will tell you when two terms are equal because of a combination of facts
 from each e-graph.</p><h3>4<tt>&nbsp;</tt><a name="(part.__.E-.Graph_.Intersection_)"></a> E-Graph Intersection </h3><p>E-Graph intersection is only slightly more complex than the union.
 We would like the intersection of two e-graphs to capture equalities between
-terms that are true in both egraphs.</p><p>To guarantee this property, we check which equalities are true in both <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.
+terms that are true in both e-graphs.</p><p>To guarantee this property, we check which equalities are true in both <span class="texMathInline">E_1</span> and <span class="texMathInline">E_2</span>.
 For every equality <span class="texMathInline">T_i = T_j</span> in <span class="texMathInline">E_1</span>,
 insert <span class="texMathInline">T_i</span> and <span class="texMathInline">T_j</span> into <span class="texMathInline">E_2</span> and check if they are equal.
 If they are, assert the equality in <span class="texMathInline">E_3</span>.</p><p>Here&rsquo;s some code that performs the intersection:</p><p><script type="application/javascript" src="https://gist.github.com/oflatt/465cb551b036be653dbc4a7ef2df8d28.js"></script><noscript>Gist could not be found!</noscript></p><p>Note that in the code above, we need to maintain congruence closure in the second e-graph
 by calling the <span class="RktSym">rebuild</span><span class="RktMeta"></span> function.
-It&rsquo;s cruitial so that we can query it for which equalities
+It&rsquo;s crucial so that we can query it for which equalities
 are true.</p><p>The resulting e-graph captures the intersection perfectly.
 Any two terms <span class="texMathInline">T_1</span> and <span class="texMathInline">T_2</span> that are equal in the intersection has a proof in <span class="texMathInline">E_1</span>.
 This proof contains only facts which are also true in <span class="texMathInline">E_2</span>.
