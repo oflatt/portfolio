@@ -17,7 +17,7 @@
    (struct-copy style html5-style
                 [properties (append (style-properties html5-style) (list css-object head-google))]))
 
-@title[#:style  title-style]{ E-Graph Union and Intersection }
+@title[#:style  title-style]{ Limitations of E-Graph Intersection }
 
 @section{ E-Graphs }
 
@@ -43,9 +43,6 @@ equalities that generate the e-graph.
 There are multiple choices for this set of equalities, but the simplest choice is 
 the terms originally inserted into the e-graph either directly
 or by axiom instantiations.
-This is the key idea behind this post: e-graphs are just a way to prove things
-are equal based on a set of equalities.
-Using this observation, we can predict what an e-graph can prove.
 
 
 @section{ E-Graph Union }
@@ -73,49 +70,43 @@ from each e-graph.
 
 @section{ E-Graph Intersection }
 
-E-Graph intersection is only slightly more complex than the union.
-We would like the intersection of two e-graphs to capture equalities between
-terms that are true in both e-graphs.
+Ideally, we would want the intersection of two e-graphs to represent all equalities
+that are true in both e-graphs.
+Unfortunately, there's no way to guarantee this with a finite e-graph, as shown in @link["https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26"]{this paper}.
+Take for example @${ E_1 = \{ a = b\}} and @${E_2 = \{f(a) = f(b), f(f(a)) = f(a)\}}.
+The e-graphs look like this:
 
-To guarantee this property, we check which equalities are true in both @${E_1} and @${E_2}.
-For every equality @${T_i = T_j} in @${E_1},
-insert @${T_i} and @${T_j} into @${E_2} and check if they are equal.
-If they are, assert the equality in @${E_3}.
+@(define-runtime-path example-image "documents/egraph-intersect.png")
+@(image example-image)
 
-Here's some code that performs the intersection:
+
+The intersection of @${E_1} and @${E_2} is the infinite set @${E_3 = \{ f^n(a) = f^n(b) | n \geq 1\}}. However, this isn't finitely representable in the e-graph.
+If we tried, we would end up with terms @${f(a) = f(b)}, @${f(f(a)) = f(f(b))}, and so on in the egraph.
+
+
+Since computing the intersection is infeasible, the @link["https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26"]{e-graph intersection paper mentioned above} calculates
+it for a set of important terms @${I}.
+The intersection can be calculated simply by checking every possible pair of equalities between terms in @${I}.
+In fact, the optimal algorithm for computing the intersection is still quadratic in the size of @${I}
+
+Instead of doing all pairs in a set @${I}, you can perserve a set of particular equalities between terms instead.
+A good choice for equalities to preserve are the original terms that generated the egraphs @${E_1} and @${E_2}.
+That way, proofs involving only equalities shared by both egraphs are preserved, which is a weak but potentially useful property.
+Here's some code that performs this version:
+
 @(define rust-gist2 (script-property "application/javascript" "https://gist.github.com/oflatt/465cb551b036be653dbc4a7ef2df8d28.js"))
-
 @elem[#:style (style #f (list rust-gist2))]{Gist could not be found!}
 
 Note that in the code above, we need to maintain congruence closure in the second e-graph
 by calling the @code{rebuild} function.
-It's crucial so that we can query it for which equalities
-are true.
-
-The resulting e-graph captures the intersection perfectly.
-Any two terms @${T_1} and @${T_2} that are equal in the intersection has a proof in @${E_1}.
-This proof contains only facts which are also true in @${E_2}.
-We added these facts to @${E_3},
-so they must also have a proof in @${E_3}.
-
-@subsection{ Sidenote: Existing E-Graph Intersection Paper }
-
-E-Graph intersection is described in @link["https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26"]{this paper},
-but the paper offloads some of the problem. Instead of guaranteeing anything about the resulting e-graph,
-it only guarantees that the resulting e-graph will give the correct result
- for some set of "important" terms @${I} that you specify in advance.
-The paper notes that the resulting e-graph @${E_3} cannot represent @bold{all} interesting terms
-since that could be infinite.
-The insight of this blog post is that choosing the right @${I} above (by filtering to facts that
-are true in both e-graphs) results in an e-graph that gives the correct answer for any terms
-inserted in the @bold{future}.
-
+It's crucial so that we can query it for which equalities are true.
 
 @section{ Runtime Analysis }
 
 If we assume that all the equalities in @${E_1} and @${E_2} are bounded in size by some constant,
-then the overall runtime of union and intersection is @${O(n \log{n})}, the run time of maintaining
-congruence closure for @${n} equalities (see @link["https://dl.acm.org/doi/10.1016/j.ic.2006.08.009"]{this paper}).
+then the overall runtime of these union and intersection algorithms is @${O(n \log{n})},
+the run time of maintaining congruence closure for @${n} equalities
+(see @link["https://dl.acm.org/doi/10.1016/j.ic.2006.08.009"]{this paper}).
 We can, however, get a faster implementation by carefully tracking the new identities of sub-terms
 in our target e-graph. This saves us the additional cost of copying the same sub-terms over to the new
 e-graph each time.
