@@ -30,6 +30,11 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                (first l)
                (string-append (first l) " " (second l)))))
 
+(define (make-link link inner #:style [style ""])
+  `(a (@ (href ,link) (style ,(string-append "text-decoration:none;" style)))
+      ,inner))
+
+
 ;; all strings, title, language, year, github link, description, path to picture
 (define
   (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none") #:authors [authors ""])
@@ -202,8 +207,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                                    ";margin: 0 auto; padding-top: 20px; padding-bottom: 20px; font-size:"
                                    post-title-size)))
          "I'm interested in programming languages and synthesis. Currently, I'm an undergraduate at the University of Utah doing research on reducing floating point error in programs. Check out "
-         (a (@ (href "http://herbie.uwplse.org/") (style "text-decoration:none"))
-            "Herbie")
+         ,(make-link "http://herbie.uwplse.org/" "Herbie")
          " if you want to learn more. I'm also applying for graduate school this year, so check out my "
          (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
                    "resume")
@@ -437,18 +441,22 @@ or in sequence.")
        empty)
  "index.html")
 
-(define (blog-post md-file)
-  "")
 
 
 (define (make-blog)
   (define blog-posts
-    `(("E-Graph Union and Intersection" ,(blog-post "egraph-union-intersection.md"))))
+    `(("E-Graph Union and Intersection" "egraph-union-intersect.html" 8 5 2022)))
   
   `(div (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:0;")))
         ,@(for/list ([post blog-posts])
-                    `(h2 (@ (style ,(string-append "margin-top: 10px; margin-left:10px;margin-bottom:0px;font-size:" post-title-size)))
-                      ,(first post)))))
+                    `(div (@ (style ,(string-append "padding-top: 10px; margin-bottom:0px; display:flex")))
+                          ,(make-link (second post)
+                                     `(h2 (@ (style ,(string-append "font-size:" post-title-size)))
+                                          ,(first post))
+                                     #:style "margin-right:auto; padding-left:10px")
+                          (h2
+                           (@ (style ,(string-append "padding-right: 10px; font-size:" post-title-size)))
+                           ,(format "~a/~a/~a" (third post) (fourth post) (fifth post)))))))
 
 (write-html-to
  (page empty "blog" "Blog"
