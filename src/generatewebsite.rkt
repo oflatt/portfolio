@@ -173,10 +173,11 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 (define (page-button page-name current-page link)
   (define special-button-style
-    (if (equal? page-name current-page)
-        (string-append button-style ";background-color:#DBC222")
-        (string-append button-style ";background-color:#6CC97F")))
-  `(button (@ (style ,(string-append special-button-style ";text-align:center"))
+    (string-append "text-align: center; font-size:" post-title-size ";" button-style
+                   (if (equal? page-name current-page)
+                       ";background-color:#DBC222"
+                       ";background-color:#6CC97F")))
+  `(button (@ (style ,special-button-style)
               (onclick ,(string-append "window.location.href='" link "'"))
               (onmouseenter "buttonhover(this)")
               (onmouseleave "buttonoff(this)"))

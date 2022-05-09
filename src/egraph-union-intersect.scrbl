@@ -31,7 +31,7 @@ a proof certificate for why two terms are equal.
 For example, the e-graph may know @${a + b} is equal to @${b + a} using an identity
  @${x + y = y + x}.
 The proof would say it used the identity to infer the specific terms @${a + b} and @${b + a} are equal.
-Each of particular use of the rule results in an equality like @${a + b = b + a}.
+Each particular use of the rule results in an equality like @${a + b = b + a}.
 You can think of a proof certificate as a set of equalities on specific terms @${E = \{ T_1 = T_2, T_3 = T_4, ... \}}.
 
 E-Graphs compute the congruence closure over terms:
@@ -43,9 +43,9 @@ equalities that generate the e-graph.
 There are multiple choices for this set of equalities, but the simplest choice is 
 the terms originally inserted into the e-graph either directly
 or by axiom instantiations.
-This is the key idea behind this post: egraphs are just a way to prove things
+This is the key idea behind this post: e-graphs are just a way to prove things
 are equal based on a set of equalities.
-Using this observation, we can predict what an egraph can prove.
+Using this observation, we can predict what an e-graph can prove.
 
 
 @section{ E-Graph Union }
@@ -56,7 +56,7 @@ More formally, any two terms @${T_1} and @${T_2} should be equal in @${E_3} iff 
 that they are equal involving only facts from @${E_1} and @${E_2}.
 
 
-There's a simple algorithm to union egraphs, and it relies on the set of equations that originally generated the egraph @${\{ T_1 = T_2, T_3 = T_4, ... \}}.
+There's a simple algorithm to union e-graphs, and it relies on the set of equations that originally generated the e-graph @${\{ T_1 = T_2, T_3 = T_4, ... \}}.
 First, make a new e-graph @${E_3}.
 Now assert every equality @${T_i = T_j} from @${E_1} in @${E_3}.
 Similarly, assert every equality @${T_k = T_m} from @${E_2} in @${E_3}.
@@ -75,7 +75,7 @@ from each e-graph.
 
 E-Graph intersection is only slightly more complex than the union.
 We would like the intersection of two e-graphs to capture equalities between
-terms that are true in both egraphs.
+terms that are true in both e-graphs.
 
 To guarantee this property, we check which equalities are true in both @${E_1} and @${E_2}.
 For every equality @${T_i = T_j} in @${E_1},
@@ -89,7 +89,7 @@ Here's some code that performs the intersection:
 
 Note that in the code above, we need to maintain congruence closure in the second e-graph
 by calling the @code{rebuild} function.
-It's cruitial so that we can query it for which equalities
+It's crucial so that we can query it for which equalities
 are true.
 
 The resulting e-graph captures the intersection perfectly.
