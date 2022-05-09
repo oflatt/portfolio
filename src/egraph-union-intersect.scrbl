@@ -26,7 +26,7 @@ efficiently. This post assumes you know what an e-graph is, so @link["https://ww
 
 @section{ E-Graphs and Proofs }
 
-E-Graph implementations (including egg) typically provide a way to generate
+E-Graph implementations (including @link["https://egraphs-good.github.io/"]{egg}) typically provide a way to generate
 a proof certificate for why two terms are equal.
 For example, the e-graph may know @${a + b} is equal to @${b + a} using an identity
  @${x + y = y + x}.
