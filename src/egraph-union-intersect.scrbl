@@ -75,15 +75,15 @@ from each e-graph.
 Ideally, we would want the intersection of two e-graphs to represent all equalities
 that are true in both e-graphs.
 Unfortunately, there's no way to guarantee this with a finite e-graph, as shown in @link["https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26"]{this paper}.
-Take for example @${ E_1 = \{ a = b\}} and @${E_2 = \{f(a) = f(b), f(f(a)) = f(a)\}}.
+Take for example @${ E_1 = \{ a = b \}} and @${E_2 = \{f(a) = a, f(b) = b, g(a) = g(b)\}}.
 The e-graphs look like this:
 
 @(define-runtime-path example-image "documents/egraph-intersect.png")
 @(image example-image)
 
 
-The intersection of @${E_1} and @${E_2} is the infinite set @${E_3 = \{ f^n(a) = f^n(b) | n \geq 1\}}. However, this isn't finitely representable in the e-graph.
-If we tried, we would end up with terms @${f(a) = f(b)}, @${f(f(a)) = f(f(b))}, and so on in the egraph.
+The intersection of @${E_1} and @${E_2} is the infinite set @${E_3 = \{ g(f^n(a)) = g(f^n(b)) | n \geq 1\}}. However, this isn't finitely representable in the e-graph because it can no longer rely on the cycle @${f(a) = a}.
+If we tried, we would end up with terms @${f(f(a)) = g(f(b))}, @${g(f(f(a))) = g(f(f(b)))}, and so on in the egraph.
 
 
 Since computing the intersection is infeasible, the @link["https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26"]{e-graph intersection paper mentioned above} calculates
