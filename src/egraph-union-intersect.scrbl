@@ -102,7 +102,7 @@ so they must also have a proof in @${E_3}.
 
 E-Graph intersection is described in @link["https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26"]{this paper},
 but the paper offloads some of the problem. Instead of guaranteeing anything about the resulting e-graph,
-it only guarantees that the resulting e-graph will give thge correct result
+it only guarantees that the resulting e-graph will give the correct result
  for some set of "important" terms @${I} that you specify in advance.
 The paper notes that the resulting e-graph @${E_3} cannot represent @bold{all} interesting terms
 since that could be infinite.
@@ -113,9 +113,9 @@ inserted in the @bold{future}.
 
 @section{ Runtime Analysis }
 
-If we assume that all the equalitys in @${E_1} and @${E_2} are bounded in size by some constant,
+If we assume that all the equalities in @${E_1} and @${E_2} are bounded in size by some constant,
 then the overall runtime of union and intersection is @${O(n \log{n})}, the run time of maintaining
-congruence closure for @${n} equalitys (see @link["https://dl.acm.org/doi/10.1016/j.ic.2006.08.009"]{this paper}).
+congruence closure for @${n} equalities (see @link["https://dl.acm.org/doi/10.1016/j.ic.2006.08.009"]{this paper}).
 We can, however, get a faster implementation by carefully tracking the new identities of sub-terms
 in our target e-graph. This saves us the additional cost of copying the same sub-terms over to the new
 e-graph each time.
