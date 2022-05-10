@@ -37,7 +37,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 ;; all strings, title, language, year, github link, description, path to picture
 (define
-  (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none") #:authors [authors ""])
+  (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none") #:authors [authors ""] #:website-text [website-text ""])
   (define windows-list
     (cond [(equal? windows-download "none")
            (list)]
@@ -51,7 +51,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                   (onmouseleave "buttonoff(this)")
                   (onclick ,(string-append "window.location.href='" windows-download "'")))
                "Go To Site")))]
-          [(equal? windows-download "http://bearlydancing.com")
+          [(not (equal? website-text ""))
            (list
             `(div
               (@ (style ,(string-append "text-align:center;" inlinetext2))
@@ -61,7 +61,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                   (onmouseenter "buttonhover(this)")
                   (onmouseleave "buttonoff(this)")
                   (onclick ,(string-append "window.location.href='" windows-download "'")))
-               "bearly dancing website")))]
+               ,website-text)))]
           [else
            (list
             `(div
@@ -325,6 +325,9 @@ in Python.")
 to any one axis. Rotation of the player's perspective is based only on the current orientation of the player so
 that it is more like space. Currently there is no dedicated server, so to play you must run one yourself.")
 
+(define sonic-onion-description
+  "Sonic Onion is a reactive, visual language for composing music. Chain together blocks and create functions that generate the song in real time.")
+
 (define bearly-dancing-description
   "Bearly Dancing is a cross between a rhythm game and a role
 playing game. It features randomly generated art and a comical storyline.
@@ -358,12 +361,9 @@ game in the camp. It was a fun and challenging summer job.")
   (list
    (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
                "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
-               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE' frameborder='0' allowfullscreen></iframe></div>")
-   (build-post "This Website" "TypeScript, HTML (Racket html-writing), CSS" "2017-present"
-               "https://github.com/oflatt/portfolio" "A portfolio of my work in Computer Science. It was written
-in Racket and generates the html by passing an s-expression to the html-writing library. It passes W3C CSS
-validation."
-               "thiswebsitegrey.png")
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE' frameborder='0' allowfullscreen></iframe></div>" #:website-text "Bearly Dancing Website")
+   (build-post "Sonic Onion" "Elm" "2020-present"
+               "https://github.com/oflatt/soniconion" sonic-onion-description "soniconion.png" "https://soniconion.net" #:website-text "Sonic Onion Website")
    (build-post "Esonify" "elisp" "2019"
                "https://github.com/oflatt/esonify"
                "An emacs package that sonifies your code. Skilled users will begin to be able to recognize some code based solely upon the music it generates. Hear sine waves at different frequencies for lowercase letters, square waves for upper case letters, and triangle waves for keybindings."
