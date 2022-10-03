@@ -432,8 +432,14 @@ a given cost and significantly faster for a given accuracy bound
 compared to baselines using precision tuning and rewriting alone
 or in sequence.")
 
+(define small-proofs-abstract
+  "Satisfiability Modulo Theory (SMT) solvers and equality saturation engines must generate proof certificates from e-graph-based congruence closure procedures to enable verification and conflict clause generation. Smaller proof certificates speed up these activities. Though the problem of generating proofs of minimal size is known to be NP-complete, existing proof minimization algorithms for congruence closure generate unnecessarily large proofs and introduce asymptotic overhead over the core congruence closure procedure. In this paper, we introduce an O(n^5) time algorithm which generates optimal proofs under a new relaxed \"proof tree size\" metric that directly bounds proof size. We then relax this approach further to a practical O(n \\log(n)) greedy algorithm which generates small proofs with no asymptotic overhead. We implemented our techniques in the egg equality saturation toolkit, yielding the first certifying equality saturation engine. We show that our greedy approach in egg quickly generates substantially smaller proofs than the state-of-the-art Z3 SMT solver on a corpus of 3760 benchmarks.")
+
 (write-html-to
  (page (list
+        (build-post "Small Proofs from Congruence Closure" "" "FMCAD 2022"
+                    "https://arxiv.org/abs/2209.03398" small-proofs-abstract ""
+                    #:authors "Oliver Flatt, Samuel Coward, Max Willsey, Zachary Tatlock, and Pavel Panchekha")
         (build-post "Combining Precision Tuning and Rewriting for Faster, More Accurate Programs" "" "ARITH 2021"
                "http://arith2021.arithsymposium.org/session/session1video.html" pherbie-abstract ""
                #:authors "Brett Saiki, Oliver Flatt, Zachary Tatlock, Pavel Panchekha and Chandrakana Nandi")
