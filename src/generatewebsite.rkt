@@ -37,7 +37,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 
 ;; all strings, title, language, year, github link, description, path to picture
 (define
-  (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none") #:authors [authors ""] #:website-text [website-text ""])
+  (build-post title language year github description pic (windows-download "none") (mac-download "none") (html-video "none") #:authors [authors ""] #:website-text [website-text ""] #:video [video #f])
   (define windows-list
     (cond [(equal? windows-download "none")
            (list)]
@@ -139,6 +139,12 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                   `(div (@ (style ,(string-append post-style ";" text-margins "; overflow: auto")))
                         "Source: "
                         (a (@ (href ,github) (style "margin-top:0px") (target "_blank")) ,github)))
+
+                ,(if video
+                     `(div (@ (style ,(string-append post-style ";" text-margins "; overflow: auto")))
+                           "Video: "
+                           (a (@ (href ,video) (style "margin-top:0px") (target "_blank")) ,video))
+                     "")
 
                 ;; insert the picture
                 (div (@ (style "margin-bottom:10px;padding-top:10px"))
@@ -256,11 +262,11 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                      (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
                         "resume")
                      " | "
-                     (a (@ (href "mailto:oflatt@gmail.com") (style "text-decoration:none"))
-                        "oflatt@gmail.com")
+                     (a (@ (href "mailto:oflatt@cs.washington.edu") (style "text-decoration:none"))
+                        "oflatt@cs.washington.edu")
                      " | "
-                     (a (@ (href "https://www.linkedin.com/in/oflatt") (target "_blank") (style "text-decoration:none"))
-                        "linkedin")
+                     (a (@ (href "https://twitter.com/oflatt") (target "_blank") (style "text-decoration:none"))
+                        "twitter")
                      " | "
                      (a (@ (href "https://www.youtube.com/channel/UCcmOhnWCA1ACNsPKWcOum0w") (target "_blank") (style "text-decoration:none"))
                         "youtube")
@@ -439,7 +445,8 @@ or in sequence.")
  (page (list
         (build-post "Small Proofs from Congruence Closure" "" "FMCAD 2022"
                     "https://arxiv.org/abs/2209.03398" small-proofs-abstract ""
-                    #:authors "Oliver Flatt, Samuel Coward, Max Willsey, Zachary Tatlock, and Pavel Panchekha")
+                    #:authors "Oliver Flatt, Samuel Coward, Max Willsey, Zachary Tatlock, and Pavel Panchekha"
+                    #:video "https://www.youtube.com/watch?v=_KnAHFdqWT0")
         (build-post "Combining Precision Tuning and Rewriting for Faster, More Accurate Programs" "" "ARITH 2021"
                "http://arith2021.arithsymposium.org/session/session1video.html" pherbie-abstract ""
                #:authors "Brett Saiki, Oliver Flatt, Zachary Tatlock, Pavel Panchekha and Chandrakana Nandi")
