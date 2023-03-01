@@ -362,6 +362,9 @@ game in the camp. It was a fun and challenging summer job.")
 
 ;; autoplay link https://www.youtube.com/embed/g6SlOlGsGdE?rel=0&autoplay=1&mute=1&amp&loop=1&controls=0&playlist=g6SlOlGsGdE;showinfo=0&amp
 
+(define (mk-youtube link)
+  (format "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='560' height='315'  src='~a' frameborder='0' allowfullscreen></iframe></div>" link))
+
 (write-html-to
  (page
   (list
@@ -370,11 +373,16 @@ game in the camp. It was a fun and challenging summer job.")
                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE' frameborder='0' allowfullscreen></iframe></div>" #:website-text "Bearly Dancing Website")
    (build-post "Sonic Onion" "Elm" "2020-present"
                "https://github.com/oflatt/soniconion" sonic-onion-description "soniconion.png" "https://soniconion.net" #:website-text "Sonic Onion Website")
+   (build-post "I have 196 hands" "Python (MoviePy)" "2022"
+               "https://www.youtube.com/watch?v=xgyq1l_NNuA"
+               "Running conway's game of life on my hands."
+               "" "none" "none"
+               (mk-youtube "https://www.youtube.com/embed/xgyq1l_NNuA"))
    (build-post "Esonify" "elisp" "2019"
                "https://github.com/oflatt/esonify"
                "An emacs package that sonifies your code. Skilled users will begin to be able to recognize some code based solely upon the music it generates. Hear sine waves at different frequencies for lowercase letters, square waves for upper case letters, and triangle waves for keybindings."
                "" "none" "none"
-               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='560' height='315'  src='https://www.youtube.com/embed/fwBh6FKxzcQ' frameborder='0' allowfullscreen></iframe></div>")
+               (mk-youtube "https://www.youtube.com/embed/fwBh6FKxzcQ"))
    (build-post "GREAT Camps" "Python, Processing" "2016-2018"
                "https://www.cs.utah.edu/~dejohnso/GREAT" great-camps-description
                "space-invaders-demo.gif")
