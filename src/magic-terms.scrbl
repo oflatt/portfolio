@@ -60,13 +60,13 @@ Similarly, in the multi-argument case, all the children of a function must be eq
 @link["https://github.com/uwplse/ruler"]{Ruler} is a tool that automatically synthesizes a set of rewrite rules for a particular domain.
 The first thing it does is enumerate thousands or hundreds of thousands of rewrite rules, all of them valid for your domain.
 However, many of these rules are redundant- you can get the same effect using other rules.
-So it has to reduce this giant set of rewrite rules into somthing small and usable in other applications.
+So it has to reduce this giant set of rewrite rules into something small and usable in other applications.
 
 
 We would then know that the smaller subset of rules @${subsumes} the original set.
 Let's define this idea more formally.
 I'll write @${R} for a set of rewrite rules, and @${R_n(S)} for applying @${R} to a state @${S} @bold{n} times.
-Now, a ruleset @${R'} subsumes another ruleset @${R} if,
+Now, another ruleset @${R'} subsumes another ruleset @${R} if,
 for any grounded equality we can prove with @${R},
 we can prove the same equality using @${R'}.
 More formally,
@@ -80,7 +80,7 @@ where @${S} is an initial state and @${(t = u)} is some grounded equality that w
 So how are we going to reduce our set of rewrite rules?
 @${R'} is a subset of @${R}, so we can try removing one rule @${r \in R} at a time from @${R}.
 Now, @${R'} subsumes @${R} if it can subsume the single rule @${r}.
-For some intuition why, consider that any equality
+For some intuition why consider that any equality
 is derived from some sequence of rewrite rule applications
 starting from some initial term.
 Now, if @${R'} subsumes @${r}, it means that under any situation it can do "the same thing" as @${r}.
@@ -89,13 +89,12 @@ So if at any point the derivation of an equality uses @${r}, we can replace it w
 
 Now the problem becomes proving that @${R'} subsumes @${r}.
 The cool trick that we will use is to actually insert the left-hand side of @${r} into a database, and then apply @${R'} to it to try and derive @${r}.
-But @${r} has forall-quantified variables in it, so first we
-@bold{skolemize} it, turning it into a ground term on variables.
-For example, if we have a rule @${r: \forall x, x*0 \rightarrow 0}, we skolemize the left-hand side, turning it into @${v*0}, for some fresh name @${v}.
+But @${r} has forall-quantified variables in it, so first we ground it, turning it into a term on fresh variables.
+For example, if we have a rule @${r: \forall x, x*0 \rightarrow 0}, we ground the left-hand side, turning it into @${v*0}, for some fresh name @${v}.
 Now, for the initial database @${S = \{v*0\}}, if for some @${n} we have that @${(v*0 = 0) \in R'_n(S)},
 then we know that @${R'} subsumes @${r}.
 Intuitively, this is because we didn't know anything about
-the skolemized variable @${v}, so if we found that we can derive the right side of @${r} from the left side,
+the variable @${v}, so if we found that we can derive the right side of @${r} from the left side,
 then for any @${v} we will be able to do the same thing.
 
 
@@ -108,8 +107,8 @@ For each of these rules, we need to run a full bottom-up procedure that tries to
 Even though it's easily parallelizable, it's still too expensive in many cases.
 
 Ruler has a much faster, but unsound way to reduce a set of rewrite rules.
-Instead of starting with just one skolemized rewrite rule, it starts with a large set of them all at once.
-They also share common skolemized variables, getting a bunch of sharing.
+Instead of starting with just one rewrite rule, it starts with a large set of them all at once.
+They also share common variables, getting a bunch of sharing.
 They then run a small set of (heuristically) selected rewrite rules, finding which rewrites can be derived.
 This is much faster because many rewrite rules can be derived at once, and there is a lot of sharing of state during the evaluation process.
 
@@ -121,7 +120,7 @@ Suppose we have the following rewrite rules:
 @centered{@${r_5: \forall x, x*1 \rightarrow x*0}}
 
 Now, let's try to derive @${r_4} and @${r_5} using @${r_1} and @${r_3}.
-First, we skolemize @${r_4} and @${r_5}, getting @${(v*1)*0} and @${v*1}.
+First, we ground @${r_4} and @${r_5}, getting @${(v*1)*0} and @${v*1}.
 Now, we apply our rules on the initial state @${S = \{(v*1)*0\}}.
 And it turns out, we can derive both @${r_4} and @${r_5}!
 
@@ -151,9 +150,9 @@ It seems like the trick that Ruler plays in batching many
 queries together won't work.
 However, we might be able to do something similar, but soundly.
 
-Suppose we are trying to derive a batch of rules @${D}, whose left and right-hand sides skolemize to terms @${t_1, t_2, ....}.
+Suppose we are trying to derive a batch of rules @${R_d}, whose left and right-hand sides ground to terms @${t_1, t_2, ....}.
 Construct a graph that has a node for each term @${t_i}, and initially contains no edges.
-We'll start out with a graph like this one:
+We'll start with a graph like this one:
 
 
 @(define (var str) (superimpose (text str null 30)
@@ -173,10 +172,9 @@ We'll start out with a graph like this one:
 @empty-graph
 
 
-Now, for each rule @${r \in D}, try to derive it the slow and sound way.
+Now, for each rule @${r \in R_d}, try to derive it the slow and sound way.
 For each of the rewrite rules we are able to derive, add an edge from the left-hand side to the right-hand side.
 For example, we may end up with something like this:
-
 
 
 @(define three-arrows
@@ -192,6 +190,10 @@ Now, we automatically know that our ruleset also derives a rule whose left side 
 This is because we derive @${t_1 \rightarrow t_2} and @${t_2 \rightarrow t_3}, and so by transitivity we know that we derive @${t_1 \rightarrow t_3}.
 
 In fact, we know that any rule whose left hand side and right hand side are within a @link["https://en.wikipedia.org/wiki/Strongly_connected_component"]{strongly connected component} in the graph is already derived.
+Our new algorithm works as follows:
+@itemlist[@item{Pick a rule which connects to different strongly connected components.}
+          @item{Attempt to derive the rule using the sound method.}
+          @item{If the rule can be derived, add the edge to the directed graph of terms.}]
 This is a less strong inference than ruler makes in its unsound algorithm, but it can still reduce a quadratic number of checks to linear in some cases.
 
 The algorithm I've described so far is to keep track of a
@@ -200,7 +202,7 @@ At each step, we have to run a bottom-up inference procedure
 where the state is a set of @bold{undirected} equalities
 between ground terms.
 A particular bottom-up procedure for calculating these
-equalities is called @bold{equality saturation},
+equalities is called equality saturation,
 which uses a @link["https://www.philipzucker.com/egraph-1/"]{e-graph} data structure.
 But instead of having these two graphs, one directed and one undirected, what if we could do everything in the
 directed graph?
