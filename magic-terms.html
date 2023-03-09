@@ -59,15 +59,15 @@
 directed equalities over terms that can include forall-quantified variables.
 For example, a compiler might make use of this rule to
 optimize your code:
-<span class="texMathInline">r_1: \forall x, x+0 \rightarrow 0</span>.</p><p>Combining rewrite rules can be a powerful way to
+<span class="texMathInline">r_1: \forall x, x*0 \rightarrow 0</span>.</p><p>Combining rewrite rules can be a powerful way to
 simplify or optimize terms.
-Here&rsquo;s a rule for commutativity of addition: <span class="texMathInline">r_2: \forall x y, x+y \rightarrow y+x</span>.
+Here&rsquo;s a rule for commutativity of addition: <span class="texMathInline">r_2: \forall x y, x*y \rightarrow y*x</span>.
 If we use it in sequence with the rule above, we can now
-prove that <span class="texMathInline">0+x =_{r_2} x+0 =_{r_1} 0</span>.</p><p>Rewrite rules are typically applied in a bottom-up way.
+prove that <span class="texMathInline">0*x =_{r_2} x*0 =_{r_1} 0</span>.</p><p>Rewrite rules are typically applied in a bottom-up way.
 We can represent a <span style="font-style: italic">state</span> as a set of grounded terms and equalities between them.
-For example, our initial state might be <span class="texMathInline">\{x+0\}</span>,
+For example, our initial state might be <span class="texMathInline">\{x*0\}</span>,
 our initial program we want to optimize.
-We can then apply <span class="texMathInline">r_1</span> to this state, and get a new state, <span class="texMathInline">\{x+0, 0, x+0 = 0\}</span>.
+We can then apply <span class="texMathInline">r_1</span> to this state, and get a new state, <span class="texMathInline">\{x*0, 0, x*0 = 0\}</span>.
 The bottom-up evaluation also means that rewrite rules must be directed.
 For example, it&rsquo;s impossible to apply <span class="texMathInline">r_1</span> in the reverse
 direction, because the left-hand side of the rule contains <span class="texMathInline">x</span>, a variable not bound on the right-hand side.</p><h3>2<tt>&nbsp;</tt><a name="(part.__.Reducing_.Sets_of_.Rewrite_.Rules_)"></a> Reducing Sets of Rewrite Rules </h3><p><a href="https://github.com/uwplse/ruler">Ruler</a> is a tool that automatically synthesizes a set of rewrite rules for a particular domain.
@@ -90,8 +90,8 @@ So if at any point the derivation of an equality uses <span class="texMathInline
 The cool trick that we will use is to actually insert the left-hand side of <span class="texMathInline">r</span> into a database, and then apply <span class="texMathInline">R{}&rsquo;</span> to it to try and derive <span class="texMathInline">r</span>.
 But <span class="texMathInline">r</span> has forall-quantified variables in it, so first we
 <span style="font-style: italic">skolemize</span> it, turning it into a ground term on variables.
-For example, if we have a rule <span class="texMathInline">r: \forall x, x+0 \rightarrow 0</span>, we skolemize the left-hand side, turning it into <span class="texMathInline">v+0</span>, for some fresh name <span class="texMathInline">v</span>.
-Now, for the initial database <span class="texMathInline">S = \{v+0\}</span>, if for some <span class="texMathInline">n</span> we have that <span class="texMathInline">(v+0 = 0) \in R{}&rsquo;_n(S)</span>,
+For example, if we have a rule <span class="texMathInline">r: \forall x, x*0 \rightarrow 0</span>, we skolemize the left-hand side, turning it into <span class="texMathInline">v*0</span>, for some fresh name <span class="texMathInline">v</span>.
+Now, for the initial database <span class="texMathInline">S = \{v*0\}</span>, if for some <span class="texMathInline">n</span> we have that <span class="texMathInline">(v*0 = 0) \in R{}&rsquo;_n(S)</span>,
 then we know that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>.
 Intuitively, this is because we didn&rsquo;t know anything about
 the skolemized variable <span class="texMathInline">v</span>, so if we found that we can derive the right side of <span class="texMathInline">r</span> from the left side,
@@ -105,15 +105,15 @@ They also share common skolemized variables, getting a bunch of sharing.
 They then run a small set of (heuristically) selected rewrite rules, finding which rewrites can be derived.
 This is much faster because many rewrite rules can be derived at once, and there is a lot of sharing of state during the evaluation process.</p><p><div class="SIntrapara">To see why this is unsound, consider the following example.
 Suppose we have the following rewrite rules:
-</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_1: \forall x, x+0 \rightarrow 0</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_3: \forall x, x*1 \rightarrow 1*x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_4: \forall x, (x*1)+0 \rightarrow x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_5: \forall x, x*1 \rightarrow x+0</span></p></blockquote></div></p><p>Now, let&rsquo;s try to derive <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span> using <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>.
-First, we skolemize <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>, getting <span class="texMathInline">(v*1)+0</span> and <span class="texMathInline">v*1</span>.
-Now, we apply our rules on the initial state <span class="texMathInline">S = \{(v*1)+0\}</span>.
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_1: \forall x, x*0 \rightarrow 0</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_3: \forall x, x*1 \rightarrow 1*x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_4: \forall x, (x*1)*0 \rightarrow x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_5: \forall x, x*1 \rightarrow x*0</span></p></blockquote></div></p><p>Now, let&rsquo;s try to derive <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span> using <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>.
+First, we skolemize <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>, getting <span class="texMathInline">(v*1)*0</span> and <span class="texMathInline">v*1</span>.
+Now, we apply our rules on the initial state <span class="texMathInline">S = \{(v*1)*0\}</span>.
 And it turns out, we can derive both <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>!</p><p><div class="SIntrapara">Here&rsquo;s a derivation of <span class="texMathInline">r_4</span>:
-</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">(v*1)+0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v</span></p></blockquote></div></p><p><div class="SIntrapara">And here&rsquo;s a derivation of <span class="texMathInline">r_5</span>:
-</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline"> v*1 \leftarrow_{r_1} (v*1)+0 \rightarrow_{r_3} v+0 </span></p></blockquote></div></p><p>But wait a second... is <span class="texMathInline">r_5</span> really derivable from <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>?
-Actually, no. If you start with <span class="texMathInline">v*1</span>, there&rsquo;s no way to introduce a <span class="texMathInline">0</span> to get <span class="texMathInline">v+0</span>.
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">(v*1)*0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v</span></p></blockquote></div></p><p><div class="SIntrapara">And here&rsquo;s a derivation of <span class="texMathInline">r_5</span>:
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline"> v*1 \leftarrow_{r_1} (v*1)*0 \rightarrow_{r_3} v*0 </span></p></blockquote></div></p><p>But wait a second... is <span class="texMathInline">r_5</span> really derivable from <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>?
+Actually, no. If you start with <span class="texMathInline">v*1</span>, there&rsquo;s no way to introduce a <span class="texMathInline">0</span> to get <span class="texMathInline">v*0</span>.
 The reason the unsound algorithm above was able to derive it was that there was what I call a <span style="font-style: italic">magic term</span> in the initial state.
-Namely, <span class="texMathInline">(v*1)+0</span> was in the initial state because
+Namely, <span class="texMathInline">(v*1)*0</span> was in the initial state because
 we were trying to derive another rule at the same time.
 The existence of that term allowed us to derive <span class="texMathInline">r_5</span>.
 (If you know a better name for magic terms, terms that are used in a derivation that need to be introduced out of thin air, please let me know!)</p><p>It turns out that Ruler&rsquo;s <span class="texMathInline">enumeration</span> of rewrite rules, which tries to shrink the space of possible rules by using the existing ones, is also unsound in a similar way.</p><h3>4<tt>&nbsp;</tt><a name="(part.__.A_.Faster_.Sound_.Algorithm_)"></a> A Faster Sound Algorithm </h3><p>Are we doomed to picking single rules from <span class="texMathInline">R</span> and attempting to derive them?
