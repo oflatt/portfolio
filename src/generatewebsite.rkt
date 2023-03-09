@@ -470,7 +470,10 @@ or in sequence.")
 
 (define (make-blog)
   (define blog-posts
-    `(("Limitations of E-Graph Intersection" "egraph-union-intersect.html" 8 5 2022)))
+    `(("Minimizing Sets of Rewrite Rules: Sound and Unsound Approaches"
+       "magic-terms.html" 3 8 2023)
+      ("Limitations of E-Graph Intersection" "egraph-union-intersect.html" 8 5 2022)
+    ))
   
   `(div (@ (style ,(string-append margin-format "margin-bottom:" post-spacing "px;padding-bottom:10px;background-color:rgb(232, 245, 247);margin-left:2%;margin-right:0;")))
         ,@(for/list ([post blog-posts])
