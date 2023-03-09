@@ -28,19 +28,19 @@ Many applications make use of @bold{rewrite rules}:
 directed equalities over terms that can include forall-quantified variables.
 For example, a compiler might make use of this rule to
 optimize your code:
-@${r_1: \forall x, x+0 \rightarrow 0}.
+@${r_1: \forall x, x*0 \rightarrow 0}.
 
 Combining rewrite rules can be a powerful way to 
 simplify or optimize terms.
-Here's a rule for commutativity of addition: @${r_2: \forall x y, x+y \rightarrow y+x}.
+Here's a rule for commutativity of addition: @${r_2: \forall x y, x*y \rightarrow y*x}.
 If we use it in sequence with the rule above, we can now
-prove that @${0+x =_{r_2} x+0 =_{r_1} 0}.
+prove that @${0*x =_{r_2} x*0 =_{r_1} 0}.
 
 Rewrite rules are typically applied in a bottom-up way.
 We can represent a @italic{state} as a set of grounded terms and equalities between them.
-For example, our initial state might be @${\{x+0\}},
+For example, our initial state might be @${\{x*0\}},
 our initial program we want to optimize.
-We can then apply @${r_1} to this state, and get a new state, @${\{x+0, 0, x+0 = 0\}}.
+We can then apply @${r_1} to this state, and get a new state, @${\{x*0, 0, x*0 = 0\}}.
 The bottom-up evaluation also means that rewrite rules must be directed.
 For example, it's impossible to apply @${r_1} in the reverse
 direction, because the left-hand side of the rule contains @${x}, a variable not bound on the right-hand side.
@@ -91,8 +91,8 @@ Now the problem becomes proving that @${R'} subsumes @${r}.
 The cool trick that we will use is to actually insert the left-hand side of @${r} into a database, and then apply @${R'} to it to try and derive @${r}.
 But @${r} has forall-quantified variables in it, so first we
 @italic{skolemize} it, turning it into a ground term on variables.
-For example, if we have a rule @${r: \forall x, x+0 \rightarrow 0}, we skolemize the left-hand side, turning it into @${v+0}, for some fresh name @${v}.
-Now, for the initial database @${S = \{v+0\}}, if for some @${n} we have that @${(v+0 = 0) \in R'_n(S)},
+For example, if we have a rule @${r: \forall x, x*0 \rightarrow 0}, we skolemize the left-hand side, turning it into @${v*0}, for some fresh name @${v}.
+Now, for the initial database @${S = \{v*0\}}, if for some @${n} we have that @${(v*0 = 0) \in R'_n(S)},
 then we know that @${R'} subsumes @${r}.
 Intuitively, this is because we didn't know anything about
 the skolemized variable @${v}, so if we found that we can derive the right side of @${r} from the left side,
@@ -115,26 +115,26 @@ This is much faster because many rewrite rules can be derived at once, and there
 
 To see why this is unsound, consider the following example.
 Suppose we have the following rewrite rules:
-@centered{@${r_1: \forall x, x+0 \rightarrow 0}}
+@centered{@${r_1: \forall x, x*0 \rightarrow 0}}
 @centered{@${r_3: \forall x, x*1 \rightarrow 1*x}}
-@centered{@${r_4: \forall x, (x*1)+0 \rightarrow x}}
-@centered{@${r_5: \forall x, x*1 \rightarrow x+0}}
+@centered{@${r_4: \forall x, (x*1)*0 \rightarrow x}}
+@centered{@${r_5: \forall x, x*1 \rightarrow x*0}}
 
 Now, let's try to derive @${r_4} and @${r_5} using @${r_1} and @${r_3}.
-First, we skolemize @${r_4} and @${r_5}, getting @${(v*1)+0} and @${v*1}.
-Now, we apply our rules on the initial state @${S = \{(v*1)+0\}}.
+First, we skolemize @${r_4} and @${r_5}, getting @${(v*1)*0} and @${v*1}.
+Now, we apply our rules on the initial state @${S = \{(v*1)*0\}}.
 And it turns out, we can derive both @${r_4} and @${r_5}!
 
 Here's a derivation of @${r_4}:
-@centered{@${(v*1)+0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v}}
+@centered{@${(v*1)*0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v}}
 
 And here's a derivation of @${r_5}:
-@centered{@${ v*1 \leftarrow_{r_1} (v*1)+0 \rightarrow_{r_3} v+0 }}
+@centered{@${ v*1 \leftarrow_{r_1} (v*1)*0 \rightarrow_{r_3} v*0 }}
 
 But wait a second... is @${r_5} really derivable from @${r_1} and @${r_3}?
-Actually, no. If you start with @${v*1}, there's no way to introduce a @${0} to get @${v+0}.
+Actually, no. If you start with @${v*1}, there's no way to introduce a @${0} to get @${v*0}.
 The reason the unsound algorithm above was able to derive it was that there was what I call a @italic{magic term} in the initial state.
-Namely, @${(v*1)+0} was in the initial state because
+Namely, @${(v*1)*0} was in the initial state because
 we were trying to derive another rule at the same time.
 The existence of that term allowed us to derive @${r_5}.
 (If you know a better name for magic terms, terms that are used in a derivation that need to be introduced out of thin air, please let me know!)
