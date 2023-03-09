@@ -22,7 +22,7 @@ jobs:
 
       - name: Build
         run: |
-          make build
+          xhost + && make build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.3

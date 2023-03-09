@@ -1,7 +1,6 @@
 #lang slideshow/widescreen
 
-(require pict pict/color pict/conditional pict/face slideshow/play pict/flash)
-(require slideshow/slides-to-picts)
+(require pict pict/color pict/conditional pict/face #;slideshow/play pict/flash)
 
 (require racket/draw
          (only-in 2htdp/image
@@ -76,6 +75,8 @@
 (define (happend-gap-size . elements)
   (apply (curry ht-append (current-gap-size)) elements))
 
+;; Commented because it requires slideshow, which initializes display
+#;
 (define (make-dynamic-slide func #:iters [iters 1] #:title [title #f] #:layout [layout 'top] #:start [start 0])
   (for ([iter (in-range start iters)])
        (play-n #:title (cond
@@ -251,6 +252,7 @@
   (define left-factor (max 0 (/ (- (* factor (pict-width picture)) width) 2)))
   (inset/clip (scale picture factor) (- left-factor) 0 (- left-factor) 0))
 
+#;
 (define (my-make-outline section-headings section-funcs progress #:iters [iters 1] #:start [start 0])
   (define box
     (make-bubble #:color "dark gray" #:width 40 #:height 40 (blank 0 0)))
@@ -343,6 +345,7 @@
     (end-doc)))
 
 
+#;
 (define (slides->pdf input-file output-file)
   (define real-w 1920)
   (define real-h 1080)
