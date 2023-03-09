@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/><meta name="viewport" content="width=device-width, initial-scale=0.8"/><title> Minimizing Sets of Rewrite Rules: Sound and Unsound Approaches </title><link rel="stylesheet" type="text/css" href="scribble.css" title="default"/><link rel="stylesheet" type="text/css" href="docstyle.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-style.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-racket.css" title="default"/><script type="text/javascript" src="scribble-common.js"></script><script type="text/javascript">
+(function() {
+  document.write('<link rel="stylesheet" href="katex/katex.min.css" />');
+})();(function() {document.write('<scr' + 'ipt type="text/javascript" src="katex/katex.min.js"></scr' + 'ipt>');})();(function(f) {
+  // A "simple" onLoad function
+  if (window.document.readyState == "complete") {
+    f();
+  } else if (window.document.addEventListener) {
+    window.document.addEventListener("DOMContentLoaded", f, false);
+  } else if (window.attachEvent) {
+    window.attachEvent("onreadystatechange", function() {
+      if (window.document.readyState == "complete") {
+        f();
+      }
+    });
+  } else {
+    var oldLoad = window.onload;
+    if (typeof(oldLoad) == "function") {
+      window.onload = function() {
+        try {
+          oldLoad();
+        } finally {
+          f();
+        }
+      };
+    } else {
+      window.onload = f;
+    }
+  }
+})(function() {
+  // This is an ugly way to change the doctype, in case the scribble document
+  // did not use (with-html5).
+  if (!(document.doctype && document.doctype.publicId == '')) {
+    if (console && console.log) {
+      console.log("Re-wrote the document to use the HTML5 doctype.\n"
+                  + "  Consider using the following declaration:\n"
+                  + "      @title[#:style (with-html5 manual-doc-style)]{…}");
+    }
+    var wholeDoc = '<!doctype HTML>\n' + document.documentElement.outerHTML;
+    document.open();
+    document.clear();
+    document.write(wholeDoc);
+  }
+  var inlineElements = document.getElementsByClassName("texMathInline");
+  for (var i = 0; i < inlineElements.length; i++) {
+    var e = inlineElements[i];
+    katex.render(e.textContent, e, { displayMode:false, throwOnError:false });
+  }
+  var displayElements = document.getElementsByClassName("texMathDisplay");
+  for (var i = 0; i < displayElements.length; i++) {
+    var e = displayElements[i];
+    katex.render(e.textContent, e, { displayMode:true, throwOnError:false });
+  }
+});
+</script><script type="text/javascript" src="manual-racket.js"></script><!--[if IE 6]><style type="text/css">.SIEHidden { overflow: hidden; }</style><![endif]--><link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito+Sa
+          ns"></head><body id="scribble-racket-lang-org"><div class="tocset"><div class="tocview"><div class="tocviewlist tocviewlisttopspace"><div class="tocviewtitle"><table cellspacing="0" cellpadding="0"><tr><td style="width: 1em;"><a href="javascript:void(0);" title="Expand/Collapse" class="tocviewtoggle" onclick="TocviewToggle(this,&quot;tocview_0&quot;);">&#9658;</a></td><td></td><td><a href="" class="tocviewselflink" data-pltdoc="x"> Minimizing Sets of Rewrite Rules:<span class="mywbr"> &nbsp;</span> Sound and Unsound Approaches </a></td></tr></table></div><div class="tocviewsublistonly" style="display: none;" id="tocview_0"><table cellspacing="0" cellpadding="0"><tr><td align="right">1&nbsp;</td><td><a href="#%28part.__.Rewrite_.Rules_%29" class="tocviewlink" data-pltdoc="x"> Rewrite Rules </a></td></tr><tr><td align="right">2&nbsp;</td><td><a href="#%28part.__.Reducing_.Sets_of_.Rewrite_.Rules_%29" class="tocviewlink" data-pltdoc="x"> Reducing Sets of Rewrite Rules </a></td></tr><tr><td align="right">3&nbsp;</td><td><a href="#%28part.__.Ruler_s_.Unsound_.Algorithm_%29" class="tocviewlink" data-pltdoc="x"> Ruler&rsquo;s Unsound Algorithm </a></td></tr><tr><td align="right">4&nbsp;</td><td><a href="#%28part.__.A_.Faster_.Sound_.Algorithm_%29" class="tocviewlink" data-pltdoc="x"> A Faster Sound Algorithm </a></td></tr></table></div></div></div><div class="tocsub"><table class="tocsublist" cellspacing="0"><tr><td><span class="tocsublinknumber"></span><a href="#%28part.__.Minimizing_.Sets_of_.Rewrite_.Rules__.Sound_and_.Unsound_.Approaches_%29" class="tocsubseclink" data-pltdoc="x"> Minimizing Sets of Rewrite Rules:<span class="mywbr"> &nbsp;</span> Sound and Unsound Approaches </a></td></tr><tr><td><span class="tocsublinknumber">1<tt>&nbsp;</tt></span><a href="#%28part.__.Rewrite_.Rules_%29" class="tocsubseclink" data-pltdoc="x"> Rewrite Rules </a></td></tr><tr><td><span class="tocsublinknumber">2<tt>&nbsp;</tt></span><a href="#%28part.__.Reducing_.Sets_of_.Rewrite_.Rules_%29" class="tocsubseclink" data-pltdoc="x"> Reducing Sets of Rewrite Rules </a></td></tr><tr><td><span class="tocsublinknumber">3<tt>&nbsp;</tt></span><a href="#%28part.__.Ruler_s_.Unsound_.Algorithm_%29" class="tocsubseclink" data-pltdoc="x"> Ruler&rsquo;s Unsound Algorithm </a></td></tr><tr><td><span class="tocsublinknumber">4<tt>&nbsp;</tt></span><a href="#%28part.__.A_.Faster_.Sound_.Algorithm_%29" class="tocsubseclink" data-pltdoc="x"> A Faster Sound Algorithm </a></td></tr></table></div></div><div class="maincolumn"><div class="main"><div class="versionbox"><span class="versionNoNav">8.5</span></div><h2><a name="(part.__.Minimizing_.Sets_of_.Rewrite_.Rules__.Sound_and_.Unsound_.Approaches_)"></a> Minimizing Sets of Rewrite Rules: Sound and Unsound Approaches </h2><h3>1<tt>&nbsp;</tt><a name="(part.__.Rewrite_.Rules_)"></a> Rewrite Rules </h3><p>Many applications make use of <span style="font-weight: bold">rewrite rules</span>:
+directed equalities over terms that can include forall-quantified variables.
+For example, a compiler might make use of this rule to
+optimize your code:
+<span class="texMathInline">r_1: \forall x, x+0 \rightarrow 0</span>.</p><p>Combining rewrite rules can be a powerful way to
+simplify or optimize terms.
+Here&rsquo;s a rule for commutativity of addition: <span class="texMathInline">r_2: \forall x y, x+y \rightarrow y+x</span>.
+If we use it in sequence with the rule above, we can now
+prove that <span class="texMathInline">0+x =_{r_2} x+0 =_{r_1} 0</span>.</p><p>Rewrite rules are typically applied in a bottom-up way.
+We can represent a <span style="font-style: italic">state</span> as a set of grounded terms and equalities between them.
+For example, our initial state might be <span class="texMathInline">\{x+0\}</span>,
+our initial program we want to optimize.
+We can then apply <span class="texMathInline">r_1</span> to this state, and get a new state, <span class="texMathInline">\{x+0, 0, x+0 = 0\}</span>.
+The bottom-up evaluation also means that rewrite rules must be directed.
+For example, it&rsquo;s impossible to apply <span class="texMathInline">r_1</span> in the reverse
+direction, because the left-hand side of the rule contains <span class="texMathInline">x</span>, a variable not bound on the right-hand side.</p><h3>2<tt>&nbsp;</tt><a name="(part.__.Reducing_.Sets_of_.Rewrite_.Rules_)"></a> Reducing Sets of Rewrite Rules </h3><p><a href="https://github.com/uwplse/ruler">Ruler</a> is a tool that automatically synthesizes a set of rewrite rules for a particular domain.
+The first thing it does is enumerate generate thousands or hundreds of thousands of rewrite rules, all of them valid for you domain.
+However, many of these rules are redundant- you can get the same effect using other rules.
+So it has to reduce this giant set of rewrite rules into somthing small and usable in other applications.</p><p>We would then know that the smaller subset of rules <span class="texMathInline">subsumes</span> the original set.
+Let&rsquo;s define this idea more formally.
+I&rsquo;ll write <span class="texMathInline">R</span> for a set of rewrite rules, and <span class="texMathInline">R_n(S)</span> for applying <span class="texMathInline">R</span> to a state <span class="texMathInline">S</span> <span style="font-style: italic">n</span> times.
+Now, a ruleset <span class="texMathInline">R{}&rsquo;</span> subsumes another ruleset <span class="texMathInline">R</span> if,
+for any grounded equality we can prove with <span class="texMathInline">R</span>,
+we can prove the same equality using <span class="texMathInline">R{}&rsquo;</span>.
+More formally,</p><p><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">\forall S, \forall n, (t = u) \in <span class="texMathInline">R_n(S)</span> \implies</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">\exists m, (t = u) \in R{}&rsquo;_m(S)</span></p></blockquote></div></p><p>where <span class="texMathInline">S</span> is an initial state and <span class="texMathInline">(t = u)</span> is some grounded equality that we can prove with <span class="texMathInline">R</span>.</p><p>So how are we going to reduce our set of rewrite rules?
+<span class="texMathInline">R{}&rsquo;</span> is a subset of <span class="texMathInline">R</span>, so we can try removing one rule <span class="texMathInline">r \in R</span> at a time from <span class="texMathInline">R</span>.
+Now, <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">R</span> if it can subsume the single rule <span class="texMathInline">r</span>.
+For some intuition why, consider that any equality
+is derived from some sequence of rewrite rule applications
+starting from some initial term.
+Now, if <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>, it means that under any situation it can do "the same thing" as <span class="texMathInline">r</span>.
+So if at any point the derivation of an equality uses <span class="texMathInline">r</span>, we can replace it with some use of rules in <span class="texMathInline">R{}&rsquo;</span>.</p><p>Now the problem becomes proving that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>.
+The cool trick that we will use is to actually insert the left-hand side of <span class="texMathInline">r</span> into a database, and then apply <span class="texMathInline">R{}&rsquo;</span> to it to try and derive <span class="texMathInline">r</span>.
+But <span class="texMathInline">r</span> has forall-quantified variables in it, so first we
+<span style="font-style: italic">skolemize</span> it, turning it into a ground term on variables.
+For example, if we have a rule <span class="texMathInline">r: \forall x, x+0 \rightarrow 0</span>, we skolemize the left-hand side, turning it into <span class="texMathInline">v+0</span>, for some fresh name <span class="texMathInline">v</span>.
+Now, for the initial database <span class="texMathInline">S = \{v+0\}</span>, if for some <span class="texMathInline">n</span> we have that <span class="texMathInline">(v+0 = 0) \in R{}&rsquo;_n(S)</span>,
+then we know that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>.
+Intuitively, this is because we didn&rsquo;t know anything about
+the skolemized variable <span class="texMathInline">v</span>, so if we found that we can derive the right side of <span class="texMathInline">r</span> from the left side,
+then for any <span class="texMathInline">v</span> we will be able to do the same thing.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.Ruler_s_.Unsound_.Algorithm_)"></a> Ruler&rsquo;s Unsound Algorithm </h3><p>We saw in the last section that we can reduce a set of rewrite rules soundly by trying to remove each of the rules one by one.
+However, this is a very expensive process.
+Remember, Ruler generates hundreds of thousands of valid rewrite rules.
+For each of these rules, we need to run a full bottom-up procedure that tries to derive the right side of the rule.
+Even though it&rsquo;s easily parallelizable, it&rsquo;s still too expensive in many cases.</p><p>Ruler has a much faster, but unsound way to reduce a set of rewrite rules.
+Instead of starting with just one skolemized rewrite rule, it starts with a large set of them all at once.
+They also share common skolemized variables, getting a bunch of sharing.
+They then run a small set of (heuristically) selected rewrite rules, finding which rewrites can be derived.
+This is much faster because many rewrite rules can be derived at once, and there is a lot of sharing of state during the evaluation process.</p><p><div class="SIntrapara">To see why this is unsound, consider the following example.
+Suppose we have the following rewrite rules:
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_1: \forall x, x+0 \rightarrow 0</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_3: \forall x, x*1 \rightarrow 1*x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_4: \forall x, (x*1)+0 \rightarrow x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_5: \forall x, x*1 \rightarrow x+0</span></p></blockquote></div></p><p>Now, let&rsquo;s try to derive <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span> using <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>.
+First, we skolemize <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>, getting <span class="texMathInline">(v*1)+0</span> and <span class="texMathInline">v*1</span>.
+Now, we apply our rules on the initial state <span class="texMathInline">S = \{(v*1)+0\}</span>.
+And it turns out, we can derive both <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>!</p><p><div class="SIntrapara">Here&rsquo;s a derivation of <span class="texMathInline">r_4</span>:
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">(v*1)+0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v</span></p></blockquote></div></p><p><div class="SIntrapara">And here&rsquo;s a derivation of <span class="texMathInline">r_5</span>:
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline"> v*1 \leftarrow_{r_1} (v*1)+0 \rightarrow_{r_3} v+0 </span></p></blockquote></div></p><p>But wait a second... is <span class="texMathInline">r_5</span> really derivable from <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>?
+Actually, no. If you start with <span class="texMathInline">v*1</span>, there&rsquo;s no way to introduce a <span class="texMathInline">0</span> to get <span class="texMathInline">v+0</span>.
+The reason the unsound algorithm above was able to derive it was that there was what I call a <span style="font-style: italic">magic term</span> in the initial state.
+Namely, <span class="texMathInline">(v*1)+0</span> was in the initial state because
+we were trying to derive another rule at the same time.
+The existence of that term allowed us to derive <span class="texMathInline">r_5</span>.
+(If you know a better name for magic terms, terms that are used in a derivation that need to be introduced out of thin air, please let me know!)</p><p>It turns out that Ruler&rsquo;s <span class="texMathInline">enumeration</span> of rewrite rules, which tries to shrink the space of possible rules by using the existing ones, is also unsound in a similar way.</p><h3>4<tt>&nbsp;</tt><a name="(part.__.A_.Faster_.Sound_.Algorithm_)"></a> A Faster Sound Algorithm </h3><p>Are we doomed to picking single rules from <span class="texMathInline">R</span> and attempting to derive them?
+It seems like the trick that Ruler plays in batching many
+queries together won&rsquo;t work.
+However, we might be able to do something similar, but soundly.</p><p>Suppose we are trying to derive a batch of rules <span class="texMathInline">D</span>, whose left and right-hand sides skolemize to terms <span class="texMathInline">t_1, t_2, ....</span>.
+Construct a graph that has a node for each term <span class="texMathInline">t_i</span>, and initially contains no edges.
+We&rsquo;ll start out with a graph like this one:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict.png" alt="image" width="186.0" height="186.0"/></p><p>Now, for each rule <span class="texMathInline">r \in D</span>, try to derive it the slow and sound way.
+For each of the rewrite rules we are able to derive, add an edge from the left-hand side to the right-hand side.
+For example, we may end up with something like this:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict_2.png" alt="image" width="186.0" height="186.0"/></p><p>Now, we automatically know that our ruleset also derives a rule whose left side is <span class="texMathInline">t_1</span> and right-hand side is <span class="texMathInline">t_3</span>.
+This is because we derive <span class="texMathInline">t_1 \rightarrow t_2</span> and <span class="texMathInline">t_2 \rightarrow t_3</span>, and so by transitivity we know that we derive <span class="texMathInline">t_1 \rightarrow t_3</span>.</p><p>In fact, we know that any rule whose left hand side and right hand side are within a <a href="https://en.wikipedia.org/wiki/Strongly_connected_component">strongly connected component</a> in the graph is already derived.
+This is a less strong inference than ruler makes in its unsound algorithm, but it can still reduce a quadratic number of checks to linear in some cases.</p></div></div><div id="contextindicator">&nbsp;</div></body></html>
