@@ -73,40 +73,39 @@ For example, it&rsquo;s impossible to apply <span class="texMathInline">r_1</spa
 direction, because the left-hand side of the rule contains <span class="texMathInline">x</span>, a variable not bound on the right-hand side.</p><h3>2<tt>&nbsp;</tt><a name="(part.__.Reducing_.Sets_of_.Rewrite_.Rules_)"></a> Reducing Sets of Rewrite Rules </h3><p><a href="https://github.com/uwplse/ruler">Ruler</a> is a tool that automatically synthesizes a set of rewrite rules for a particular domain.
 The first thing it does is enumerate thousands or hundreds of thousands of rewrite rules, all of them valid for your domain.
 However, many of these rules are redundant- you can get the same effect using other rules.
-So it has to reduce this giant set of rewrite rules into somthing small and usable in other applications.</p><p>We would then know that the smaller subset of rules <span class="texMathInline">subsumes</span> the original set.
+So it has to reduce this giant set of rewrite rules into something small and usable in other applications.</p><p>We would then know that the smaller subset of rules <span class="texMathInline">subsumes</span> the original set.
 Let&rsquo;s define this idea more formally.
 I&rsquo;ll write <span class="texMathInline">R</span> for a set of rewrite rules, and <span class="texMathInline">R_n(S)</span> for applying <span class="texMathInline">R</span> to a state <span class="texMathInline">S</span> <span style="font-weight: bold">n</span> times.
-Now, a ruleset <span class="texMathInline">R{}&rsquo;</span> subsumes another ruleset <span class="texMathInline">R</span> if,
+Now, another ruleset <span class="texMathInline">R{}&rsquo;</span> subsumes another ruleset <span class="texMathInline">R</span> if,
 for any grounded equality we can prove with <span class="texMathInline">R</span>,
 we can prove the same equality using <span class="texMathInline">R{}&rsquo;</span>.
 More formally,</p><p><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">\forall S, \forall n, (t = u) \in <span class="texMathInline">R_n(S)</span> \implies</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">\exists m, (t = u) \in R{}&rsquo;_m(S)</span></p></blockquote></div></p><p>where <span class="texMathInline">S</span> is an initial state and <span class="texMathInline">(t = u)</span> is some grounded equality that we can prove with <span class="texMathInline">R</span>.</p><p>So how are we going to reduce our set of rewrite rules?
 <span class="texMathInline">R{}&rsquo;</span> is a subset of <span class="texMathInline">R</span>, so we can try removing one rule <span class="texMathInline">r \in R</span> at a time from <span class="texMathInline">R</span>.
 Now, <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">R</span> if it can subsume the single rule <span class="texMathInline">r</span>.
-For some intuition why, consider that any equality
+For some intuition why consider that any equality
 is derived from some sequence of rewrite rule applications
 starting from some initial term.
 Now, if <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>, it means that under any situation it can do "the same thing" as <span class="texMathInline">r</span>.
 So if at any point the derivation of an equality uses <span class="texMathInline">r</span>, we can replace it with some use of rules in <span class="texMathInline">R{}&rsquo;</span>.</p><p>Now the problem becomes proving that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>.
 The cool trick that we will use is to actually insert the left-hand side of <span class="texMathInline">r</span> into a database, and then apply <span class="texMathInline">R{}&rsquo;</span> to it to try and derive <span class="texMathInline">r</span>.
-But <span class="texMathInline">r</span> has forall-quantified variables in it, so first we
-<span style="font-weight: bold">skolemize</span> it, turning it into a ground term on variables.
-For example, if we have a rule <span class="texMathInline">r: \forall x, x*0 \rightarrow 0</span>, we skolemize the left-hand side, turning it into <span class="texMathInline">v*0</span>, for some fresh name <span class="texMathInline">v</span>.
+But <span class="texMathInline">r</span> has forall-quantified variables in it, so first we ground it, turning it into a term on fresh variables.
+For example, if we have a rule <span class="texMathInline">r: \forall x, x*0 \rightarrow 0</span>, we ground the left-hand side, turning it into <span class="texMathInline">v*0</span>, for some fresh name <span class="texMathInline">v</span>.
 Now, for the initial database <span class="texMathInline">S = \{v*0\}</span>, if for some <span class="texMathInline">n</span> we have that <span class="texMathInline">(v*0 = 0) \in R{}&rsquo;_n(S)</span>,
 then we know that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>.
 Intuitively, this is because we didn&rsquo;t know anything about
-the skolemized variable <span class="texMathInline">v</span>, so if we found that we can derive the right side of <span class="texMathInline">r</span> from the left side,
+the variable <span class="texMathInline">v</span>, so if we found that we can derive the right side of <span class="texMathInline">r</span> from the left side,
 then for any <span class="texMathInline">v</span> we will be able to do the same thing.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.Ruler_s_.Unsound_.Algorithm_)"></a> Ruler&rsquo;s Unsound Algorithm </h3><p>We saw in the last section that we can reduce a set of rewrite rules soundly by trying to remove each of the rules one by one.
 However, this is a very expensive process.
 Remember, Ruler generates hundreds of thousands of valid rewrite rules.
 For each of these rules, we need to run a full bottom-up procedure that tries to derive the right side of the rule.
 Even though it&rsquo;s easily parallelizable, it&rsquo;s still too expensive in many cases.</p><p>Ruler has a much faster, but unsound way to reduce a set of rewrite rules.
-Instead of starting with just one skolemized rewrite rule, it starts with a large set of them all at once.
-They also share common skolemized variables, getting a bunch of sharing.
+Instead of starting with just one rewrite rule, it starts with a large set of them all at once.
+They also share common variables, getting a bunch of sharing.
 They then run a small set of (heuristically) selected rewrite rules, finding which rewrites can be derived.
 This is much faster because many rewrite rules can be derived at once, and there is a lot of sharing of state during the evaluation process.</p><p><div class="SIntrapara">To see why this is unsound, consider the following example.
 Suppose we have the following rewrite rules:
 </div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_1: \forall x, x*0 \rightarrow 0</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_3: \forall x, x*1 \rightarrow 1*x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_4: \forall x, (x*1)*0 \rightarrow x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_5: \forall x, x*1 \rightarrow x*0</span></p></blockquote></div></p><p>Now, let&rsquo;s try to derive <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span> using <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>.
-First, we skolemize <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>, getting <span class="texMathInline">(v*1)*0</span> and <span class="texMathInline">v*1</span>.
+First, we ground <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>, getting <span class="texMathInline">(v*1)*0</span> and <span class="texMathInline">v*1</span>.
 Now, we apply our rules on the initial state <span class="texMathInline">S = \{(v*1)*0\}</span>.
 And it turns out, we can derive both <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>!</p><p><div class="SIntrapara">Here&rsquo;s a derivation of <span class="texMathInline">r_4</span>:
 </div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">(v*1)*0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v</span></p></blockquote></div></p><p><div class="SIntrapara">And here&rsquo;s a derivation of <span class="texMathInline">r_5</span>:
@@ -119,19 +118,20 @@ The existence of that term allowed us to derive <span class="texMathInline">r_5<
 (If you know a better name for magic terms, terms that are used in a derivation that need to be introduced out of thin air, please let me know!)</p><p>It turns out that Ruler&rsquo;s <span class="texMathInline">enumeration</span> of rewrite rules, which tries to shrink the space of possible rules by using the existing ones, is also unsound in a similar way.</p><h3>4<tt>&nbsp;</tt><a name="(part.__.A_.Faster_.Sound_.Algorithm_)"></a> A Faster Sound Algorithm </h3><p>Are we doomed to picking single rules from <span class="texMathInline">R</span> and attempting to derive them?
 It seems like the trick that Ruler plays in batching many
 queries together won&rsquo;t work.
-However, we might be able to do something similar, but soundly.</p><p>Suppose we are trying to derive a batch of rules <span class="texMathInline">D</span>, whose left and right-hand sides skolemize to terms <span class="texMathInline">t_1, t_2, ....</span>.
+However, we might be able to do something similar, but soundly.</p><p>Suppose we are trying to derive a batch of rules <span class="texMathInline">R_d</span>, whose left and right-hand sides ground to terms <span class="texMathInline">t_1, t_2, ....</span>.
 Construct a graph that has a node for each term <span class="texMathInline">t_i</span>, and initially contains no edges.
-We&rsquo;ll start out with a graph like this one:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict.png" alt="image" width="186.0" height="186.0"/></p><p>Now, for each rule <span class="texMathInline">r \in D</span>, try to derive it the slow and sound way.
+We&rsquo;ll start with a graph like this one:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict.png" alt="image" width="186.0" height="186.0"/></p><p>Now, for each rule <span class="texMathInline">r \in R_d</span>, try to derive it the slow and sound way.
 For each of the rewrite rules we are able to derive, add an edge from the left-hand side to the right-hand side.
 For example, we may end up with something like this:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict_2.png" alt="image" width="186.0" height="186.0"/></p><p>Now, we automatically know that our ruleset also derives a rule whose left side is <span class="texMathInline">t_1</span> and right-hand side is <span class="texMathInline">t_3</span>.
-This is because we derive <span class="texMathInline">t_1 \rightarrow t_2</span> and <span class="texMathInline">t_2 \rightarrow t_3</span>, and so by transitivity we know that we derive <span class="texMathInline">t_1 \rightarrow t_3</span>.</p><p>In fact, we know that any rule whose left hand side and right hand side are within a <a href="https://en.wikipedia.org/wiki/Strongly_connected_component">strongly connected component</a> in the graph is already derived.
-This is a less strong inference than ruler makes in its unsound algorithm, but it can still reduce a quadratic number of checks to linear in some cases.</p><p>The algorithm I&rsquo;ve described so far is to keep track of a
+This is because we derive <span class="texMathInline">t_1 \rightarrow t_2</span> and <span class="texMathInline">t_2 \rightarrow t_3</span>, and so by transitivity we know that we derive <span class="texMathInline">t_1 \rightarrow t_3</span>.</p><p><div class="SIntrapara">In fact, we know that any rule whose left hand side and right hand side are within a <a href="https://en.wikipedia.org/wiki/Strongly_connected_component">strongly connected component</a> in the graph is already derived.
+Our new algorithm works as follows:
+</div><div class="SIntrapara"><ul><li><p>Pick a rule which connects to different strongly connected components.</p></li><li><p>Attempt to derive the rule using the sound method.</p></li><li><p>If the rule can be derived, add the edge to the directed graph of terms.</p></li></ul></div><div class="SIntrapara">This is a less strong inference than ruler makes in its unsound algorithm, but it can still reduce a quadratic number of checks to linear in some cases.</div></p><p>The algorithm I&rsquo;ve described so far is to keep track of a
 <span style="font-weight: bold">directed</span> graph of rewrites between ground terms.
 At each step, we have to run a bottom-up inference procedure
 where the state is a set of <span style="font-weight: bold">undirected</span> equalities
 between ground terms.
 A particular bottom-up procedure for calculating these
-equalities is called <span style="font-weight: bold">equality saturation</span>,
+equalities is called equality saturation,
 which uses a <a href="https://www.philipzucker.com/egraph-1/">e-graph</a> data structure.
 But instead of having these two graphs, one directed and one undirected, what if we could do everything in the
 directed graph?
