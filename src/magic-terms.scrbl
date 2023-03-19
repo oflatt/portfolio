@@ -218,6 +218,6 @@ It is called @bold{tree automata completion}.
 In a tree automata, you are guaranteed that no
 pesky "magic terms" are used to prove that
 one term rewrites to another.
-@link["https://effect.systems/blog/ta-completion.html"](Yihong's awesome blog post) describes them in more detail.
+@link["https://effect.systems/blog/ta-completion.html"]{Yihong's awesome blog post} describes them in more detail.
 
 
