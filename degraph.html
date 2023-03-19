@@ -59,15 +59,15 @@
 directed equalities over terms that can include forall-quantified variables.
 For example, a compiler might make use of this rule to
 optimize your code:
-<span class="texMathInline">r_1: \forall x, x+0 \rightarrow 0</span>.</p><p>Combining rewrite rules can be a powerful way to
+<span class="texMathInline">r_1: \forall x, x*0 \rightarrow 0</span>.</p><p>Combining rewrite rules can be a powerful way to
 simplify or optimize terms.
-Here&rsquo;s a rule for commutativity of addition: <span class="texMathInline">r_2: \forall x, \forall y, x+y \rightarrow y+x</span>.
+Here&rsquo;s a rule for commutativity of addition: <span class="texMathInline">r_2: \forall x, \forall y, x*y \rightarrow y*x</span>.
 If we use it in sequence with the rule above, we can now
-prove that <span class="texMathInline">0+x =_{r_2} x+0 =_{r_1} 0</span>.</p><p>Rewrite rules are typically applied in a bottom-up way.
+prove that <span class="texMathInline">0*x =_{r_2} x*0 =_{r_1} 0</span>.</p><p>Rewrite rules are typically applied in a bottom-up way.
 We can represent a <span style="font-weight: bold">state</span> as a set of grounded terms and equalities between them.
-For example, our initial state might be <span class="texMathInline">\{x+0\}</span>,
+For example, our initial state might be <span class="texMathInline">\{x*0\}</span>,
 our initial program we want to optimize.
-We can then apply <span class="texMathInline">r_1</span> to this state, and get a new state, <span class="texMathInline">\{x+0, 0, x+0 = 0\}</span>.
+We can then apply <span class="texMathInline">r_1</span> to this state, and get a new state, <span class="texMathInline">\{x*0, 0, x*0 = 0\}</span>.
 The bottom-up evaluation also means that rewrite rules must be directed.
 For example, it&rsquo;s impossible to apply <span class="texMathInline">r_1</span> in the reverse
 direction, because the left-hand side of the rule contains <span class="texMathInline">x</span>, a variable not bound on the right-hand side.</p><h3>2<tt>&nbsp;</tt><a name="(part.__.Reducing_.Sets_of_.Rewrite_.Rules_)"></a> Reducing Sets of Rewrite Rules </h3><p><a href="https://github.com/uwplse/ruler">Ruler</a> is a tool that automatically synthesizes a set of rewrite rules for a particular domain.
@@ -89,10 +89,9 @@ Now, if <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texM
 So if at any point the derivation of an equality uses <span class="texMathInline">r</span>, we can replace it with some use of rules in <span class="texMathInline">R{}&rsquo;</span>.</p><p>Now the problem becomes proving that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>.
 The cool trick that we will use is to actually insert the left-hand side of <span class="texMathInline">r</span> into a database, and then apply <span class="texMathInline">R{}&rsquo;</span> to it to try and derive <span class="texMathInline">r</span>.
 But <span class="texMathInline">r</span> has forall-quantified variables in it, so first we ground it, turning it into a term on fresh variables.
-For example, recall our rule <span class="texMathInline">r_1: \forall x, x+0 \rightarrow 0</span>.
-We ground the left-hand side, turning it into <span class="texMathInline">v*0</span>, for some fresh name <span class="texMathInline">v</span>.
-Now, for the initial database <span class="texMathInline">S = \{v+0\}</span>, if for some <span class="texMathInline">n</span> we have that <span class="texMathInline">(v+0 = 0) \in R{}&rsquo;_n(S)</span>,
-then we know that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">\{r_1\}</span>.
+For example, if we have a rule <span class="texMathInline">r: \forall x, x*0 \rightarrow 0</span>, we ground the left-hand side, turning it into <span class="texMathInline">v*0</span>, for some fresh name <span class="texMathInline">v</span>.
+Now, for the initial database <span class="texMathInline">S = \{v*0\}</span>, if for some <span class="texMathInline">n</span> we have that <span class="texMathInline">(v*0 = 0) \in R{}&rsquo;_n(S)</span>,
+then we know that <span class="texMathInline">R{}&rsquo;</span> subsumes <span class="texMathInline">r</span>.
 Intuitively, this is because we didn&rsquo;t know anything about
 the variable <span class="texMathInline">v</span>, so if we found that we can derive the right side of <span class="texMathInline">r</span> from the left side,
 then for any <span class="texMathInline">v</span> we will be able to do the same thing.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.Ruler_s_.Unsound_.Algorithm_)"></a> Ruler&rsquo;s Unsound Algorithm </h3><p>We saw in the last section that we can reduce a set of rewrite rules soundly by trying to remove each of the rules one by one.
@@ -105,25 +104,25 @@ They also share common variables, getting a bunch of sharing.
 They then run a small set of (heuristically) selected rewrite rules, finding which rewrites can be derived.
 This is much faster because many rewrite rules can be derived at once, and there is a lot of sharing of state during the evaluation process.</p><p><div class="SIntrapara">To see why this is unsound, consider the following example.
 Suppose we have the following rewrite rules:
-</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_1: \forall x, x+0 \rightarrow 0</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_3: \forall x, x*1 \rightarrow 1*x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_4: \forall x, (x*1)+0 \rightarrow x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_5: \forall x, x*1 \rightarrow x*0</span></p></blockquote></div></p><p>Now, let&rsquo;s try to derive <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span> using <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>.
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_1: \forall x, x*0 \rightarrow 0</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_3: \forall x, x*1 \rightarrow 1*x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_4: \forall x, (x*1)*0 \rightarrow x</span></p></blockquote></div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">r_5: \forall x, x*1 \rightarrow x*0</span></p></blockquote></div></p><p>Now, let&rsquo;s try to derive <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span> using <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>.
 First, we ground <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>, getting <span class="texMathInline">(v*1)*0</span> and <span class="texMathInline">v*1</span>.
 Now, we apply our rules on the initial state <span class="texMathInline">S = \{(v*1)*0\}</span>.
 And it turns out, we can derive both <span class="texMathInline">r_4</span> and <span class="texMathInline">r_5</span>!</p><p><div class="SIntrapara">Here&rsquo;s a derivation of <span class="texMathInline">r_4</span>:
-</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">(v*1)+0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v</span></p></blockquote></div></p><p><div class="SIntrapara">And here&rsquo;s a derivation of <span class="texMathInline">r_5</span>:
-</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline"> v*1 \leftarrow_{r_1} (v*1)+0 \rightarrow_{r_3} v+0 </span></p></blockquote></div></p><p>But wait a second... is <span class="texMathInline">r_5</span> really derivable from <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>?
-Actually, no. If you start with <span class="texMathInline">v*1</span>, there&rsquo;s no way to introduce a <span class="texMathInline">0</span> to get <span class="texMathInline">v+0</span>.
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline">(v*1)*0 \rightarrow_{r_1} (v*1) \rightarrow_{r_3} v \rightarrow_{r_4} v</span></p></blockquote></div></p><p><div class="SIntrapara">And here&rsquo;s a derivation of <span class="texMathInline">r_5</span>:
+</div><div class="SIntrapara"><blockquote class="SCentered"><p><span class="texMathInline"> v*1 \leftarrow_{r_1} (v*1)*0 \rightarrow_{r_3} v*0 </span></p></blockquote></div></p><p>But wait a second... is <span class="texMathInline">r_5</span> really derivable from <span class="texMathInline">r_1</span> and <span class="texMathInline">r_3</span>?
+Actually, no. If you start with <span class="texMathInline">v*1</span>, there&rsquo;s no way to introduce a <span class="texMathInline">0</span> to get <span class="texMathInline">v*0</span>.
 The reason the unsound algorithm above was able to derive it was that there was what I call a <span style="font-weight: bold">magic term</span> in the initial state.
-Namely, <span class="texMathInline">(v*1)+0</span> was in the initial state because
+Namely, <span class="texMathInline">(v*1)*0</span> was in the initial state because
 we were trying to derive another rule at the same time.
 The existence of that term allowed us to derive <span class="texMathInline">r_5</span>.
-(If you know a better name for magic terms, terms that are used in a derivation that need to be introduced out of thin air, please let me know!)</p><p>It turns out that Ruler&rsquo;s <span style="font-weight: bold">enumeration</span> of rewrite rules, which tries to shrink the space of possible rules by using the existing ones, is also unsound in a similar way.</p><h3>4<tt>&nbsp;</tt><a name="(part.__.A_.Faster_.Sound_.Algorithm_)"></a> A Faster Sound Algorithm </h3><p>Are we doomed to picking single rules from <span class="texMathInline">R</span> and attempting to derive them?
+(If you know a better name for magic terms, terms that are used in a derivation that need to be introduced out of thin air, please let me know!)</p><p>It turns out that Ruler&rsquo;s <span class="texMathInline">enumeration</span> of rewrite rules, which tries to shrink the space of possible rules by using the existing ones, is also unsound in a similar way.</p><h3>4<tt>&nbsp;</tt><a name="(part.__.A_.Faster_.Sound_.Algorithm_)"></a> A Faster Sound Algorithm </h3><p>Are we doomed to picking single rules from <span class="texMathInline">R</span> and attempting to derive them?
 It seems like the trick that Ruler plays in batching many
 queries together won&rsquo;t work.
 However, we might be able to do something similar, but soundly.</p><p>Suppose we are trying to derive a batch of rules <span class="texMathInline">R_d</span>, whose left and right-hand sides ground to terms <span class="texMathInline">t_1, t_2, ....</span>.
 Construct a graph that has a node for each term <span class="texMathInline">t_i</span>, and initially contains no edges.
-We&rsquo;ll start with a graph like this one:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict_3.png" alt="image" width="186.0" height="186.0"/></p><p>Now, for each rule <span class="texMathInline">r \in R_d</span>, try to derive it the slow and sound way.
+We&rsquo;ll start with a graph like this one:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict.png" alt="image" width="186.0" height="186.0"/></p><p>Now, for each rule <span class="texMathInline">r \in R_d</span>, try to derive it the slow and sound way.
 For each of the rewrite rules we are able to derive, add an edge from the left-hand side to the right-hand side.
-For example, we may end up with something like this:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict_4.png" alt="image" width="186.0" height="186.0"/></p><p>Now, we automatically know that our ruleset also derives a rule whose left side is <span class="texMathInline">t_1</span> and right-hand side is <span class="texMathInline">t_3</span>.
+For example, we may end up with something like this:</p><p><img style="vertical-align: -0.0px; margin: -3px -3px -3px -3px;" src="pict_2.png" alt="image" width="186.0" height="186.0"/></p><p>Now, we automatically know that our ruleset also derives a rule whose left side is <span class="texMathInline">t_1</span> and right-hand side is <span class="texMathInline">t_3</span>.
 This is because we derive <span class="texMathInline">t_1 \rightarrow t_2</span> and <span class="texMathInline">t_2 \rightarrow t_3</span>, and so by transitivity we know that we derive <span class="texMathInline">t_1 \rightarrow t_3</span>.</p><p><div class="SIntrapara">In fact, we know that any rule whose left hand side and right hand side are within a <a href="https://en.wikipedia.org/wiki/Strongly_connected_component">strongly connected component</a> in the graph is already derived.
 Our new algorithm works as follows:
 </div><div class="SIntrapara"><ul><li><p>Pick a rule which connects to different strongly connected components.</p></li><li><p>Attempt to derive the rule using the sound method.</p></li><li><p>If the rule can be derived, add the edge to the directed graph of terms.</p></li></ul></div><div class="SIntrapara">This is a less strong inference than ruler makes in its unsound algorithm, but it can still reduce a quadratic number of checks to linear in some cases.</div></p><p>The algorithm I&rsquo;ve described so far is to keep track of a
@@ -137,10 +136,6 @@ which uses a <a href="https://www.philipzucker.com/egraph-1/">e-graph</a> data s
 But instead of having these two graphs, one directed and one undirected, what if we could do everything in the
 directed graph?
 This would allow us to get much more sharing in the rewrites
-we perform.</p><p>Actually, there is already a different algorithm
-related to e-graphs that can do this!
-It is called <span style="font-weight: bold">tree automata completion</span>.
-In a tree automata, you are guaranteed that no
-pesky "magic terms" are used to prove that
-one term rewrites to another.
-<a href="https://effect.systems/blog/ta-completion.html"></a>(Yihong&rsquo;s awesome blog post) describes them in more detail.</p></div></div><div id="contextindicator">&nbsp;</div></body></html>
+we perform.
+My next blog post will be about a new data structure called
+a <span style="font-weight: bold">directed e-graph</span> (or de-graph) that allows us to do this.</p></div></div><div id="contextindicator">&nbsp;</div></body></html>

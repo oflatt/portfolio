@@ -6,6 +6,9 @@ body {
 p {
   font-family: 'Nunito Sans', sans-serif;
 }
+div {
+  font-family: 'Nunito Sans', sans-serif;
+}
 html {
   scroll-behavior: smooth;
 }
