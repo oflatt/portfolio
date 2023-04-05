@@ -92,7 +92,7 @@ Now the problem becomes proving that @${R'} subsumes @${r}.
 The cool trick that we will use is to actually insert the left-hand side of @${r} into a database, and then apply @${R'} to it to try and derive @${r}.
 But @${r} has forall-quantified variables in it, so first we ground it, turning it into a term on fresh variables.
 For example, recall our rule @$[r1].
-We ground the left-hand side, turning it into @${v*0}, for some fresh name @${v}.
+We ground the left-hand side, turning it into @${v+0}, for some fresh name @${v}.
 Now, for the initial database @${S = \{v+0\}}, if for some @${n} we have that @${(v+0 = 0) \in R'_n(S)},
 then we know that @${R'} subsumes @${\{r_1\}}.
 Intuitively, this is because we didn't know anything about
@@ -119,11 +119,11 @@ Suppose we have the following rewrite rules:
 @centered{@$[r1]}
 @centered{@${r_3: \forall x, x*1 \rightarrow 1*x}}
 @centered{@${r_4: \forall x, (x*1)+0 \rightarrow x}}
-@centered{@${r_5: \forall x, x*1 \rightarrow x*0}}
+@centered{@${r_5: \forall x, x*1 \rightarrow x+0}}
 
 Now, let's try to derive @${r_4} and @${r_5} using @${r_1} and @${r_3}.
-First, we ground @${r_4} and @${r_5}, getting @${(v*1)*0} and @${v*1}.
-Now, we apply our rules on the initial state @${S = \{(v*1)*0\}}.
+First, we ground @${r_4} and @${r_5}, getting @${(v*1)+0} and @${v*1}.
+Now, we apply our rules on the initial state @${S = \{(v*1)+0\}}.
 And it turns out, we can derive both @${r_4} and @${r_5}!
 
 Here's a derivation of @${r_4}:
