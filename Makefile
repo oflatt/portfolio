@@ -12,3 +12,6 @@ build:
 	cd src && racket generate-gravigon.rkt
 	scribble --dest ./docs ./src/*.scrbl
 	npx tsc
+
+serve:
+	cd docs && python3 -m http.server

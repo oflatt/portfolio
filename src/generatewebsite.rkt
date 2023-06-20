@@ -162,10 +162,15 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                                    (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
 
                 ;; put in the abstract and/or description
-                (div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
-                     ,abstract-text)
-                (div (@ (style ,(string-append post-style ";line-height:20px")))
-                     ,description)
+                ,@(if (or (equal? abstract-text "")
+                          (equal? description ""))
+                      `()
+                      `((div (@ (style ,(string-append post-style ";" text-margins ";line-height:20px")))
+                     ,abstract-text)))
+                ,@(if (equal? description "")
+                      `()
+                      `((div (@ (style ,(string-append post-style ";line-height:20px")))
+                     ,description)))
 
                 ;; put in the buttons
                 ,@download-buttons
@@ -451,15 +456,20 @@ or in sequence.")
 
 (write-html-to
  (page (list
+        (build-post "Better Together: Unifying Datalog and Equality Saturation" "" "PLDI 2023"
+                    "https://arxiv.org/abs/2304.04332"
+                    "" ""
+                    #:authors "Yihong Zhang, Yisu Remy Wang, Oliver Flatt, David Cao, Philip Zucker, Eli Rosenthal, Zachary Tatlock, Max Willsey"
+        )
         (build-post "Small Proofs from Congruence Closure" "" "FMCAD 2022"
-                    "https://arxiv.org/abs/2209.03398" small-proofs-abstract ""
+                    "https://arxiv.org/abs/2209.03398" "" ""
                     #:authors "Oliver Flatt, Samuel Coward, Max Willsey, Zachary Tatlock, and Pavel Panchekha"
                     #:video "https://www.youtube.com/watch?v=_KnAHFdqWT0")
         (build-post "Combining Precision Tuning and Rewriting for Faster, More Accurate Programs" "" "ARITH 2021"
-               "http://arith2021.arithsymposium.org/session/session1video.html" pherbie-abstract ""
+               "http://arith2021.arithsymposium.org/session/session1video.html" "" ""
                #:authors "Brett Saiki, Oliver Flatt, Zachary Tatlock, Pavel Panchekha and Chandrakana Nandi")
         (build-post "egg: Fast and extensible equality saturation" "" "POPL 2021 Distinguished Paper"
-               "https://dl.acm.org/doi/10.1145/3434304" egg-abstract ""
+               "https://dl.acm.org/doi/10.1145/3434304" "" ""
                #:authors "Max Willsey, Chandrakana Nandi, Yisu Remy Wang, Oliver Flatt, Zachary Tatlock, and Pavel Panchekha"))
        "publications"
        "Publications"
