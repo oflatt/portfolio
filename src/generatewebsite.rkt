@@ -456,6 +456,13 @@ or in sequence.")
 
 (write-html-to
  (page (list
+        (build-post "Ensuring the Termination of EqSat for Terminating Term Rewriting Systems" "" "EGRAPHS 2023" "https://effect.systems/doc/egraphs-2023-theory/paper.pdf" "" ""
+        #:authors "Yihong Zhang, Oliver Flatt")
+        (build-post
+          "egglog In Practice: Automatically Improving Floating-point Error"
+          "" "EGRAPHS 2023"
+          "https://effect.systems/doc/egraphs-2023-egglog/paper.pdf" "" ""
+          #:authors "Oliver Flatt, Yihong Zhang")
         (build-post "Better Together: Unifying Datalog and Equality Saturation" "" "PLDI 2023"
                     "https://arxiv.org/abs/2304.04332"
                     "" ""
