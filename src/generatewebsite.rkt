@@ -462,7 +462,8 @@ or in sequence.")
           "egglog In Practice: Automatically Improving Floating-point Error"
           "" "EGRAPHS 2023"
           "https://effect.systems/doc/egraphs-2023-egglog/paper.pdf" "" ""
-          #:authors "Oliver Flatt, Yihong Zhang")
+          #:authors "Oliver Flatt, Yihong Zhang"
+          #:video "https://www.youtube.com/watch?v=N2RDQGRBrSY")
         (build-post "Better Together: Unifying Datalog and Equality Saturation" "" "PLDI 2023"
                     "https://arxiv.org/abs/2304.04332"
                     "" ""
@@ -477,7 +478,8 @@ or in sequence.")
                #:authors "Brett Saiki, Oliver Flatt, Zachary Tatlock, Pavel Panchekha and Chandrakana Nandi")
         (build-post "egg: Fast and extensible equality saturation" "" "POPL 2021 Distinguished Paper"
                "https://dl.acm.org/doi/10.1145/3434304" "" ""
-               #:authors "Max Willsey, Chandrakana Nandi, Yisu Remy Wang, Oliver Flatt, Zachary Tatlock, and Pavel Panchekha"))
+               #:authors "Max Willsey, Chandrakana Nandi, Yisu Remy Wang, Oliver Flatt, Zachary Tatlock, and Pavel Panchekha"
+               #:video "https://www.youtube.com/watch?v=6cJMI9z2TeU"))
        "publications"
        "Publications"
        empty)
