@@ -207,8 +207,7 @@ Here's the improved rule:
        (!= a b) 
        (!= b c))
       ((Leader a c)
-       (MarkSubsumed (Leader a b))
-       (MarkSubsumed (Leader b c)))
+       (MarkSubsumed (Leader a b)))
       :ruleset union-find)
 }|
 
