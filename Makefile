@@ -13,5 +13,5 @@ build:
 	scribble --dest ./docs ./src/*.scrbl
 	npx tsc
 
-serve:
+serve: build
 	cd docs && python3 -m http.server

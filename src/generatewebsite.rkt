@@ -489,7 +489,10 @@ or in sequence.")
 
 (define (make-blog)
   (define blog-posts
-    `(("Minimizing Sets of Rewrite Rules: Sound and Unsound Approaches"
+    `(
+      ("Implementing egglog: Encoding Equality Saturation in Datalog+2extensions"
+       "egglog-terms.html" 7 18 2023)
+      ("Minimizing Sets of Rewrite Rules: Sound and Unsound Approaches"
        "magic-terms.html" 3 8 2023)
       ("Limitations of E-Graph Intersection" "egraph-union-intersect.html" 8 5 2022)
     ))
