@@ -110,9 +110,12 @@ In normal datalog + subsumption this allows you to prove that, regardless
 of the execution order of the datalog program, it always terminates
 are reaches the same fixed point (this is the approach
 @link["https://flix.dev/"]{Flix} takes for example).
-While we have already given up on termination with our existential extension
-from the last section, it is still beneficial (but not enforced) for the 
-subsumptive rules to yield a lattice. 
+Otherwise, running the rules in different orders can yield different results.
+In egglog, we don't enforce this property,
+so users should ensure their 
+subsumption rules form a lattice.
+We have also already given up on termination with our existential extension
+from the last section.
 
 
 @section{ Desugaring egglog }
