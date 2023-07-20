@@ -33,7 +33,7 @@ If you are interested in using egglog, check out my tutorial on egglog @link["ht
 In the original paper, we showed how we could extend datalog with several features
 and use it to implement equality saturation / egraphs.
 However, it is actually possible to implement it efficiently using a more standard
-variant of datalog
+variant of datalog.
 In this post, I'll describe what that variant is and how we can desugar
 and instrument egglog code to use it as the core backend of egglog.
 I've implemented this post as @link["https://github.com/egraphs-good/egglog/pull/158"]{this PR}.
