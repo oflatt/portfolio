@@ -121,10 +121,20 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                      (h2 (@ (style ,(string-append "margin-bottom:0px;font-size:" post-title-size))) ,title))
 
                 ,(if (not (equal? authors ""))
+                     (let
+                      ([author-length (length (string-split authors ","))])
                      `(div
-                      (@ (style "width:95%"))
-                      (div (@ (style "text-align:left"))
-                      (h3 (@ (style ,text-margins)) ,authors)))
+                       (@ (style "width:95%"))
+                       (p (@ (style ,text-margins))
+                            ,@(for/list ([author (string-split authors ",")]
+                                         [i (in-range author-length)])
+                                        (define comma (if (equal? i (- author-length 1))
+                                                           ""
+                                                           ","))
+                                        (define formatted (string-append author comma))
+                                        (if (equal? (string-trim author) "Oliver Flatt")
+                                            `(b ,formatted)
+                                            formatted)))))
                      "")
          
                 (div
@@ -455,6 +465,9 @@ or in sequence.")
 
 (write-html-to
  (page (list
+        (build-post "Making Interval Arithmetic Robust to Overflow" "" "ARITH 2023" "https://herbie.uwplse.org/arith23-paper.pdf"
+                    "" "" #:authors "Oliver Flatt, Pavel Panchekha"
+                    #:video "https://www.youtube.com/watch?v=IuziaYGTy6o")
         (build-post "Equality Saturation Theory Exploration à la Carte" "" "OOPSLA 2023" "https://2023.splashcon.org/details/splash-2023-oopsla/68/Equality-Saturation-Theory-Exploration-la-Carte" "" ""
         #:authors "Anjali Pal, Brett Saiki, Ryan Tjoa, Cynthia Richey, Amy Zhu, Oliver Flatt, Max Willsey, Zachary Tatlock, Chandrakana Nandi")
         (build-post "Ensuring the Termination of EqSat for Terminating Term Rewriting Systems" "" "EGRAPHS 2023" "https://effect.systems/doc/egraphs-2023-theory/paper.pdf" "" ""
