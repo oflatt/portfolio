@@ -9,7 +9,7 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
 (define section-title-size "32px")
 
 (define post-style "text-indent:2px;width:95%;text-align:justify")
-(define post-spacing "30")
+(define post-spacing "15")
 (define post-title-size "24px")
 
 (define button-style "width:25%;display:inline-block;margin-left:4.16666%;border-radius:20px;margin-right:4.16666%;outline:none;border:none")
@@ -116,6 +116,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            (class "post"))
         (center (div (@ (style "text-align:left;color:black;width:95%;padding-top:5px;")
                         (id ,(tag-name title)))
+                     (div (@ (style "float:right;color:#5A5A5A"))
+                      (h3 (@ (style ,text-margins)) ,year))
                      (h2 (@ (style ,(string-append "margin-bottom:0px;font-size:" post-title-size))) ,title))
 
                 ,(if (not (equal? authors ""))
@@ -127,8 +129,6 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
          
                 (div
                  (@ (style "color:#5A5A5A;width:95%"))
-                 (div (@ (style "float:left"))
-                      (h3 (@ (style ,text-margins)) ,year))
                  (div (@ (style "float:right"))
                       (h3 (@ (style ,text-margins)) ,language-text)))
                 
@@ -147,19 +147,18 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                      "")
 
                 ;; insert the picture
-                (div (@ (style "margin-bottom:10px;padding-top:10px"))
-                     ,(if
-                       (equal? html-video "none")
-                       (if (equal? windows-download "predetermined.html")
-                           ""
-                           "")
-                       `(div (@ (class "mediaiframe"))
-                             ,(html->xexp html-video)))
-                     
-                     ,(if (or (equal? pic "") (equal? pic "none"))
-                          ""
-                          `(img (@ (class "media")
-                                   (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
+                ,(if
+                  (equal? html-video "none")
+                  ""
+                  `(div (@ (style "margin-bottom:10px;padding-top:10px"))
+                    (div (@ (class "mediaiframe"))
+                        ,(html->xexp html-video))))
+                
+                ,(if (or (equal? pic "") (equal? pic "none"))
+                    ""
+                    `(div (@ (style "margin-bottom:10px;padding-top:10px"))
+                      (img (@ (class "media")
+                              (src ,(string-append "https://github.com/oflatt/portfolio-gifs/raw/master/" pic))))))
 
                 ;; put in the abstract and/or description
                 ,@(if (or (equal? abstract-text "")
@@ -456,6 +455,8 @@ or in sequence.")
 
 (write-html-to
  (page (list
+        (build-post "Equality Saturation Theory Exploration à la Carte" "" "OOPSLA 2023" "https://2023.splashcon.org/details/splash-2023-oopsla/68/Equality-Saturation-Theory-Exploration-la-Carte" "" ""
+        #:authors "Anjali Pal, Brett Saiki, Ryan Tjoa, Cynthia Richey, Amy Zhu, Oliver Flatt, Max Willsey, Zachary Tatlock, Chandrakana Nandi")
         (build-post "Ensuring the Termination of EqSat for Terminating Term Rewriting Systems" "" "EGRAPHS 2023" "https://effect.systems/doc/egraphs-2023-theory/paper.pdf" "" ""
         #:authors "Yihong Zhang, Oliver Flatt")
         (build-post
