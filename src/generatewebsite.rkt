@@ -382,10 +382,14 @@ game in the camp. It was a fun and challenging summer job.")
 (write-html-to
  (page
   (list
-   (build-post "Bearly Dancing" "Python, with the library Pygame" "2016-present"
+   (build-post "Economancy"     "Racket"                          "2024"
+               "https://oflatt.github.io/economancy/"
+               "Economancy is a card game in which wizards try to gain economic power and outwit their opponents." "" "https://oflatt.github.io/economancy/" "none"
+               "<embed src=\"https://oflatt.github.io/economancy/\" style=\"width:950;height:540;\"></embed>" #:website-text "Economancy Website")
+   (build-post "Bearly Dancing" "Python, with the library Pygame" "2016"
                "https://github.com/oflatt/bearlydancing" bearly-dancing-description "" "http://bearlydancing.com" "none"
                "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/g6SlOlGsGdE' frameborder='0' allowfullscreen></iframe></div>" #:website-text "Bearly Dancing Website")
-   (build-post "Sonic Onion" "Elm" "2020-present"
+   (build-post "Sonic Onion" "Elm" "2020"
                "https://github.com/oflatt/soniconion" sonic-onion-description "soniconion.png" "https://soniconion.net" #:website-text "Sonic Onion Website")
    (build-post "I have 196 hands" "Python (MoviePy)" "2022"
                "https://www.youtube.com/watch?v=xgyq1l_NNuA"
