@@ -508,6 +508,8 @@ or in sequence.")
 (define (make-blog)
   (define blog-posts
     `(
+      ("PLSE Outreach- Dragon Curves!"
+       "https://uwplse.org/2024/01/22/Dragon-Curves.html" 1 22 2024)
       ("Implementing egglog: Encoding Equality Saturation in Datalog+2extensions"
        "egglog-terms.html" 7 18 2023)
       ("Minimizing Sets of Rewrite Rules: Sound and Unsound Approaches"
