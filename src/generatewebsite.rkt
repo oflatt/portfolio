@@ -382,6 +382,11 @@ game in the camp. It was a fun and challenging summer job.")
 (write-html-to
  (page
   (list
+   (build-post "Bananas NOW"    "Rust"                            "2024"
+                "https://oflatt.github.io/bananas-now/"
+                "A racing game about delivering bananas as fast as possible. Game created for PLSE Game Jam 2024 with Dhruba Ghosh, Andrey Risukhin, and Tessa McNamee."
+                "bananasnow.png" 
+                "https://oflatt.github.io/bananas-now/" #:website-text "Bananas Now Website")
    (build-post "Economancy"     "Racket"                          "2024"
                "https://oflatt.github.io/economancy/"
                "Economancy is a card game in which wizards try to gain economic power and outwit their opponents." "" "https://oflatt.github.io/economancy/" "none"
