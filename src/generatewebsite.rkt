@@ -268,8 +268,8 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
            (div
             (@ (style "text-align: center; margin-top: 10px"))
             
-            (img (@ (style "max-width:15%;height:auto;padding-right:30px;display: inline-block;")
-                    (src "./careerolivercropped.jpg")))
+            (img (@ (style "width:200px;height:200px;padding-right:30px;display: inline-block;")
+                    (src "./profile.png")))
             (div (@ (style "padding-bottom:0px;margin:auto 0px;font-weight:normal;font-size:64px;display: inline-block; vertical-align: top;"))
                  "Oliver Flatt"
                  (h2 (@ (style "font-weight:normal;font-size:18px"))
