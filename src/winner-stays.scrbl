@@ -43,7 +43,7 @@ To get a measure of how bad the problem is, let's define a notion of fairness:
 the maximum ratio between the number of games any two players played.
 For example, if player A played 5 games, player B played 6, and player C played 10 games, then player C played twice as many games as player A.
 The fairness in this situation is @${\frac{10}{5} = 2}.
-Fairness should be as close to 1 as possible. When it's under 1, some players played fewer games than others.
+Fairness should be as close to 1 as possible. When it's over 1, some players played fewer games than others.
 
 So how fair is the basic winner stays system?
 This depends on the relative skill of the players and the number of players.
