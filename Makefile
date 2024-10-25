@@ -16,4 +16,4 @@ install:
 
 
 serve: build
-	cd docs && python3 -m http.server
+	cd docs && python -m http.server

@@ -513,6 +513,7 @@ or in sequence.")
 (define (make-blog)
   (define blog-posts
     `(
+      ("Stop Using the Winner Stays System" "winner-stays.html" 10 25 2024)
       ("PLSE Outreach- Dragon Curves!"
        "https://uwplse.org/2024/01/22/Dragon-Curves.html" 1 22 2024)
       ("Implementing egglog: Encoding Equality Saturation in Datalog+2extensions"
