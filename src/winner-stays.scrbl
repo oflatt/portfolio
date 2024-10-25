@@ -22,17 +22,17 @@
 @section{ Introduction }
 
 This week, I discovered the table tennis club here at the University of Washington.
-And while I had a great time playing table tennis with a bunch of talented and kind players,
+While I had a great time playing table tennis with a bunch of talented and kind players,
 I could not ignore the problem with the winner stays system.
 
 "Winner stays" is a rule where the winner of a match continues to play against
 the next in line. It's a rule that I've seen many times in casual and competitive communities of sports
 players and gamers.
-On the surface it seems fun and easy to implement, but I believe it has many negative consequences.
-In this post I'll attempt to measure how bad the problem is and discuss the subjective consequences.
+On the surface it seems fun and easy to implement, but I believe it has negative consequences.
+In this post I'll attempt to measure how bad the problem is and discuss the these consequences.
 
 I'd also like to note that winner stays is far from the greatest problem that gaming or sports communities face.
-However, it's also a glaringly obvious problem that I think is worth addressing with simple and effective solutions.
+However, it's also a visible problem that I think is worth addressing with simple and effective solutions.
 
 @section{ The Problem }
 
@@ -95,8 +95,8 @@ You might also ask if playing more games would help, and the answer is that it d
 
 @section{ Consequences }
 
-At the UW table tennis club, good and friendly people decided that each table should use a basic winner-stays system.
-I think this is a common situation in many communities.
+I'm not saying anything bad about the UW table tennis club- everyone is welcoming and friendly.
+However, the basic winner-stays system is quite common.
 But why? I suspect that better players usually set the rules, and that this system is the obvious choice.
 It's common, easy to implement, and happens to benefit them.
 Having experienced the winner stays system many times, better players may feel that it's their 
@@ -111,7 +111,7 @@ Many sports or games are expensive and time consuming, perhaps requiring a large
 While socializing is a common secondary goal, people are usually there to play.
 Getting to play less is discouraging, especially since weaker players tend to be new to the game.
 
-Second, Weaker players are constantly be reminded that they are lesser while watching stronger players play again and again.
+Second, weaker players are constantly be reminded that they are lesser while watching stronger players play again and again.
 This negatively affects their self-esteem and motivation to get better.
 Yesterday, one player told me that they felt the table got "taken over" by a strong player.
 
