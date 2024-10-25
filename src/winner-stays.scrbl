@@ -149,4 +149,4 @@ What can people do about winner stays if it's already in place?
 
 @section{ Code }
 
-Here's the full source code for the simulation
+@link["https://github.com/oflatt/portfolio/blob/2a5abc26d6c917fc257b7e81df0bd64b7b95748b/src/winner-stays-simulation.py#L1"]{Here's the full source code for the simulation}
