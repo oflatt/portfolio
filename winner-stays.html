@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/><meta name="viewport" content="width=device-width, initial-scale=0.8"/><title> Stop Using the Winner Stays System </title><link rel="stylesheet" type="text/css" href="scribble.css" title="default"/><link rel="stylesheet" type="text/css" href="docstyle.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-style.css" title="default"/><link rel="stylesheet" type="text/css" href="manual-racket.css" title="default"/><script type="text/javascript" src="scribble-common.js"></script><script type="text/javascript">
+(function() {
+  document.write('<link rel="stylesheet" href="katex/katex.min.css" />');
+})();(function() {document.write('<scr' + 'ipt type="text/javascript" src="katex/katex.min.js"></scr' + 'ipt>');})();(function(f) {
+  // A "simple" onLoad function
+  if (window.document.readyState == "complete") {
+    f();
+  } else if (window.document.addEventListener) {
+    window.document.addEventListener("DOMContentLoaded", f, false);
+  } else if (window.attachEvent) {
+    window.attachEvent("onreadystatechange", function() {
+      if (window.document.readyState == "complete") {
+        f();
+      }
+    });
+  } else {
+    var oldLoad = window.onload;
+    if (typeof(oldLoad) == "function") {
+      window.onload = function() {
+        try {
+          oldLoad();
+        } finally {
+          f();
+        }
+      };
+    } else {
+      window.onload = f;
+    }
+  }
+})(function() {
+  // This is an ugly way to change the doctype, in case the scribble document
+  // did not use (with-html5).
+  if (!(document.doctype && document.doctype.publicId == '')) {
+    if (console && console.log) {
+      console.log("Re-wrote the document to use the HTML5 doctype.\n"
+                  + "  Consider using the following declaration:\n"
+                  + "      @title[#:style (with-html5 manual-doc-style)]{…}");
+    }
+    var wholeDoc = '<!doctype HTML>\n' + document.documentElement.outerHTML;
+    document.open();
+    document.clear();
+    document.write(wholeDoc);
+  }
+  var inlineElements = document.getElementsByClassName("texMathInline");
+  for (var i = 0; i < inlineElements.length; i++) {
+    var e = inlineElements[i];
+    katex.render(e.textContent, e, { displayMode:false, throwOnError:false });
+  }
+  var displayElements = document.getElementsByClassName("texMathDisplay");
+  for (var i = 0; i < displayElements.length; i++) {
+    var e = displayElements[i];
+    katex.render(e.textContent, e, { displayMode:true, throwOnError:false });
+  }
+});
+</script><script type="text/javascript" src="manual-racket.js"></script><!--[if IE 6]><style type="text/css">.SIEHidden { overflow: hidden; }</style><![endif]--><link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito+Sa
+          ns"></head><body id="scribble-racket-lang-org"><div class="tocset"><div class="tocview"><div class="tocviewlist tocviewlisttopspace"><div class="tocviewtitle"><table cellspacing="0" cellpadding="0"><tr><td style="width: 1em;"><a href="javascript:void(0);" title="Expand/Collapse" class="tocviewtoggle" onclick="TocviewToggle(this,&quot;tocview_0&quot;);">&#9658;</a></td><td></td><td><a href="" class="tocviewselflink" data-pltdoc="x"> Stop Using the Winner Stays System </a></td></tr></table></div><div class="tocviewsublistonly" style="display: none;" id="tocview_0"><table cellspacing="0" cellpadding="0"><tr><td align="right">1&nbsp;</td><td><a href="#%28part.__.Introduction_%29" class="tocviewlink" data-pltdoc="x"> Introduction </a></td></tr><tr><td align="right">2&nbsp;</td><td><a href="#%28part.__.The_.Problem_%29" class="tocviewlink" data-pltdoc="x"> The Problem </a></td></tr><tr><td align="right">3&nbsp;</td><td><a href="#%28part.__.Numbers_%29" class="tocviewlink" data-pltdoc="x"> Numbers </a></td></tr><tr><td align="right">4&nbsp;</td><td><a href="#%28part.__.Consequences_%29" class="tocviewlink" data-pltdoc="x"> Consequences </a></td></tr><tr><td align="right">5&nbsp;</td><td><a href="#%28part.__.Alternatives_%29" class="tocviewlink" data-pltdoc="x"> Alternatives </a></td></tr><tr><td align="right">6&nbsp;</td><td><a href="#%28part.__.Code_%29" class="tocviewlink" data-pltdoc="x"> Code </a></td></tr></table></div></div></div><div class="tocsub"><table class="tocsublist" cellspacing="0"><tr><td><span class="tocsublinknumber"></span><a href="#%28part.__.Stop_.Using_the_.Winner_.Stays_.System_%29" class="tocsubseclink" data-pltdoc="x"> Stop Using the Winner Stays System </a></td></tr><tr><td><span class="tocsublinknumber">1<tt>&nbsp;</tt></span><a href="#%28part.__.Introduction_%29" class="tocsubseclink" data-pltdoc="x"> Introduction </a></td></tr><tr><td><span class="tocsublinknumber">2<tt>&nbsp;</tt></span><a href="#%28part.__.The_.Problem_%29" class="tocsubseclink" data-pltdoc="x"> The Problem </a></td></tr><tr><td><span class="tocsublinknumber">3<tt>&nbsp;</tt></span><a href="#%28part.__.Numbers_%29" class="tocsubseclink" data-pltdoc="x"> Numbers </a></td></tr><tr><td><span class="tocsublinknumber">4<tt>&nbsp;</tt></span><a href="#%28part.__.Consequences_%29" class="tocsubseclink" data-pltdoc="x"> Consequences </a></td></tr><tr><td><span class="tocsublinknumber">5<tt>&nbsp;</tt></span><a href="#%28part.__.Alternatives_%29" class="tocsubseclink" data-pltdoc="x"> Alternatives </a></td></tr><tr><td><span class="tocsublinknumber">6<tt>&nbsp;</tt></span><a href="#%28part.__.Code_%29" class="tocsubseclink" data-pltdoc="x"> Code </a></td></tr></table></div></div><div class="maincolumn"><div class="main"><div class="versionbox"><span class="versionNoNav">8.5</span></div><h2><a name="(part.__.Stop_.Using_the_.Winner_.Stays_.System_)"></a> Stop Using the Winner Stays System </h2><h3>1<tt>&nbsp;</tt><a name="(part.__.Introduction_)"></a> Introduction </h3><p>This week, I discovered the table tennis club here at the University of Washington.
+And while I had a great time playing table tennis with a bunch of talented and kind players,
+I could not ignore the problem with the winner stays system.</p><p>"Winner stays" is a rule where the winner of a match continues to play against
+the next in line. It&rsquo;s a rule that I&rsquo;ve seen many times in casual and competitive communities of sports
+players and gamers.
+On the surface it seems fun and easy to implement, but I believe it has many negative consequences.
+In this post I&rsquo;ll attempt to measure how bad the problem is and discuss the subjective consequences.</p><p>I&rsquo;d also like to note that winner stays is far from the greatest problem that gaming or sports communities face.
+However, it&rsquo;s also a glaringly obvious problem that I think is worth addressing with simple and effective solutions.</p><h3>2<tt>&nbsp;</tt><a name="(part.__.The_.Problem_)"></a> The Problem </h3><p>The problem with the winner stays system is pretty obvious to most people: better players get to play more.
+In this post, I&rsquo;d like to measure just how bad the problem is and dive a little deeper into the consequences.</p><p>To get a measure of how bad the problem is, let&rsquo;s define a notion of fairness:
+the maximum ratio between the number of games any two players played.
+For example, if player A played 5 games, player B played 6, and player C played 10 games, then player C played twice as many games as player A.
+The fairness in this situation is <span class="texMathInline">\frac{10}{5} = 2</span>.
+Fairness should be as close to 1 as possible. When it&rsquo;s under 1, some players played fewer games than others.</p><p>So how fair is the basic winner stays system?
+This depends on the relative skill of the players and the number of players.
+For a simple but realistic situation, imagine we have <span class="texMathInline">n</span> players, and one player always wins.
+In this situation, all other players play one game for every <span class="texMathInline">n-1</span> games the winner plays.
+The fairness is <span class="texMathInline">n-1</span>.</p><h3>3<tt>&nbsp;</tt><a name="(part.__.Numbers_)"></a> Numbers </h3><p>This is terrible! One player gets to play <span class="texMathInline">n-1</span> times as much as others!
+Lest you think that this is unrealistic, consider that I&rsquo;ve observed players play 10 games in a row,
+not only at the UW table tennis club but in other communities as well.</p><p>A common percieved fix to this problem is to have a "winner stays for <span class="texMathInline">k</span> games" rule.
+Usually, <span class="texMathInline">k</span> is set to 3.
+While this helps, it doesn&rsquo;t fix the problem and invalidates people&rsquo;s complaints about the system.
+Taking the same situation as before, if <span class="texMathInline">k</span> is 3 then the fairness is still <span class="texMathInline">3</span> for all <span class="texMathInline">n &gt; 5</span>.</p><p>So far, we&rsquo;ve been assuming that one player always wins. How unrealistic is this assumption?
+Let&rsquo;s refine our model a bit.
+Let&rsquo;s say that we have <span class="texMathInline">n</span> players, each player having a "skill level" randomly drawn from a normal distribution with a standard deviation of 1.
+Now, let&rsquo;s say that player <span class="texMathInline">i</span> wins against player <span class="texMathInline">j</span> with probability <span class="texMathInline">max(min((i - j), 0.5), -0.5) + 0.5</span>.
+Players close in skill tend to win against each other with equal probability, while players far apart in skill have a clear winner.</p><p>I ran a simulation of this model with varying numbers of players, plotting fairness:</p><p><img src="fairness-vs-players-line.png" alt="" width="1200" height="600"/></p><p>The graph shows, for each number of players, the average fairness over 1000 simulations. Each simulation
+has the players play 30 games for realism.</p><p>In particular, the fairness of the common situation (5 players, <span class="texMathInline">k=3</span>) is a little over <span class="texMathInline">1.5</span>.
+With larger groups of players, things only get worse, with some players playing twice as much as others.
+Switching to <span class="texMathInline">k = 2</span> doesn&rsquo;t help as much as I thought it would either, making the <span class="texMathInline">k</span> rule unhelpful in general.</p><p>Another factor that isn&rsquo;t shown here is that when the difference in skill is great, matches tend to run shorter.
+This makes weaker players spend even less time playing the game.</p><p>We also see some interesting things in the data. The choice of <span class="texMathInline">k</span> changes the shape of the line,
+I think because of it creates different patterns in the rotation.
+You might also ask if playing more games would help, and the answer is that it does but only slightly:</p><p><img src="fairness-vs-players-line-various.png" alt="" width="1200" height="600"/></p><h3>4<tt>&nbsp;</tt><a name="(part.__.Consequences_)"></a> Consequences </h3><p>At the UW table tennis club, good and friendly people decided that each table should use a basic winner-stays system.
+I think this is a common situation in many communities.
+But why? I suspect that better players usually set the rules, and that this system is the obvious choice.
+It&rsquo;s common, easy to implement, and happens to benefit them.
+Having experienced the winner stays system many times, better players may feel that it&rsquo;s their
+turn to benefit from the system.</p><p>The winner stays system, besides being basically unfair, creates a bad culture.
+It sends the message that better players are more important, and more deserving of play time.
+This is damaging to weaker players for multiple reasons.</p><p>First, weaker players may be weighing how much they get to play with the time and economic cost of participating.
+Many sports or games are expensive and time consuming, perhaps requiring a large commute at an inconvenient time.
+While socializing is a common secondary goal, people are usually there to play.
+Getting to play less is discouraging, especially since weaker players tend to be new to the game.</p><p>Second, Weaker players are constantly be reminded that they are lesser while watching stronger players play again and again.
+This negatively affects their self-esteem and motivation to get better.
+Yesterday, one player told me that they felt the table got "taken over" by a strong player.</p><p>Another table tennis player mentioned that they wished people would follow the "winner stays for <span class="texMathInline">k</span> games" rule for $k = 3$.
+This was frustrating to me, since I see this rule as a red-herring meant to placate people who are upset about the system.
+It&rsquo;s a rule that doesn&rsquo;t fix the problem, while it seems like it might on the surface.</p><p>I understand that many people like winner stays because it&rsquo;s simple and exciting.
+People are motivated to win if they get the natural and only reward available: more play time.
+However, I feel that there are other, more fair ways to make games exciting, especially in a casual settting.
+At the table tennis club, the primary goal of most players is to have fun and get better.
+And for most people, the winner-stays system is not fun and hinders their ability to get better.</p><h3>5<tt>&nbsp;</tt><a name="(part.__.Alternatives_)"></a> Alternatives </h3><p>A simple solution is to flip a coin after each match. The winner of the coin flip gets to play again.
+I like this solution, but I sense that it would be unpopular.</p><p>Round-robin is the obvious solution to this problem, making each player play against every other player.
+Some say that round-robin can be complex to implement with a large
+group. It also gets trickier also if the distribution of play time is important (like in a sports setting, where players get tired).
+And while I think that&rsquo;s true, I think that something close to a round-robin can be done by any group.
+After all, it only requires asking the question "who haven&rsquo;t I played yet?"</p><p>To reclaim some of the excitement of winner stays, keeping track of wins and losses and having a final match at the end is a fine idea.
+This way, it&rsquo;s a constant overhead on the number of games played during the session.
+It&rsquo;s also a good idea to break up into different groups of players divided by skill level, to keep things interesting.</p><p>What can people do about winner stays if it&rsquo;s already in place?</p><h3>6<tt>&nbsp;</tt><a name="(part.__.Code_)"></a> Code </h3><p>Here&rsquo;s the full source code for the simulation</p></div></div><div id="contextindicator">&nbsp;</div></body></html>
