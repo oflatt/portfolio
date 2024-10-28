@@ -144,8 +144,6 @@ To reclaim some of the excitement of winner stays, keeping track of wins and los
 This way, it's a constant overhead on the number of games played during the session.
 It's also a good idea to break up into different groups of players divided by skill level, to keep things interesting.
 
-What can people do about winner stays if it's already in place?
-
 
 @section{ Code }
 
