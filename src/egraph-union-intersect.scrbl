@@ -84,6 +84,7 @@ The e-graphs look like this:
 
 The intersection of @${E_1} and @${E_2} is the infinite set @${E_3 = \{ g(f^n(a)) = g(f^n(b)) | n \geq 1\}}. However, this isn't finitely representable in the e-graph because it can no longer rely on the cycle @${f(a) = a}.
 If we tried, we would end up with terms @${f(f(a)) = g(f(b))}, @${g(f(f(a))) = g(f(f(b)))}, and so on in the egraph.
+In fact, egraph intersection is easy to implement in egglog. @link["https://egraphs-good.github.io/egglog/?program=XQAAgAAzBAAAAAAAAAAd4HzGbzYRWITDOFEvKhz9LBfXrizFynkINPxTv02IiNUEhvkxaS4NfygGDfNovcuv6__FX15I2QGgDtPEA45rnPuftkEAP6hzpBAVW6LH1BSPBy4rM_T5aWfSX7vVoIKZDtRMx-J05Ahi5AoPZ_UufQNI8waYgrBwC6HTSa70EDn-WKDmTNWuLSdf9HVienmnZinQ71VJ5ckVKSDnV5UZeWX7aYXS6oiv4XOwvJiroyGM8BTlEufAZmvAKdvYQqNKn_cFSCsQhpeV1rVDvuT2uapKuM2292jr3DeLAHrJXXadMR_wx7MhJA-PRK7hg5sQaRR68pcFB10M4eKdiHfxxKVL13KoAXJ0IPamMOxqyTM_dL4R9M_47AjyHMP7B7vpYj2_btYfA_QlRFakbH-a8VxuPVO5BFla-wDglDO531D4Qpwj4eLMp2Vw3j0W5qaub87zaWAvLgmY4HEn6me-eD5CRE8OGiuMvXcKmXmSgy1Xli6B8xqpR4uCV_74biQ%253D"]{Here} I've implemented this example and shown that the resulting intersected egraph does, in fact, grow each iteration finding these equalities. 
 
 
 Since computing the intersection is infeasible, the @link["https://link.springer.com/chapter/10.1007/978-3-540-30538-5_26"]{e-graph intersection paper mentioned above} calculates
