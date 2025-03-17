@@ -474,6 +474,7 @@ or in sequence.")
 
 (write-html-to
  (page (list
+        (build-post "Producing shorter congruence closure proofs in a state-of-the-art SMT solver" "" "PAAR 2024" "https://ceur-ws.org/Vol-3717/short1.pdf" "" "" #:authors "Bruno Andreotti, Haniel Barbosa, Oliver Flatt")
         (build-post "Making Interval Arithmetic Robust to Overflow" "" "ARITH 2023" "https://herbie.uwplse.org/arith23-paper.pdf"
                     "" "" #:authors "Oliver Flatt, Pavel Panchekha"
                     #:video "https://www.youtube.com/watch?v=IuziaYGTy6o")
