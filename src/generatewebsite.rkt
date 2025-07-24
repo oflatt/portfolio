@@ -382,6 +382,12 @@ game in the camp. It was a fun and challenging summer job.")
 (write-html-to
  (page
   (list
+   ;; todo add video souls
+   (build-post "Orblorgo Command" "Lua"                          "2025"
+               "https://cuposoft.itch.io/orblorgo-command"
+               "Manage Orblorgos and use them to race through this action platformer. Create your own levels!"
+               "" "https://cuposoft.itch.io/orblorgo-command" "none"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/jTA5WmPhdbs?si=00PdHJzVkYekXznq' frameborder='0' allowfullscreen></iframe></div>" #:website-text "Orblorgo Command Website")
    (build-post "Bananas NOW"    "Rust"                            "2024"
                 "https://oflatt.github.io/bananas-now/"
                 "A racing game about delivering bananas as fast as possible. Game created for PLSE Game Jam 2024 with Dhruba Ghosh, Andrey Risukhin, and Tessa McNamee."
@@ -514,6 +520,7 @@ or in sequence.")
 (define (make-blog)
   (define blog-posts
     `(
+      ("Parameterized Complexity of Running an E-Graph" "https://uwplse.org/2025/06/16/egraph-complexity.html" 06 16 2025)
       ("Stop Using the Winner Stays System" "winner-stays.html" 10 25 2024)
       ("PLSE Outreach- Dragon Curves!"
        "https://uwplse.org/2024/01/22/Dragon-Curves.html" 1 22 2024)
