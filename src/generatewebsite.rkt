@@ -223,14 +223,17 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
     (div (@ (style ,(string-append post-style 
                                    ";margin: 0 auto; padding-top: 20px; padding-bottom: 20px; font-size:"
                                    post-title-size)))
-         "I'm interested in programming languages, especially verification and formal methods. Currently, I'm a graduate student at the University of Washington. I work on the "
-         ,(make-link "http://herbie.uwplse.org/" "Herbie")
-         " tool, which reduces floating-point error in programs. I also work on the e-graph library "
-         ,(make-link "https://egraphs-good.github.io/" "Egg")
-         ". Are you recruiting for research internships? Check out my "
+         "I'm interested in programming languages, especially verification and formal methods. Currently, I'm a graduate student at the University of Washington. I work on "
+         ,(make-link "https://github.com/egraphs-good/egglog" "egglog")
+         ", a language for performing e-graph based optimizations, and "
+         ,(make-link "https://github.com/egraphs-good/eggcc" "eggcc")
+         ", an optimizer using egglog. Are you recruiting for research internships? Check out my "
          (a (@ (href "https://docs.google.com/document/d/1EfzL7y3L3tN5qd-v90aa0eHmJcoRtcb_IK7R6YAyLvk/edit?usp=sharing") (style "text-decoration:none"))
                    "resume")
-         "."
+         ". Are you a collaborator? Check out my "
+         (a (@ (href "https://docs.google.com/document/d/1bjaRv-OSX7DrES0O5LTmF1OY3sms5EI053BSfeOmhsE/edit?usp=sharing") (style "text-decoration:none"))
+            "research guidelines")
+         " document, which I use as a starting point for discussing the small details of how to have an effective research collaboration."
          (br)
         )))
     
@@ -278,9 +281,6 @@ qwer qwer qwer qwe rq weer qwweer qwe rqw er qwerr qwer qw qwr qw qw rqw erqw er
                      " | "
                      (a (@ (href "mailto:oflatt@cs.washington.edu") (style "text-decoration:none"))
                         "oflatt@cs.washington.edu")
-                     " | "
-                     (a (@ (href "https://twitter.com/oflatt") (target "_blank") (style "text-decoration:none"))
-                        "twitter")
                      " | "
                      (a (@ (href "https://www.youtube.com/channel/UCcmOhnWCA1ACNsPKWcOum0w") (target "_blank") (style "text-decoration:none"))
                         "youtube")
@@ -382,7 +382,11 @@ game in the camp. It was a fun and challenging summer job.")
 (write-html-to
  (page
   (list
-   ;; todo add video souls
+   (build-post "Video Souls"      "Typescript"                   "2025"
+               "https://videosouls.com"
+               "A bossrush game where you fight literal YouTube videos. Video Souls has a fancy level editor for making your own bosses and sharing them with friends."
+               "" "https://videosouls.com" "none" #:website-text "Video Souls Website"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/Cm5MKsAv-lE?si=IBNM6XJHFqqVZgW-' frameborder='0' allowfullscreen></iframe></div>")
    (build-post "Orblorgo Command" "Lua"                          "2025"
                "https://cuposoft.itch.io/orblorgo-command"
                "Manage Orblorgos and use them to race through this action platformer. Create your own levels!"
@@ -520,6 +524,7 @@ or in sequence.")
 (define (make-blog)
   (define blog-posts
     `(
+      ("Exploring Level Editors with Video Souls" "https://uwplse.org/2025/11/18/level-editors.html" 11 18 2025)
       ("Parameterized Complexity of Running an E-Graph" "https://uwplse.org/2025/06/16/egraph-complexity.html" 06 16 2025)
       ("Stop Using the Winner Stays System" "winner-stays.html" 10 25 2024)
       ("PLSE Outreach- Dragon Curves!"
