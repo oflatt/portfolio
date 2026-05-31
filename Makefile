@@ -12,7 +12,7 @@ build:
 
 install:
 	npm install
-	raco pkg install --auto html-writing html-parsing scribble-math
+	raco pkg install --auto html-writing html-parsing "https://github.com/wilbowma/scribble-math.git"
 
 
 serve: build

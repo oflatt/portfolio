@@ -382,6 +382,11 @@ game in the camp. It was a fun and challenging summer job.")
 (write-html-to
  (page
   (list
+   (build-post "Dash Effect"      "Godot, Rust"                  "2026"
+               "https://github.com/oflatt/bigmode2026"
+               "A rhythm platformer where you sync your dashes and jumps to the music. Created for the BIGMODE Game Jam 2026, with level design and dash effect by razorace2 and music by fake_bees."
+               "" "https://oflatt.itch.io/dash-effect" "none"
+               "<div margin-top='0px' margin-bottom='0px' padding-top='10px'> <iframe width='950' height='540'  src='https://www.youtube.com/embed/Uyxl98lmUrQ' frameborder='0' allowfullscreen></iframe></div>" #:website-text "Dash Effect on itch.io")
    (build-post "Video Souls"      "Typescript"                   "2025"
                "https://videosouls.com"
                "A bossrush game where you fight literal YouTube videos. Video Souls has a fancy level editor for making your own bosses and sharing them with friends."
