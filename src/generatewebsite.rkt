@@ -489,6 +489,13 @@ or in sequence.")
 
 (write-html-to
  (page (list
+        (build-post "Efficient Extraction for Effectful E-graphs" "" "OOPSLA 2026"
+                    "https://ztatlock.net/pubs/2026-oopsla-eggcc/2026-oopsla-eggcc.pdf" "" ""
+                    #:authors "Oliver Flatt, Anjali Pal, Yihong Zhang, Ryan Tjoa, Kirsten Graham, Alex Fischman, Chandrakana Nandi, Eli Rosenthal, Zachary Tatlock, Haobin Ni")
+        (build-post "Animated Pictures for Slide Presentations (Functional Pearl): From the Shallows to the Depths of a Domain-Specific Language" "" "ICFP 2026"
+                    "https://doi.org/10.1145/3828692" "" ""
+                    #:authors "Oliver Flatt, Robert Bruce Findler, Matthew Flatt"
+                    #:video "https://www.youtube.com/watch?v=TyJv8ewUVvM")
         (build-post "Producing shorter congruence closure proofs in a state-of-the-art SMT solver" "" "PAAR 2024" "https://ceur-ws.org/Vol-3717/short1.pdf" "" "" #:authors "Bruno Andreotti, Haniel Barbosa, Oliver Flatt")
         (build-post "Making Interval Arithmetic Robust to Overflow" "" "ARITH 2023" "https://herbie.uwplse.org/arith23-paper.pdf"
                     "" "" #:authors "Oliver Flatt, Pavel Panchekha"
