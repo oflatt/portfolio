@@ -491,7 +491,8 @@ or in sequence.")
  (page (list
         (build-post "Efficient Extraction for Effectful E-graphs" "" "OOPSLA 2026"
                     "https://ztatlock.net/pubs/2026-oopsla-eggcc/2026-oopsla-eggcc.pdf" "" ""
-                    #:authors "Oliver Flatt, Anjali Pal, Yihong Zhang, Ryan Tjoa, Kirsten Graham, Alex Fischman, Chandrakana Nandi, Eli Rosenthal, Zachary Tatlock, Haobin Ni")
+                    #:authors "Oliver Flatt, Anjali Pal, Yihong Zhang, Ryan Tjoa, Kirsten Graham, Alex Fischman, Chandrakana Nandi, Eli Rosenthal, Zachary Tatlock, Haobin Ni"
+                    #:video "https://www.youtube.com/watch?v=nYucEGRk4Kk")
         (build-post "Animated Pictures for Slide Presentations (Functional Pearl): From the Shallows to the Depths of a Domain-Specific Language" "" "ICFP 2026"
                     "https://doi.org/10.1145/3828692" "" ""
                     #:authors "Oliver Flatt, Robert Bruce Findler, Matthew Flatt"
@@ -536,6 +537,7 @@ or in sequence.")
 (define (make-blog)
   (define blog-posts
     `(
+      ("Vibe Coding Animated Slides with Rhombus Pict" "vibe-coding-pict-slides.html" 10 27 2026)
       ("Exploring Level Editors with Video Souls" "https://uwplse.org/2025/11/18/level-editors.html" 11 18 2025)
       ("Parameterized Complexity of Running an E-Graph" "https://uwplse.org/2025/06/16/egraph-complexity.html" 06 16 2025)
       ("Stop Using the Winner Stays System" "winner-stays.html" 10 25 2024)
