@@ -12,6 +12,15 @@
 @(define-runtime-path css-path "documents/docstyle.css")
 @(define css-object (css-addition css-path))
 
+@(define (youtube-embed id)
+   (element (style #f (list (alt-tag "iframe")
+                            (attributes
+                             `((src . ,(string-append "https://www.youtube.com/embed/" id))
+                               (style . "width:100%;aspect-ratio:16/9;border:0;margin-top:1em")
+                               (allow . "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share")
+                               (allowfullscreen . "")))))
+            '()))
+
 @(define html5-style (with-html5 manual-doc-style))
 @(define title-style
    (struct-copy style html5-style
@@ -21,8 +30,10 @@
 
 I recently gave two talks using the Rhombus pict library to create
   high-quality animated slides.
-The @link["https://www.youtube.com/watch?v=TyJv8ewUVvM"]{first talk} was about pict itself, and the
+The first talk (below) was about pict itself, and the
   second was about my @link["https://www.youtube.com/watch?v=nYucEGRk4Kk"]{latest research on e-graphs}.
+
+@(youtube-embed "TyJv8ewUVvM")
 
 This is meant as a short guide on how to create animated slides
   using Rhombus pict with AI.
